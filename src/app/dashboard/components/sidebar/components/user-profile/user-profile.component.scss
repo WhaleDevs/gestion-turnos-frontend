@@ -1,0 +1,24 @@
+
+.user-container{
+    display: grid;
+    grid-template-columns: 1fr 11fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "user-info user-data";
+    align-items: center;
+    gap: 16px;
+    border: solid white 1px;
+    border-radius: 16px;
+    padding: 16px;
+    background-color: aliceblue;
+    color: black;
+}
+
+.user-profile__avatar{
+    grid-area: user-info;
+}
+
+.user-profile__info{
+    grid-area: user-data;
+
+}
+

@@ -1,0 +1,33 @@
+.footer-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    background-color: #212121;
+    color: white;
+}
+
+.footer__logo{
+    font-weight: normal;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.logout{
+    cursor: pointer;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.logout:hover{
+    background-color: #007bff;
+    transition: background-color 0.3s ease;
+}

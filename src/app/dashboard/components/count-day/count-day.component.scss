@@ -1,0 +1,43 @@
+.countDay-container {
+  display: grid;
+  grid-template-columns: 1fr 2.1fr;
+  height: 100%;
+  width: 100%;
+  gap: 16px;
+}
+
+.hour {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    background: linear-gradient(145deg, #2e3484, #1e2049);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 8px;
+    gap: 16px;
+    h2{
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    border: 1px solid #007bff;
+    border-radius: 16px;
+    padding: 16px;
+    justify-content: space-between;
+}

@@ -1,0 +1,21 @@
+.grid-container{
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "sidebar main";
+    height: 100vh;
+    padding: 16px;
+    gap: 16px;
+}
+
+.sidebar{
+    grid-area: sidebar;
+    border-radius: 16px;
+    height: 100%;
+}
+
+.main{
+    grid-area: main;
+    border-radius: 16px;
+    height: 100%;
+}
