@@ -16,6 +16,10 @@ export class LoginComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
 
+  constructor() { 
+    console.log('LoginComponent constructor');
+  }
+
   onLogin(formData: LoginRequest) {
     this.authService.login(formData).subscribe({
       next: (response: AuthResponse) => {

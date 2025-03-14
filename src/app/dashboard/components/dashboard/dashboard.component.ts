@@ -8,8 +8,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   imports: [RouterOutlet],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  template: `<router-outlet></router-outlet>`,
 })
 
 export class DashboardComponent {

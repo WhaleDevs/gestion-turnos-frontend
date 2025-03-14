@@ -1,1 +1,75 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #007bff; /* Azul genérico */
+    --primary-hover: #0056b3;
+    --text-color: #ffffff;
+    --font-family: 'Roboto', sans-serif;
+    --gradient: linear-gradient(145deg, #2e3484, #1e2049);
+    --border-color: #0056b3;
+    --border-focus: #007bff;
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+
+
+.component-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    background: var(--gradient);
+}
+
+.base-button-confirm {
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--text-color);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: var(--primary-hover);
+    }
+}
+
+.icon{
+    color: var(--primary-color);
+}
+
+.icon-small {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.icon-medium {
+    font-size: 30px;
+}
+
+.icon-large {
+    font-size: 40px;
+}
+
+.icon-xlarge {
+    font-size: 50px;
+}

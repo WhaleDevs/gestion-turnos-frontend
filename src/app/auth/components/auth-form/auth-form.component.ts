@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroEyeSlash, heroEye, heroLockClosed, heroAtSymbol, heroUserCircle } from '@ng-icons/heroicons/outline';
-import { StatusButton, StatusForm } from 'src/app/utils/types';
+import { StatusButton, StatusForm } from '../../../utils/types';
 
 @Component({
   selector: 'app-auth-form',
