@@ -21,7 +21,7 @@ export class AuthService {
   login(loginCredentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.url}/login`, loginCredentials)
       .pipe(
-        tap((data: AuthResponse) => this.sessionService.setSession = data),
+        tap((data: AuthResponse) => this.sessionService.updateSession(data)),
         catchError((error) => {
           this.sessionService.clearSession();
           return throwError(() => error); 

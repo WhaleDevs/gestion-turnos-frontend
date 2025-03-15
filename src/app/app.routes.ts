@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ErrorRouteNotExistComponent } from './shared/components/error-route-not-exist/error-route-not-exist.component';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -8,12 +9,13 @@ export const routes: Routes = [
     },
     {
         path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
+        loadChildren: () => import('./dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
+        canActivate: [AuthGuard]
     },
     {
         path: '',
         redirectTo: 'dashboard',
-        pathMatch: 'full'
+        pathMatch: 'full',
     },
     {
         path: '404',
