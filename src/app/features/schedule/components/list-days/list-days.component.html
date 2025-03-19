@@ -1,0 +1,12 @@
+<div class="schedule">
+  <section class="days-container">
+    @for (day of days; track $index) {
+    <article class="day" (click)="dayActive(day)">
+      <p>{{ day.day }}</p>
+    </article>
+    }
+  </section>
+  <app-day
+  [scheduleId]="schedule.id"
+  ></app-day>
+</div>

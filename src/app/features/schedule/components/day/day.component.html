@@ -1,0 +1,90 @@
+<form [formGroup]="scheduleDayConfigForm" (ngSubmit)="onSubmit()" class="day-container">
+  <!-- Campo para day, nombre y su estado-->
+  <div class="header">
+    <h3>{{day.day}}</h3>
+    <div class="toggle-container">
+      <label class="switch">
+        <input id="status" formControlName="status" type="checkbox" />
+        <span class="slider"></span>
+      </label>
+      <label for="status">Estado</label>
+    </div>
+  </div>
+
+  <div class="time-container">
+    <!-- Campo para startTime -->
+    <div class="time-group">
+      <label for="startTime">Fecho de inicio</label>
+      <input id="startTime" formControlName="startTime" placeholder="Ej. 09:00" />
+    </div>
+    <!-- Campo para endTime -->
+    <div class="time-group">
+      <label for="endTime">Fecha de fin</label>
+      <input id="endTime" formControlName="endTime" placeholder="Ej. 18:00" />
+    </div>
+    <!-- Campo para slotInterval -->
+    <div class="time-group">
+      <label for="slotInterval">Duracion de turnos</label>
+      <input
+        id="slotInterval"
+        formControlName="slotInterval"
+        type="number"
+        placeholder="Ej. 30"
+      />
+    </div>
+  </div>
+
+  <div class="time-rest-container">
+    <!-- Lista de rests -->
+    <div formArrayName="rests">
+      <!-- Header de la lista de rests, info y boton para agregar un rest -->
+      <div class="header">
+        <p>Descansos</p>
+        <button type="button" class="btn-add-rest" (click)="addRest()">
+          <ng-icon name="heroPlus"></ng-icon>
+          Agregar
+        </button>
+      </div>
+
+      <div
+        class="rest-container"
+        *ngFor="let rest of rests.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="time-group">
+          <label for="startRest-{{ i }}">Fecha de inicio Desc. {{i+1}}</label>
+          <input
+            id="startRest-{{ i }}"
+            formControlName="startRest"
+            placeholder="Ej. 12:00"
+          />
+        </div>
+
+        <div class="time-group">
+          <label for="endRest-{{ i }}">Fecha de fin Desc. {{i+1}}</label>
+          <input
+            id="endRest-{{ i }}"
+            formControlName="endRest"
+            placeholder="Ej. 13:00"
+          />
+        </div>
+
+        <div class="time-group">
+          <label class="fake"></label>
+          <button type="button" class="btn-delete-rest" (click)="removeRest(i)">
+            <ng-icon class="icon icon-medium" name="heroTrash"> </ng-icon>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón de envío -->
+  <button
+    class="btn-save"
+    type="submit"
+  >
+    Guardar
+  </button>
+</form>

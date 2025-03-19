@@ -1,13 +1,22 @@
 :root {
     --primary-color: #007bff; /* Azul genérico */
     --primary-hover: #0056b3;
+    --secondary-color: #6c757d; 
+    --secondary-hover: #5a6268;
+    --bg-white: #ffffff;
     --text-color: #ffffff;
     --font-family: 'Roboto', sans-serif;
     --gradient: linear-gradient(145deg, #2e3484, #1e2049);
+    --gradient-hover: linear-gradient(145deg, #3e4484, #2e3049);
     --border-color: #0056b3;
     --border-focus: #007bff;
+    --bg-color: #212121;
 }
 
+
+html, body {
+    font-family: var(--font-family);
+}
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -16,20 +25,11 @@
 }
 
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: var(--font-family);
-}
-
-
 .component-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0 auto;
     background: var(--gradient);
 }
@@ -55,6 +55,11 @@ html, body {
 
 .icon{
     color: var(--primary-color);
+    cursor: pointer;
+}
+
+.icon:hover{
+    color: var(--primary-hover);
 }
 
 .icon-small {
@@ -73,3 +78,30 @@ html, body {
 .icon-xlarge {
     font-size: 50px;
 }
+
+.select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--gradient);
+  color: var(--text-color);
+  font-size: 16px;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+    border-color: var(--border-focus);
+  }
+
+  option{
+    color: black;
+    background-color: #007bff;
+  }
+
+}
+
+
