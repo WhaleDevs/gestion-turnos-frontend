@@ -4,12 +4,14 @@ import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/c
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptorsFromDi()), 
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  ],
+    provideStore()
+],
 };
