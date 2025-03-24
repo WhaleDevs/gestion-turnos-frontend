@@ -1,90 +1,93 @@
-<form [formGroup]="scheduleDayConfigForm" (ngSubmit)="onSubmit()" class="day-container">
-  <!-- Campo para day, nombre y su estado-->
+<form [formGroup]="scheduleDayConfigForm" class="day-container">
+  <!-- Header with day name and status -->
   <div class="header">
-    <h3>{{day.day}}</h3>
+    <h3 class="day-title">{{ day().day }}</h3>
     <div class="toggle-container">
       <label class="switch">
-        <input id="status" formControlName="status" type="checkbox" />
+        <input id="status" formControlName="status" type="checkbox" (change)="updateDay()"/>
         <span class="slider"></span>
       </label>
-      <label for="status">Estado</label>
+      <label for="status" class="toggle-label">Estado</label>
     </div>
   </div>
 
-  <div class="time-container">
-    <!-- Campo para startTime -->
+  <!-- Time configuration section -->
+  <div class="time-settings">
     <div class="time-group">
-      <label for="startTime">Fecho de inicio</label>
-      <input id="startTime" formControlName="startTime" placeholder="Ej. 09:00" />
+      <label for="startTime">Fecha de inicio</label>
+      <input 
+        type="time"
+        id="startTime" 
+        formControlName="startTime" 
+        placeholder="Ej. 09:00"
+      />
     </div>
-    <!-- Campo para endTime -->
+
     <div class="time-group">
-      <label for="endTime">Fecha de fin</label>
-      <input id="endTime" formControlName="endTime" placeholder="Ej. 18:00" />
+      <label for="endTime">Hora de fin</label>
+      <input
+        type="time"
+        id="endTime"
+        formControlName="endTime"
+        placeholder="Ej. 18:00"
+        (input)="updateDay()"
+      />
     </div>
-    <!-- Campo para slotInterval -->
+
     <div class="time-group">
-      <label for="slotInterval">Duracion de turnos</label>
+      <label for="slotInterval">Duración de turnos</label>
       <input
         id="slotInterval"
         formControlName="slotInterval"
         type="number"
         placeholder="Ej. 30"
+        (input)="updateDay()"
       />
     </div>
   </div>
 
-  <div class="time-rest-container">
-    <!-- Lista de rests -->
-    <div formArrayName="rests">
-      <!-- Header de la lista de rests, info y boton para agregar un rest -->
-      <div class="header">
-        <p>Descansos</p>
-        <button type="button" class="btn-add-rest" (click)="addRest()">
-          <ng-icon name="heroPlus"></ng-icon>
-          Agregar
-        </button>
-      </div>
+  <!-- Breaks section -->
+  <div class="breaks-section" formArrayName="rests">
+    <div class="breaks-header">
+      <h4 class="breaks-title">Descansos</h4>
+      <button type="button" class="btn-add-break" (click)="addRest()">
+        <ng-icon name="heroPlus"></ng-icon>
+        <span class="button-text">Agregar</span>
+      </button>
+    </div>
 
+    <div class="breaks-list">
       <div
-        class="rest-container"
+        class="break-item"
         *ngFor="let rest of rests.controls; let i = index"
         [formGroupName]="i"
       >
-        <div class="time-group">
-          <label for="startRest-{{ i }}">Fecha de inicio Desc. {{i+1}}</label>
+        <div class="break-time-group">
+          <label for="startRest-{{ i }}">Inicio Desc. {{ i + 1 }}</label>
           <input
+            type="time"
             id="startRest-{{ i }}"
             formControlName="startRest"
             placeholder="Ej. 12:00"
+            (input)="updateDay()"
           />
         </div>
 
-        <div class="time-group">
-          <label for="endRest-{{ i }}">Fecha de fin Desc. {{i+1}}</label>
+        <div class="break-time-group">
+          <label for="endRest-{{ i }}">Fin Desc. {{ i + 1 }}</label>
           <input
+            type="time"
             id="endRest-{{ i }}"
             formControlName="endRest"
             placeholder="Ej. 13:00"
+            (input)="updateDay()"
           />
         </div>
 
-        <div class="time-group">
-          <label class="fake"></label>
-          <button type="button" class="btn-delete-rest" (click)="removeRest(i)">
-            <ng-icon class="icon icon-medium" name="heroTrash"> </ng-icon>
-          </button>
-        </div>
-
+        <button type="button" class="btn-delete-break" (click)="removeRest(i)">
+          <ng-icon name="heroTrash"></ng-icon>
+        </button>
       </div>
     </div>
   </div>
-
-  <!-- Botón de envío -->
-  <button
-    class="btn-save"
-    type="submit"
-  >
-    Guardar
-  </button>
 </form>

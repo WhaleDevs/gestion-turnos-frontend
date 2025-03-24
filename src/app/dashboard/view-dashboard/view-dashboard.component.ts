@@ -6,8 +6,16 @@ import { SidebarComponent } from "../components/sidebar/sidebar.component";
   selector: 'app-view-dashboard',
   imports: [DashboardComponent, SidebarComponent],
   templateUrl: './view-dashboard.component.html',
-  styleUrl: './view-dashboard.component.scss'
+  styleUrls: ['./view-dashboard.component.scss']
 })
 export class ViewDashboardComponent {
+  isSidebarOpen = false;
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
+  }
 }
