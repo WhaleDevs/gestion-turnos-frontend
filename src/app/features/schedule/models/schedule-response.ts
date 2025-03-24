@@ -47,3 +47,9 @@ export interface ScheduleResponse {
     TERMINADO,
     AUSENTE
   }
+
+  export const INITAL_SCHEDULE_RESPONSE: ScheduleResponse = {
+    id: 0,
+    daysConfig: [],
+    appointments: []
+  }

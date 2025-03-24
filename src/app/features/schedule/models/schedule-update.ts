@@ -7,6 +7,7 @@ export interface ScheduleDayRestForUpdateDto {
 
 export interface ScheduleDayConfigForUpdateDto {
     id: number;
+    day: string;
     startTime?: string;
     endTime?: string;
     slotInterval?: number;
@@ -17,4 +18,9 @@ export interface ScheduleDayConfigForUpdateDto {
 export interface ScheduleForUpdateDto {
     id: number;
     scheduleDays: ScheduleDayConfigForUpdateDto[];
+}
+
+export const INITAL_SCHEDULE_UPDATE: ScheduleForUpdateDto = {
+    id: 0,
+    scheduleDays: []
 }
