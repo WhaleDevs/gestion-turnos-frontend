@@ -24,4 +24,13 @@ export class CustomersService {
     )
   }
 
+  searchCustomers(query:string): Observable<ApiResponse<CustomerResponse[]>>{
+    return this.http.get<ApiResponse<CustomerResponse[]>>(`${this.url}/customers/search?query=${query}`).pipe(
+      tap((response: ApiResponse<CustomerResponse[]>) => {
+        if (response.success && response.data) {
+          this.customers.next(response.data);
+        }
+      })
+    )
+  }
 }

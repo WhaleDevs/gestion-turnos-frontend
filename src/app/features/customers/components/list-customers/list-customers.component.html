@@ -1,1 +1,14 @@
+<section>
+  <div class="header-container">
 
+  </div>
+  <div class="body-container">
+    @for(customer of customers; track customer.id){
+      <div class="row">
+        <div>{{customer.firstName}} {{customer.lastName}}</div>
+        <div>{{customer.email}}</div>
+        <div>{{customer.phoneNumber}}</div>
+      </div>
+    }
+  </div>
+</section>
