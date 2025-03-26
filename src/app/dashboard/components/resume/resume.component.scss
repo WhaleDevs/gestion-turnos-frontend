@@ -1,40 +1,46 @@
-.dashboard-container{
+.dashboard-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;    
-}
-
-.stats-container{
+    gap: 16px;
+  }
+  
+  .stats-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);  
     grid-template-rows: 2fr 1.4fr;
-    grid-template-areas: "today mostPopulateTime mostPopulateTime"
-                         "countDay countDay countDay"
-    ;
+    grid-template-areas:
+      "today mostPopulateTime mostPopulateTime"
+      "countDay countDay countDay";
     gap: 16px;
-}
-
-
-.today{
+  }
+  
+  .today {
     grid-area: today;
-}
-
-.mostPopulateTime{
+  }
+  
+  .mostPopulateTime {
     grid-area: mostPopulateTime;
-}
-
-.countDay{
+  }
+  
+  .countDay {
     grid-area: countDay;
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-    padding: 16px;
-    background-color: #212121;
-    color: white;
-}
-
-.resume-container{
+  }
+  
+  .resume-container {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
+  }
+  
+  .dark {
+    .today, .mostPopulateTime {
+      background-color: var(--dark-card);  
+      color: var(--dark-foreground);
+    }
+  
+    .countDay {
+      background-color: var(--dark-muted);  
+      color: var(--dark-foreground);
+    }
+  }
+  

@@ -1,0 +1,13 @@
+@if (weekSelected()[0] !== '') {
+    <div class="week-container">
+    @for (day of weekSelected(); track $index) {
+    <section (click)="setSignalDateSelected(day)"  class="day-container" [ngClass]="{ 'selected': whatDayWasSelected(day) }">
+        <p>{{ returnDayName(day) }}</p>
+        <p>{{ returnDay(day) }}</p>
+    </section>
+    }
+</div>
+
+}@else {
+    <p>No hay semana seleccionada</p>
+}

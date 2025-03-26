@@ -14,11 +14,9 @@ export class SaveScheduleComponent {
     this.scheduleService.updateSchedule().subscribe({
       next: () => {
         console.log('Schedule updated successfully');
-        // You can add a success notification here
       },
       error: (error: Error) => {
         console.error('Error updating schedule:', error);
-        // You can add an error notification here
       }
     });
   }

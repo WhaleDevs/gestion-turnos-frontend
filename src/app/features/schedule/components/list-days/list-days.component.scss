@@ -1,42 +1,39 @@
+
 .schedule-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: start;
+  justify-content: center;
+  gap: 16px;
   width: 100%;
   max-width: 100%;
-  box-sizing: border-box;
-  padding: 20px;
 }
 
 .schedule-section {
-  padding: 20px;
-  border-radius: 8px;
   width: 100%;
   max-width: 100%;
-  box-sizing: border-box;
 }
 
 .schedule {
   display: flex;
   flex-direction: column;
-  height: 100%;
   gap: 16px;
   padding: 16px;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  background-color: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  border-radius: 16px;
   width: 100%;
   max-width: 100%;
-  box-sizing: border-box;
   overflow-x: hidden;
 }
 
 .days-container {
   width: 100%;
-  background-color: var(--bg-color);
+  background-color: var(--background);
   border-radius: 8px;
   padding: 8px;
-  box-sizing: border-box;
 }
 
 .days-grid {
@@ -44,7 +41,6 @@
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 8px;
   width: 100%;
-  box-sizing: border-box;
   
   @media screen and (max-width: 768px) {
     display: none;
@@ -58,39 +54,31 @@
   padding: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: var(--gradient);
-  color: var(--text-color);
+  background-color: var(--muted);
+  color: var(--muted-foreground);
   font-size: 16px;
   width: 100%;
   border-radius: 8px;
-  min-height: 48px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-
   &:hover {
-    background: var(--gradient-hover);
+    background-color: var(--muted-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-  &:active {
-    transform: translateY(0);
-  }
-
-  &__title {
-    margin: 0;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
 }
+
+.active {
+  background-color: var(--muted-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 
 .days-select {
   display: none;
   width: 100%;
-  box-sizing: border-box;
-  
   @media screen and (max-width: 768px) {
     display: block;
   }
@@ -100,41 +88,15 @@
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  color: var(--text-color);
-  background: var(--gradient);
-  border: none;
+  color: var(--foreground);
+  background-color: var(--background);
+  border: 1px solid var(--border);
   border-radius: 8px;
   cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 20px;
-  padding-right: 40px;
   transition: all 0.3s ease;
-  box-sizing: border-box;
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--border-color);
-  }
 
   &:hover {
-    background-color: var(--gradient-hover);
+    background-color: var(--muted-hover);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-
-  option {
-    background-color: #212121;
-    color: var(--text-color);
-    padding: 12px;
-  }
-}
-
-:host {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
 }

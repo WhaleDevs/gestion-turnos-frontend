@@ -1,11 +1,10 @@
 <div class="schedule-container">
-  <div class="schedule-section" style="background-color: #212121;">
+  <div class="schedule-section">
     <div class="schedule">
       <section class="days-container">
-        <!-- Desktop/Tablet View -->
         <div class="days-grid">
           @for (day of days; track $index) {
-          <article class="day" (click)="dayActive(day)">
+          <article class="day" (click)="dayActive(day)" [ngClass]="{ 'active': selectedDaySignal() === day }">
             <p class="day__title">{{ day.day }}</p>
           </article>
           }

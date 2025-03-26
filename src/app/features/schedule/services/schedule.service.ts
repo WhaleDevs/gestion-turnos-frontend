@@ -2,9 +2,9 @@ import { effect, inject, Injectable, signal, WritableSignal } from '@angular/cor
 import { environment } from '@envs/environment';
 import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { INITAL_SCHEDULE_RESPONSE, ScheduleDayConfigResponse, ScheduleResponse } from '../models/schedule-response';
-import { INITAL_SCHEDULE_UPDATE, ScheduleDayConfigForUpdateDto, ScheduleForUpdateDto } from '../models/schedule-update';
 import { ApiResponse } from '@app/shared/models/api-response';
+import { ScheduleResponse } from '../models/responses/schedule.response';
+import { INITAL_SCHEDULE_CONFIG_FOR_UPDATE, ScheduleConfigForUpdateDto, ScheduleDayConfigForUpdateDto } from '../models/requests-dto/scheduleConfigForUpdate.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,8 @@ export class ScheduleService {
   scheduleComponentActive: BehaviorSubject<string> = new BehaviorSubject<string>('form-schedule');
   $scheduleComponentActive = this.scheduleComponentActive.asObservable();
 
-  signalScheduleUpdate: WritableSignal<ScheduleForUpdateDto> = signal<ScheduleForUpdateDto>(INITAL_SCHEDULE_UPDATE);
+  //response 
+  signalScheduleUpdate: WritableSignal<ScheduleConfigForUpdateDto> = signal<ScheduleConfigForUpdateDto>(INITAL_SCHEDULE_CONFIG_FOR_UPDATE);
 
   constructor() {
     effect(() => {
@@ -31,12 +32,13 @@ export class ScheduleService {
     return this.http.get<ApiResponse<ScheduleResponse>>(newUrl);
   }
 
-  getScheduleUpdate(email: string): Observable<ApiResponse<any>> {
-    const newUrl = `${this.url}/schedules/${email}/updateResponse`;
-    return this.http.get<ApiResponse<any>>(newUrl);
+  getScheduleUpdate(email: string): Observable<ApiResponse<ScheduleConfigForUpdateDto>> {
+    const newUrl = `${this.url}/schedules/config/${email}`;
+    return this.http.get<ApiResponse<ScheduleConfigForUpdateDto>>(newUrl);
     }
 
 
+  //dto 
   updateSchedule(): Observable<ApiResponse<any>> {
     const newUrl = `${this.url}/schedules/update-config`;
     return this.http.patch<ApiResponse<any>>(newUrl, this.signalScheduleUpdate()).pipe(
@@ -50,7 +52,7 @@ export class ScheduleService {
     );
   }
 
-  setSignalScheduleUpdate(schedule: ScheduleForUpdateDto) {
+  setSignalScheduleUpdate(schedule: ScheduleConfigForUpdateDto) {
     this.signalScheduleUpdate.set(schedule);
   }
 
@@ -59,7 +61,7 @@ export class ScheduleService {
     this.signalScheduleUpdate.update(schedule => {
       return {
         ...schedule,
-        scheduleDays: schedule.scheduleDays.map(day =>
+        scheduleDays: schedule.daysConfig.map((day: ScheduleDayConfigForUpdateDto) =>
           day.id === dayToUpdate.id
             ? { ...day, ...dayToUpdate }
             : day
@@ -68,25 +70,4 @@ export class ScheduleService {
     });
   }
 
-  mapScheduleResponseToUpdate(schedule: ScheduleResponse): ScheduleForUpdateDto {
-    return {
-      id: schedule.id,
-      scheduleDays: schedule.daysConfig.map(day => {
-        return {
-          id: day.id,
-          startTime: day.startTime,
-          endTime: day.endTime,
-          slotInterval: day.slotInterval,
-          status: day.status,
-          rests: day.rests.map(rest => {
-            return {
-              id: rest.id,
-              startRest: rest.startTime,
-              endRest: rest.endTime
-            }
-          })
-        }
-      }) as ScheduleDayConfigForUpdateDto[]
-    };
-  }
 }

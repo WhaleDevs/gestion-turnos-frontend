@@ -1,10 +1,17 @@
 .countDay-container {
   display: grid;
-  grid-template-columns: 1fr 2.1fr;
+  grid-template-columns: 2fr 10fr;
   height: 100%;
   width: 100%;
   gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--card);  
+  color: var(--foreground);  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);    
+  border: 1px solid var(--border);
 }
+
 
 .hour {
     display: flex;
@@ -12,7 +19,6 @@
     align-items: center;
     justify-content: center;
     font-size: 64px;
-    background: linear-gradient(145deg, #2e3484, #1e2049);
     border-radius: 16px;
     padding: 16px;
 }
@@ -27,6 +33,8 @@
     h2{
         width: 100%;
         font-size: 16px;
+        font-weight: normal;
+        color: var(--foreground);
     }
 }
 
@@ -36,8 +44,9 @@
     flex-direction: row;
     gap: 16px;
     width: 100%;
-    border: 1px solid #007bff;
     border-radius: 16px;
     padding: 16px;
+    background-color: var(--muted);
+    color: var(--muted-foreground);
     justify-content: space-between;
 }

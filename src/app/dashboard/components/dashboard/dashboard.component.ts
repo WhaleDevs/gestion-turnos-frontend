@@ -8,7 +8,20 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   imports: [RouterOutlet],
-  template: `<router-outlet></router-outlet>`,
+  template: `
+  <div class="dashboard"> 
+  <router-outlet></router-outlet>
+  </div>
+  `,
+  styles: [`
+    .dashboard {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+  }`],
+  standalone: true
 })
 
 export class DashboardComponent {
