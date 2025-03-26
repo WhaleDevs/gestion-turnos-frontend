@@ -1,0 +1,34 @@
+.calendar-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    gap: 16px;
+    color: white;
+}
+
+.demo-inline-calendar-card{
+    width: 300px;
+    min-height: 380px;
+    border-radius: 16px;
+}
+
+::ng-deep .mat-calendar-body-today {
+    border: none !important;
+    outline: none !important; 
+    box-shadow: none !important;
+  }
+  
+
+::ng-deep .mat-calendar-body-selected {
+    background-color: #212121 !important;
+    border: 1px solid #212121 !important;
+    color: white !important;
+}
+
+::ng-deep .mat-calendar-body-today {
+    border: 1px solid #212121 !important;
+  }
+  
+

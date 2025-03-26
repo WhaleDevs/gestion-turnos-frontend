@@ -4,7 +4,11 @@
     <h3 class="day-title">{{ day().day }}</h3>
     <div class="toggle-container">
       <label class="switch">
-        <input id="status" formControlName="status" type="checkbox" (change)="updateDay()"/>
+        <input 
+        id="status" 
+        formControlName="status" 
+        type="checkbox" 
+        (change)="updateDay()"/>
         <span class="slider"></span>
       </label>
       <label for="status" class="toggle-label">Estado</label>
@@ -20,6 +24,7 @@
         id="startTime" 
         formControlName="startTime" 
         placeholder="Ej. 09:00"
+        (input)="updateDay()"
       />
     </div>
 
@@ -44,6 +49,7 @@
         (input)="updateDay()"
       />
     </div>
+    
   </div>
 
   <!-- Breaks section -->
@@ -51,7 +57,7 @@
     <div class="breaks-header">
       <h4 class="breaks-title">Descansos</h4>
       <button type="button" class="btn-add-break" (click)="addRest()">
-        <ng-icon name="heroPlus"></ng-icon>
+        <ng-icon name="heroPlus" class="icon icon-small"></ng-icon>
         <span class="button-text">Agregar</span>
       </button>
     </div>
@@ -85,7 +91,7 @@
         </div>
 
         <button type="button" class="btn-delete-break" (click)="removeRest(i)">
-          <ng-icon name="heroTrash"></ng-icon>
+          <ng-icon name="heroTrash" class="icon icon-small"></ng-icon>
         </button>
       </div>
     </div>
