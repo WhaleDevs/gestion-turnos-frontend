@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 @Component({
   selector: 'app-search-customers',
+  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './search-customers.component.html',
   styleUrl: './search-customers.component.scss',

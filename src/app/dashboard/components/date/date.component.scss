@@ -2,6 +2,8 @@
     gap: 16px;
     padding: 16px;
     border-radius: 16px;
-    background-color: #212121;
-    color: white;
+    background-color: var(--card);  
+    color: var(--foreground);  
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);    
+    border: 1px solid var(--border);
 }

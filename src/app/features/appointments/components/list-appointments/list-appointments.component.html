@@ -1,0 +1,26 @@
+<section class="appointments-container">
+    <div class="date-and-add-appointment">
+        <p>{{returnDay(date())}}</p>
+        <button class="add-appointment" (click)="showFormToCreateAppointment()"><ng-icon name="heroPlus" class="icon icon-medium"></ng-icon>  Crear Reserva</button>
+    </div>  
+    @for(appointment of appointmentsForDate(); track $index) {
+    <div class="appointment" (click)="showMoreDetails(appointment)">
+        <div class="logo-hours">
+            <ng-icon name="heroClock" class="icon icon-medium"></ng-icon>
+        </div>
+        <div class="info-appointment">
+            <p>{{appointment.startTime}}
+            <p>
+            <p>{{appointment.customer?.firstName}}, {{appointment.customer?.lastName}}</p>
+        </div>
+    </div>
+    }@empty {
+    <p>No hay turnos</p>
+    }
+</section>
+
+@if (showAppointment) {
+<div class="absolute-container">
+    <app-appointment (closeAppointment)="hideAppointment()"></app-appointment>
+</div>
+}

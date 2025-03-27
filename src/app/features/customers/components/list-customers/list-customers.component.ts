@@ -28,4 +28,13 @@ export class ListCustomersComponent {
   updateListCustomers() {
     this._customerService.findAll().subscribe();
   }
+
+  deleteCustomer(id: number) {
+    /*Preguntar si quiere eliminarlo uwu */
+    this._customerService.deleteCustomerById(id).subscribe({
+      next: () => {
+        /**Alerta success */
+      }
+    })
+  }
 }

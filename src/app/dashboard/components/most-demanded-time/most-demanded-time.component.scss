@@ -4,15 +4,19 @@
   align-items: center;
   flex-direction: column;
   gap: 16px;
-  background-color: #212121;
-  color: white;
   border-radius: 16px;
   padding: 16px;
   height: 100%;
+  background-color: var(--card);  
+  color: var(--foreground);  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);    
+  border: 1px solid var(--border);
   h2 {
     text-align: start;
     width: 100%;
     font-size: 16px;
+    font-weight: normal;
+    color: var(--foreground);
   }
 }
 
@@ -20,10 +24,10 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 0 10px 0 rgba(#007bff, 0.2);
   border-radius: 16px;
   padding: 32px;
   text-align: center;
+  color: var(--foreground);
 }
 
 .column-container {
@@ -37,8 +41,8 @@
 }
 
 .column-container > *:nth-child(2) {
-  background: linear-gradient(145deg, #2e3484, #1e2049);
-  color: white;
+  background: var(--muted);
+  color: var(--muted-foreground);
   border-radius: 16px;
   width: auto;
   padding: 16px;

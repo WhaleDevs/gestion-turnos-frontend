@@ -1,0 +1,79 @@
+.appointments-container{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    color: var(--foreground);
+}
+
+.date-and-add-appointment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.add-appointment{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    border: none;
+}
+
+.add-appointment:hover{
+    background-color: var(--muted);
+    color: var(--foreground);
+    transition: background-color 0.5s ease;
+}
+
+.appointment{
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: var(--muted);
+    color: var(--foreground);
+    transition: background-color 0.5s ease;
+    &:hover{
+        transition: background-color 0.5s ease;
+        cursor: pointer;
+    }
+}
+
+.logo-hours{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: var(--muted);
+    color: var(--foreground);
+    transition: background-color 0.5s ease;
+}
+
+.info-appointment{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--foreground);
+    transition: background-color 0.5s ease;
+}
+
+.absolute-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

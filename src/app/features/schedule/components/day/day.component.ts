@@ -4,8 +4,9 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor } from '@angular/common';
-import { ScheduleDayConfigForUpdateDto } from '../../models/schedule-update';
+import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ScheduleDayRestForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
 
 @Component({
   selector: 'app-day',
@@ -20,13 +21,8 @@ export class DayComponent {
   private fb = inject(FormBuilder);
   @Input() day!: Signal<ScheduleDayConfigForUpdateDto>;
   
-  hours = signal(
-    Array.from({length: 24 * 60 / 5}, (_, i) => 
-      `${`${Math.floor(i / 12)}`.padStart(2, '0')}:${`${i % 12 * 5}`.padStart(2, '0')}`)
-  );
-
   dayUpdateSignal = computed(() => {
-    return this.scheduleService.signalScheduleUpdate().scheduleDays.find(d => d.id === this.day().id)
+    return this.scheduleService.signalScheduleUpdate().daysConfig.find(d => d.id === this.day().id)
       ?? {} as ScheduleDayConfigForUpdateDto;
   });
 
@@ -74,14 +70,14 @@ export class DayComponent {
   
       const currentRests = this.rests.value;
       const updatedRests = updatedDay.rests || [];
-  
+      
       if (JSON.stringify(currentRests) !== JSON.stringify(updatedRests)) {
         this.rests.clear();
-        updatedRests.forEach(rest => {
+        updatedRests.forEach((rest: ScheduleDayRestForUpdateDto) => {
           this.rests.push(this.fb.group({
             id: [rest.id || undefined],
-            startRest: [this.formatTime(rest.startRest), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]],
-            endRest: [this.formatTime(rest.endRest), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]]
+            startRest: [this.formatTime(rest.startTime), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]],
+            endRest: [this.formatTime(rest.endTime), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]]
           }));
         });
       }
