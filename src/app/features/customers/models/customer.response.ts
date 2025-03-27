@@ -15,3 +15,11 @@ export const INITIAL_CUSTOMERS: CustomerResponse[] = [
     email: ''
   }
 ];
+
+export const INITIAL_CUSTOMER_FOR_UPDATE = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: ''
+}

@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@envs/environment.development';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { CustomerResponse, INITIAL_CUSTOMERS } from '../models/customer.response';
+import { CustomerResponse, INITIAL_CUSTOMER_FOR_UPDATE, INITIAL_CUSTOMERS } from '../models/customer.response';
 import { ApiResponse } from '@app/shared/models/api-response';
-import { CustomerForCreationDto } from '../models/CustomerForCreationDto.dto';
+import { CustomerForCreationDto } from '../models/customerForCreationDto.dto';
+import { CustomerForUpdateDto } from '../models/customerForUpdateDto.dto';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,8 @@ export class CustomersService {
   private http = inject(HttpClient);
   protected url = environment.API_URL;
   customers:BehaviorSubject<CustomerResponse[]> = new BehaviorSubject<CustomerResponse[]>(INITIAL_CUSTOMERS);
+  customerForUpdate:BehaviorSubject<CustomerResponse> = new BehaviorSubject<CustomerResponse>(INITIAL_CUSTOMER_FOR_UPDATE);
+
   constructor() { }
 
   createCustomer(customerDto: CustomerForCreationDto):Observable<ApiResponse<void>> {
@@ -38,6 +42,10 @@ export class CustomersService {
         }
       })
     )
+  }
+
+  updateCustomer(customerDto: CustomerForUpdateDto):Observable<ApiResponse<void>> {
+    return this.http.patch<ApiResponse<void>>(`${this.url}/customers`, customerDto);
   }
 
   deleteCustomerById(id:number): Observable<ApiResponse<void>>{

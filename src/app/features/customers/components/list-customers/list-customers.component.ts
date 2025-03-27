@@ -37,4 +37,8 @@ export class ListCustomersComponent {
       }
     })
   }
+
+  updateCustomer(customer: CustomerResponse) {
+    this._customerService.customerForUpdate.next(customer);
+  }
 }

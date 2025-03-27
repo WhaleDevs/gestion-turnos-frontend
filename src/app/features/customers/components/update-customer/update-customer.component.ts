@@ -1,38 +1,45 @@
 import { Component, inject } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
-import { FormBuilder, FormGroup, MinLengthValidator, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomerForCreationDto } from '../../models/customerForCreationDto.dto';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CustomerForUpdateDto } from '../../models/customerForUpdateDto.dto';
 
 @Component({
-  selector: 'app-create-customer',
-  standalone: true,
+  selector: 'app-update-customer',
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './create-customer.component.html',
-  styleUrl: './create-customer.component.scss',
+  templateUrl: './update-customer.component.html',
+  styleUrl: './update-customer.component.scss'
 })
-export class CreateCustomerComponent {
+export class UpdateCustomerComponent {
   private _customerService = inject(CustomersService);
   private fb = inject(FormBuilder);
   customerForm: FormGroup = this.fb.group({
+    id:0,
     firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     phoneNumber: ['', [ Validators.required, Validators.pattern(/^(\+54\d{9,10}|\d{10,11})$/)]],
     email: ['', [Validators.email]]
   });
 
-  constructor() {}
+  ngOnInit() {
+    this._customerService.customerForUpdate.subscribe((customer) => {
+      if (customer) {
+        this.customerForm.patchValue(customer);
+      }
+    });
+  }
 
-  create() {
+  update(){
     if (this.customerForm.valid) {
-      const customerDto: CustomerForCreationDto = {
+      const customerDto: CustomerForUpdateDto = {
+        id: this.customerForm.value.id,
         firstName: this.customerForm.value.firstName,
         lastName: this.customerForm.value.lastName,
         phoneNumber: this.customerForm.value.phoneNumber,
         email: this.customerForm.value.email || undefined, 
       };
       console.log('Customer DTO:', customerDto);
-      this._customerService.createCustomer(customerDto).subscribe({
+      this._customerService.updateCustomer(customerDto).subscribe({
         next: (response) => console.log('Cliente creado:', response),
         error: (error) => console.error('Error al crear cliente:', error),
       });
