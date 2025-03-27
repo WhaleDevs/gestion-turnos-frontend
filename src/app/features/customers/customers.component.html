@@ -1,4 +1,11 @@
-<app-create-customer></app-create-customer>
-<app-search-customers></app-search-customers>
-<app-list-customers></app-list-customers>
-<app-update-customer></app-update-customer>
+
+@if(currentView === 'LIST'){
+  <app-search-customers></app-search-customers>
+  <app-list-customers></app-list-customers>
+}
+@if(currentView === 'CREATE'){
+  <app-create-customer></app-create-customer>
+}
+@if(currentView === 'UPDATE'){
+  <app-update-customer></app-update-customer>
+}

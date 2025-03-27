@@ -6,6 +6,7 @@ import { CustomerResponse, INITIAL_CUSTOMER_FOR_UPDATE, INITIAL_CUSTOMERS } from
 import { ApiResponse } from '@app/shared/models/api-response';
 import { CustomerForCreationDto } from '../models/customerForCreationDto.dto';
 import { CustomerForUpdateDto } from '../models/customerForUpdateDto.dto';
+import { CustomerView } from '../models/customerView.enum';
 
 
 @Injectable({
@@ -17,6 +18,7 @@ export class CustomersService {
   protected url = environment.API_URL;
   customers:BehaviorSubject<CustomerResponse[]> = new BehaviorSubject<CustomerResponse[]>(INITIAL_CUSTOMERS);
   customerForUpdate:BehaviorSubject<CustomerResponse> = new BehaviorSubject<CustomerResponse>(INITIAL_CUSTOMER_FOR_UPDATE);
+  currentView: BehaviorSubject<CustomerView> = new BehaviorSubject<CustomerView>(CustomerView.LIST);
 
   constructor() { }
 

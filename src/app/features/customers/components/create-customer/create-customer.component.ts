@@ -1,8 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
-import { FormBuilder, FormGroup, MinLengthValidator, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  MinLengthValidator,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CustomerForCreationDto } from '../../models/customerForCreationDto.dto';
 import { CommonModule } from '@angular/common';
+import { CustomerView } from '../../models/customerView.enum';
 
 @Component({
   selector: 'app-create-customer',
@@ -15,10 +22,19 @@ export class CreateCustomerComponent {
   private _customerService = inject(CustomersService);
   private fb = inject(FormBuilder);
   customerForm: FormGroup = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    phoneNumber: ['', [ Validators.required, Validators.pattern(/^(\+54\d{9,10}|\d{10,11})$/)]],
-    email: ['', [Validators.email]]
+    firstName: [
+      '',
+      [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+    ],
+    lastName: [
+      '',
+      [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+    ],
+    phoneNumber: [
+      '',
+      [Validators.required, Validators.pattern(/^(\+54\d{9,10}|\d{10,11})$/)],
+    ],
+    email: ['', [Validators.email]],
   });
 
   constructor() {}
@@ -29,7 +45,7 @@ export class CreateCustomerComponent {
         firstName: this.customerForm.value.firstName,
         lastName: this.customerForm.value.lastName,
         phoneNumber: this.customerForm.value.phoneNumber,
-        email: this.customerForm.value.email || undefined, 
+        email: this.customerForm.value.email || undefined,
       };
       console.log('Customer DTO:', customerDto);
       this._customerService.createCustomer(customerDto).subscribe({
@@ -39,5 +55,9 @@ export class CreateCustomerComponent {
     } else {
       console.log('Formulario inválido');
     }
+  }
+
+  back() {
+    this._customerService.currentView.next(CustomerView.LIST);
   }
 }

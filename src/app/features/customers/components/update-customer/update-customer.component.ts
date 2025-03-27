@@ -3,6 +3,7 @@ import { CustomersService } from '../../services/customers.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerForUpdateDto } from '../../models/customerForUpdateDto.dto';
+import { CustomerView } from '../../models/customerView.enum';
 
 @Component({
   selector: 'app-update-customer',
@@ -46,5 +47,9 @@ export class UpdateCustomerComponent {
     } else {
       console.log('Formulario inválido');
     }
+  }
+
+  back(){
+    this._customerService.currentView.next(CustomerView.LIST);
   }
 }
