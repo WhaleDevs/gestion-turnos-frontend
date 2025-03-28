@@ -1,99 +1,104 @@
 @use "sass:color";
 @import "@ng-select/ng-select/themes/default.theme.css";
 
-
-// Colores principales
-$primary: #212121;  // COLOR BASE PARA LA APLICACIÓN
-$primary-foreground: #ffffff; // COLOR PARA EL TEXTO O ELEMENTOS SOBRE EL COLOR BASE $PRIMARY
-$primary-light: rgba(33, 33, 33, 0.1);  // VARIANTES DE $PRIMARY MAS CLARA
-$primary-hover: color.adjust($primary, $lightness: -10%); // HOVER DE $PRIMARY
-
-// Colores semánticos
-$success: #22c55e;  // COLOR DE ÉXITO
-$warning: #f59e0b;  // COLOR DE ADVERTENCIA
-$destructive: #ef4444; // COLOR DE ERROR
-$destructive-foreground: #ffffff; // COLOR PARA EL TEXTO O ELEMENTOS SOBRE EL COLOR DE ERROR
-$destructive-light: rgba(239, 68, 68, 0.1); // VARIANTES DE $DESTRUCTIVE MAS CLARA
-
-// Colores de interfaz
-$background: #ffffff; // COLOR DE FONDO DE LA APLICACIÓN
-$foreground: #0f172a; // COLOR DE TEXTO DE LA APLICACIÓN
-
-$card: #ffffff; // COLOR DE TARJETA
-$card-foreground: #0f172a; // COLOR DE TEXTO SOBRE LA TARJETA
-
-$muted: #f1f5f9b6; // COLOR DE SILENCIO, AQUELLOS COMPONENTES O ELEMENTOS SECUNDARIOS
-$muted-foreground: #64748b; // COLOR DE TEXTO SOBRE EL COLOR DE SILENCIO
-
-$accent: #f8fafc; // COLOR DE ACCENTO, ELEMENTOS DESTACADOS
-$accent-foreground: #0f172a; // COLOR DE TEXTO SOBRE EL COLOR DE ACCENTO
-
-$border: #e2e8f0; // COLOR DE BORDE
-$input: #e2e8f0; // COLOR DE INPUT
-$ring: #7c3aed; // COLOR DE RING
-
-
-// --- MODO OSCURO: NO DESAROLLADO TODAVIA..... 03/26/2025 3:37 PM
-$dark-background: #0f172a;
-$dark-foreground: #f8fafc;
-
-$dark-card: #1e293b;
-$dark-card-foreground: #f8fafc;
-
-$dark-muted: #334155;
-$dark-muted-foreground: #94a3b8;
-
-$dark-accent: #1e293b;
-$dark-accent-foreground: #f8fafc;
-
-$dark-border: #334155;
-$dark-input: #334155;
-$dark-ring: #7c3aed;
-
-// Mapeo para uso en la aplicación
 :root {
+  /* 🎨 1. Colores principales */
+  --primary: #007bff;
+  --primary-dark: #0056b3;
+  --primary-light: #66b2ff;
+
+  /* 🎨 2. Colores secundarios */
+  --secondary: #6c757d;
+  --secondary-light: #adb5bd;
+  --secondary-dark: #495057;
+
+  /* 🎨 3. Colores de fondo */
+  --background-light: #f8f9fa;
+  --background-dark: #343a40;
+
+  /* 🎨 4. Colores de texto */
+  --text-light: #ffffff;
+  --text-dark: #212529;
+  --text-muted: #6c757d;
+
+  /* 🎨 5. Colores de estado (feedback) */
+  --success: #28a745;
+  --error: #dc3545;
+  --warning: #ffc107;
+  --info: #17a2b8;
+
+  /* 🎨 6. Colores de borde y líneas */
+  --border-light: #dee2e6;
+  --border-dark: #495057;
+
+  /* 🎨 7. Colores de sombra y profundidad */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+
+  /* 🎨 8. Colores de énfasis o acción */
+  --highlight: #ff5722;
+
+  /* 🎨 9. Padding */
+  --padding-s: 4px;
+  --padding-m: 8px;
+  --padding-l: 16px;
+  --padding-xl: 32px;
+
+  /* 🎨 10. Margen */
+  --margin-s: 4px;
+  --margin-m: 8px;
+  --margin-l: 16px;
+  --margin-xl: 32px;
+
+  /* 🎨 11. Gap */
+  --gap-s: 4px;
+  --gap-m: 8px;
+  --gap-l: 16px;
+  --gap-xl: 32px;
+
+  /* 🎨 12. Border radius */
+  --border-radius-s: 4px;
+  --border-radius-m: 8px;
+  --border-radius-l: 16px;
+  --border-radius-xl: 32px;
+
+
+  /* 🎨 11. Font */
   --font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  
-  --gradient: linear-gradient(to right, #f8fafc, #ffffff);
-  
-  --background: #{$background};
-  --foreground: #{$foreground};
-  
-  --card: #{$card};
-  --card-foreground: #{$card-foreground};
-  
-  --muted: #{$muted};
-  --muted-foreground: #{$muted-foreground};
-  
-  --accent: #{$accent};
-  --accent-foreground: #{$accent-foreground};
-  
-  --primary: #{$primary};
-  --primary-foreground: #{$primary-foreground};
-  --primary-light: #{$primary-light};
-  --primary-hover: #{$primary-hover};
-  
-  --destructive: #{$destructive};
-  --destructive-foreground: #{$destructive-foreground};
-  
-  --border: #{$border};
-  --border-focus: #{$ring};
-  --input: #{$input};
-  --ring: #{$ring};
-  
-  --success: #{$success};
-  --warning: #{$warning};
-  
-  --calendar-icon-filter: invert(1);
-  
-  --text-color: #{$foreground};
+
+  /* 🎨 12. Font size */
+  --font-size-s: 12px;
+  --font-size-m: 14px;
+  --font-size-l: 16px;
+  --font-size-xl: 18px;
+
+  /* 🎨 13. Font weight */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --shadow-color: 0deg 0% 0%;
+  --shadow-elevation-low:
+    0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.15),
+    1.3px 1.3px 2.1px -2.5px hsl(var(--shadow-color) / 0.15);
+  --shadow-elevation-medium:
+    0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.22),
+    6.6px 6.3px 10.3px -2.5px hsl(var(--shadow-color) / 0.22);
+  --shadow-elevation-high:
+    0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.27),
+    7.5px 7.1px 11.6px -1.2px hsl(var(--shadow-color) / 0.27),
+    33px 31.4px 51.2px -2.5px hsl(var(--shadow-color) / 0.27);
+
 }
 
-// Estilos 
+
+// Inicialización
 html, body {
   font-family: var(--font-family);
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 *, *::before, *::after {
@@ -102,18 +107,13 @@ html, body {
   padding: 0;
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-}
 
 // Iconos
 .icon {
   color: var(--primary);
   cursor: pointer;
-  
   &:hover {
-    color: var(--primary-hover);
+    color: var(--primary-dark);
   }
 }
 
@@ -123,13 +123,54 @@ body {
 }
 
 .icon-medium {
-  font-size: 30px;
+  width: 30px !important;
+  height: 30px !important;
 }
 
 .icon-large {
-  font-size: 40px;
+  width: 40px !important;
+  height: 40px !important;
 }
 
 .icon-xlarge {
-  font-size: 50px;
+  width: 50px !important;
+  height: 50px !important;
 }
+
+
+
+.base-button-small {
+  font-size: var(--font-size-s);
+  padding: var(--padding-m) var(--padding-m);
+  border-radius: var(--border-radius-s);
+  border: none;
+  cursor: pointer;
+}
+
+.base-button-medium {
+  font-size: var(--font-size-m);
+  padding: var(--padding-m) var(--padding-m);
+  border-radius: var(--border-radius-s);
+  border: none;
+  cursor: pointer;
+}
+
+.base-button-large {
+  font-size: var(--font-size-l);
+  padding:  var(--padding-m) var(--padding-l);
+  border-radius: var(--border-radius-s);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-confirm{
+  background-color: var(--primary);
+  color: var(--text-dark);
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+  }
+}
+

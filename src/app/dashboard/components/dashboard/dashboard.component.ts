@@ -20,7 +20,9 @@ import { RouterOutlet } from '@angular/router';
     border-radius: 16px;
     padding: 16px;
     border: 1px solid var(--border);
-  }`],
+    background-color: var(--background);
+    
+}`],
   standalone: true
 })
 
