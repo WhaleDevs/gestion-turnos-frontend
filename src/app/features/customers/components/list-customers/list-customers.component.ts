@@ -3,11 +3,14 @@ import { CustomersService } from '../../services/customers.service';
 import { CustomerResponse } from '../../models/customer.response';
 import { CommonModule } from '@angular/common';
 import { CustomerView } from '../../models/customerView.enum';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroPencilSquare, heroTrash } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-list-customers',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgIcon],
+    providers: [provideIcons({heroPencilSquare, heroTrash})],
   templateUrl: './list-customers.component.html',
   styleUrl: './list-customers.component.scss',
 })

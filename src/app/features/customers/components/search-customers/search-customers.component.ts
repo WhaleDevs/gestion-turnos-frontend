@@ -2,11 +2,15 @@ import { Component, inject } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerView } from '../../models/customerView.enum';
+import { CommonModule } from '@angular/common';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroMagnifyingGlass, heroPlusCircle } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-search-customers',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon],
+  providers: [provideIcons({heroPlusCircle, heroMagnifyingGlass})],
   templateUrl: './search-customers.component.html',
   styleUrl: './search-customers.component.scss',
 })

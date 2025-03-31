@@ -13,8 +13,8 @@
           <div class="cell">{{ customer.email }}</div>
           <div class="cell">{{ customer.phoneNumber }}</div>
           <div class="cell btn-cell">
-            <button class="btn medium error" (click)="deleteCustomer(customer.id)">ELIMINAR</button>
-            <button class="btn medium warning" (click)="updateCustomer(customer)">MODIFICAR</button>
+            <button class="btn medium warning" (click)="updateCustomer(customer)"><ng-icon class="icon icon-small" name="heroPencilSquare" /></button>
+            <button class="btn medium error" (click)="deleteCustomer(customer.id)"><ng-icon class="icon icon-small" name="heroTrash" /></button>
           </div>
         </div>
       }
