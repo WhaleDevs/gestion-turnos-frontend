@@ -45,7 +45,4 @@ export class ListCustomersComponent {
     this._customerService.currentView.next(CustomerView.UPDATE);
   }
 
-  createCustomer() {
-    this._customerService.currentView.next(CustomerView.CREATE);
-  }
 }

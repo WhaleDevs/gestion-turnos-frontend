@@ -1,11 +1,12 @@
-
-@if(currentView === 'LIST'){
-  <app-search-customers></app-search-customers>
-  <app-list-customers></app-list-customers>
-}
-@if(currentView === 'CREATE'){
-  <app-create-customer></app-create-customer>
-}
-@if(currentView === 'UPDATE'){
-  <app-update-customer></app-update-customer>
-}
+<section>
+  @if(currentView === 'LIST'){
+    <app-search-customers></app-search-customers>
+    <app-list-customers></app-list-customers>
+  }
+  @if(currentView === 'CREATE'){
+    <app-create-customer></app-create-customer>
+  }
+  @if(currentView === 'UPDATE'){
+    <app-update-customer></app-update-customer>
+  }
+</section>

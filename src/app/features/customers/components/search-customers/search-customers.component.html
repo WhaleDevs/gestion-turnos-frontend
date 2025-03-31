@@ -1,5 +1,6 @@
 <section>
   <form [formGroup]="searchCustomerForm" (ngSubmit)="search()">
+    <button type="button" class="btn large success" (click)="createCustomer()">Agregar cliente</button>
     <input 
         id="query" 
         type="text" 
