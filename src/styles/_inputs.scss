@@ -1,6 +1,6 @@
 .input {
+  border: 1px solid rgb(180, 180, 180);
   border-radius: var(--border-radius-s);
-  border: none; 
   padding: var(--padding-m);
   background-color: var(--background-light);
   color: var(--text-dark);
@@ -45,4 +45,27 @@
   &.success {
     border-bottom: 1px solid var(--success);
   }  
+
+  &.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    .icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    
+    input {
+      border: none;
+      box-shadow: none;
+    } 
+
+    &:hover {
+      border-color: var(--primary);
+    }
+  }
 }
+

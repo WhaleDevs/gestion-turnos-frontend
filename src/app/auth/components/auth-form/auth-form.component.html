@@ -1,55 +1,50 @@
 <div class="component-container">
   <section class="form-container">
     <h2>{{ title }}</h2>
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
 
       @if (isRegister) {
-        <div class="form-group">
-            <label>Nombre</label>
-            <div class="icon-input-container">
-            <ng-icon class="icon icon-medium" name="heroUserCircle" />
-            <input type="text" formControlName="firstName" />
-            </div>
+      <div class="form-group">
+        <label class="label">Nombre</label>
+        <div class="input container">
+          <ng-icon class="icon icon-medium" name="heroUserCircle" />
+          <input class="input" type="text" formControlName="firstName" placeholder="Nombre" />
         </div>
+      </div>
 
-        <div class="form-group">
-            <label>Apellido</label>
-            <div class="icon-input-container">
-            <ng-icon class="icon icon-medium" name="heroUserCircle" />
-            <input type="text" formControlName="lastName" />
-            </div>
+      <div class="form-group">
+        <label class="label">Apellido</label>
+        <div class="input container">
+          <ng-icon class="icon icon-medium" name="heroUserCircle" />
+          <input class="input" type="text" formControlName="lastName" placeholder="Apellido" />
         </div>
+      </div>
       }
 
       <div class="form-group">
-        <label>Email</label>
-        <div class="icon-input-container">
-          <ng-icon class="icon  icon-medium" name="heroAtSymbol" />
-          <input type="email" formControlName="email" />
+        <label class="label">Email</label>
+        <div class="input container">
+          <ng-icon class="icon icon-medium" name="heroAtSymbol" />
+          <input class="input" type="email" formControlName="email" placeholder="Email" />
         </div>
       </div>
 
       <div class="form-group">
-        <label>Contraseña</label>
-        <div class="icon-input-container">
-          <ng-icon class="icon  icon-medium" name="heroLockClosed" />
-          <div class="password-container">
-            <input
-              [type]="statusButton === 'showPassword' ? 'text' : 'password'"
-              formControlName="password"
-            />
-            <button (click)="showPassword()" type="button" class="icon-button">
-              @if (statusButton === 'hidePassword') {
-              <ng-icon class="icon icon-small" name="heroEyeSlash" />
-              } @else {
-              <ng-icon class="icon icon-small" name="heroEye" />
-              }
-            </button>
-          </div>
+        <label class="label">Contraseña</label>
+        <div class="input container">
+          <ng-icon class="icon icon-medium" name="heroLockClosed" />
+          <input class="input" [type]="statusButton === 'showPassword' ? 'text' : 'password'" formControlName="password"
+            placeholder="Contraseña" />
+          @if (statusButton === 'hidePassword') {
+          <ng-icon class="icon icon-small" name="heroEyeSlash" (click)="showPassword()" />
+          } @else {
+          <ng-icon class="icon icon-small" name="heroEye" (click)="showPassword()" />
+          }
         </div>
       </div>
 
-      <button class="base-button-confirm" type="submit">
+
+      <button class="btn primary full" type="submit">
         {{ buttonText }}
       </button>
       <p class="link" (click)="changeForm()">{{statusForm}}</p>
