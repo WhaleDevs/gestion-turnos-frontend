@@ -10,11 +10,14 @@ import {
 import { CustomerForCreationDto } from '../../models/customerForCreationDto.dto';
 import { CommonModule } from '@angular/common';
 import { CustomerView } from '../../models/customerView.enum';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-create-customer',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon],
+  providers: [provideIcons({heroUserCircle, heroPhone, heroEnvelope})],
   templateUrl: './create-customer.component.html',
   styleUrl: './create-customer.component.scss',
 })
