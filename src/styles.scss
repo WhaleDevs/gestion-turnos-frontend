@@ -4,6 +4,7 @@
 @use "styles/links";
 @use "styles/inputs";
 @use "styles/selects";
+@use "styles/form";
 @use "sass:color";
 @import "@ng-select/ng-select/themes/default.theme.css";
 
@@ -20,3 +21,9 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+
+// -input con icono adentro y otro para ambos iconos de ambos lados o poder modificar uno de cada lado...
+// - modificar schedule sccs y appoinbtmenst css
+// - agregar modal.scss
+

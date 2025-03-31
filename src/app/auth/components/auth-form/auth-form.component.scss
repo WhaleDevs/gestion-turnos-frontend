@@ -35,7 +35,7 @@
   }
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,79 +53,4 @@ form {
   border-radius: 6px;
   padding: 20px;
   background-color: var(--muted);
-}
-
-input {
-  height: 30px;
-  width: 90%;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background-color: var(--input);
-  color: var(--foreground);
-  padding: 8px;
-  font-size: 12px;
-}
-
-input:focus {
-  outline: none;
-}
-
-label {
-  width: 100%;
-  text-align: left;
-  margin-bottom: 3px;
-  font-size: 12px;
-}
-
-.password-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
-
-.password-container input {
-  flex: 1;
-  border: none;
-  border-radius: 6px 0 0 6px;
-  padding: 8px;
-  color: var(--foreground);
-  background-color: var(--input);
-}
-
-.password-container button {
-  height: 30px;
-  width: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0px 6px 6px 0px;
-  background-color: var(--input);
-  border: none;
-  cursor: pointer;
-}
-
-.icon-input-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-}
-
-h2 {
-  font-weight: normal;
-  font-size: 16px;
-  color: var(--foreground);
-}
-
-.link {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-
-.link:hover {
-  color: var(--primary-hover);
 }
