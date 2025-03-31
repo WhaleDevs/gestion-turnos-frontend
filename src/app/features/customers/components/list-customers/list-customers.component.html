@@ -1,17 +1,24 @@
 <section>
   <button (click)="createCustomer()">Agregar cliente</button>
-  <div class="header-container">
-
-  </div>
-  <div class="body-container">
-    @for(customer of customers; track customer.id){
-      <div class="row">
-        <div>{{customer.firstName}} {{customer.lastName}}</div>
-        <div>{{customer.email}}</div>
-        <div>{{customer.phoneNumber}}</div>
-        <div><p (click)="deleteCustomer(customer.id)">ELIMINAR</p></div>
-        <div><p (click)="updateCustomer(customer)">MODIFICAR</p></div>
-      </div>
-    }
+  <div class="table">
+    <div class="row header">
+      <div class="cell header">Nombre</div>
+      <div class="cell header">Email</div>
+      <div class="cell header">Telefono</div>
+      <div class="cell header">Acciones</div>
+    </div>
+    <div class="body">
+      @for(customer of customers; track customer.id){
+        <div class="row">
+          <div class="cell">{{ customer.firstName }} {{ customer.lastName }}</div>
+          <div class="cell">{{ customer.email }}</div>
+          <div class="cell">{{ customer.phoneNumber }}</div>
+          <div class="cell btn-cell">
+            <button class="btn medium error" (click)="deleteCustomer(customer.id)">ELIMINAR</button>
+            <button class="btn medium warning" (click)="updateCustomer(customer)">MODIFICAR</button>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 </section>

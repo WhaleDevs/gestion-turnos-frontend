@@ -1,8 +1,57 @@
-
-.row{
+section {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  width: 100%;
+  
+}
+
+// Tabla
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-m);
+  /* background-color: var(--primary-light); */
+  box-shadow: var(--shadow-elevation-medium);
+
+  .row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 3fr;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: var(--padding-l);
+    border-bottom: 1px solid var(--primary);
+  }
+
+  .cell {
+    padding: var(--padding-s);
+    font-size: var(--font-size-m);
+    text-align: left;
+  }
+
+  .header{
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .btn-cell{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: var(--gap-m);
+  }
+
+  .body {
+    min-height: 700px;
+    max-height: 700px;
+    overflow-y: auto;
+    width: 100%;
+  }
 }
