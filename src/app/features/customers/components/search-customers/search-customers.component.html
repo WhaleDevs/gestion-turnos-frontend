@@ -1,13 +1,26 @@
 <section>
   <form [formGroup]="searchCustomerForm" (ngSubmit)="search()">
-      <input 
+    <input 
         id="query" 
         type="text" 
         formControlName="query" 
         placeholder="Introduce nombre, apellido, email o teléfono"
         class="input large"
       />
-      
-    <button type="submit" [disabled]="searchCustomerForm.invalid">Buscar</button>
+
+    <button type="submit" [disabled]="searchCustomerForm.invalid" class="btn large primary">Buscar</button>
   </form>
 </section>
+
+<!-- <div class="form-group">
+  <div class="input container">
+    <ng-icon class="icon icon-medium" name="heroUserCircle" />
+    <input 
+        id="query" 
+        type="text" 
+        formControlName="query" 
+        placeholder="Introduce nombre, apellido, email o teléfono"
+        class="input large"
+      />
+  </div>
+</div> -->

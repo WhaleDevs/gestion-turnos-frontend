@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomerView } from '../../models/customerView.enum';
 
 @Component({
   selector: 'app-search-customers',

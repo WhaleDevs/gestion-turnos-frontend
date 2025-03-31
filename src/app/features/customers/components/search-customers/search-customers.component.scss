@@ -9,5 +9,12 @@ section{
 form{
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  gap: var(--gap-l)
+}
+
+form input{
+  width: 80%;
 }
