@@ -4,31 +4,15 @@
 @use "styles/links";
 @use "styles/inputs";
 @use "styles/selects";
-
-// 2️⃣ Luego, importar CSS externo
 @use "sass:color";
 @import "@ng-select/ng-select/themes/default.theme.css";
 
-
-// Inicialización
 html, body {
   font-family: var(--font-family);
   font-size: 62.5%;
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-@media (max-width: 768px) {
-  html {
-    font-size: 56.25%; 
-  }
-}
-
-@media (max-width: 480px) {
-  html {
-    font-size: 50%; 
-  }
 }
 
 *, *::before, *::after {
