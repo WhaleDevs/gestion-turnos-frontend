@@ -1,47 +1,29 @@
-
 <form [formGroup]="customerForm" (ngSubmit)="update()">
   <!-- Nombre -->
-  <div>
-    <label for="firstName">Nombre</label>
-    <input id="firstName" type="text" formControlName="firstName" />
-    <div *ngIf="customerForm.get('firstName')?.invalid && customerForm.get('firstName')?.touched">
-      <span *ngIf="customerForm.get('firstName')?.hasError('required')">El nombre es obligatorio</span>
-      <span *ngIf="customerForm.get('firstName')?.hasError('minlength')">Debe tener al menos 2 caracteres</span>
-      <span *ngIf="customerForm.get('firstName')?.hasError('maxlength')">No puede tener más de 50 caracteres</span>
-    </div>
+  <div class="input container">
+    <ng-icon class="icon icon-medium" name="heroUserCircle" />
+    <input id="firstName" class="input medium" type="text" formControlName="firstName" placeholder="Nombre"/>
   </div>
 
   <!-- Apellido -->
-  <div>
-    <label for="lastName">Apellido</label>
-    <input id="lastName" type="text" formControlName="lastName" />
-    <div *ngIf="customerForm.get('lastName')?.invalid && customerForm.get('lastName')?.touched">
-      <span *ngIf="customerForm.get('lastName')?.hasError('required')">El apellido es obligatorio</span>
-      <span *ngIf="customerForm.get('lastName')?.hasError('minlength')">Debe tener al menos 2 caracteres</span>
-      <span *ngIf="customerForm.get('lastName')?.hasError('maxlength')">No puede tener más de 50 caracteres</span>
-    </div>
+  <div class="input container">
+    <ng-icon class="icon icon-medium" name="heroUserCircle" />
+    <input id="lastName" class="input medium" type="text" formControlName="lastName" placeholder="Apellido"/>
   </div>
 
   <!-- Teléfono -->
-  <div>
-    <label for="phoneNumber">Teléfono</label>
-    <input id="phoneNumber" type="text" formControlName="phoneNumber" />
-    <div *ngIf="customerForm.get('phoneNumber')?.invalid && customerForm.get('phoneNumber')?.touched">
-      <span *ngIf="customerForm.get('phoneNumber')?.hasError('required')">El teléfono es obligatorio</span>
-      <span *ngIf="customerForm.get('phoneNumber')?.hasError('pattern')">Formato de teléfono inválido</span>
-    </div>
+  <div class="input container">
+    <ng-icon class="icon icon-medium" name="heroPhone" />
+    <input id="phoneNumber" class="input medium" type="text" formControlName="phoneNumber" placeholder="Teléfono"/>
   </div>
 
   <!-- Email -->
-  <div>
-    <label for="email">Email (opcional)</label>
-    <input id="email" type="email" formControlName="email" />
-    <div *ngIf="customerForm.get('email')?.invalid && customerForm.get('email')?.touched">
-      <span *ngIf="customerForm.get('email')?.hasError('email')">Formato de email inválido</span>
-    </div>
+  <div class="input container">
+    <ng-icon class="icon icon-medium" name="heroEnvelope" />
+    <input id="email" class="input medium" type="email" formControlName="email" placeholder="Correo electrónico"/>
   </div>
 
-  <!-- Botón de envío -->
-  <button type="submit" [disabled]="customerForm.invalid">Modificar Cliente</button>
+  <!-- Botones -->
+  <button type="submit" class="btn warning full" [disabled]="customerForm.invalid">Modificar Cliente</button>
   <button type="button" (click)="back()">Volver</button>
 </form>

@@ -4,10 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { CustomerForUpdateDto } from '../../models/customerForUpdateDto.dto';
 import { CustomerView } from '../../models/customerView.enum';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-update-customer',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon],
+  providers: [provideIcons({heroUserCircle, heroPhone, heroEnvelope})],
   templateUrl: './update-customer.component.html',
   styleUrl: './update-customer.component.scss'
 })
