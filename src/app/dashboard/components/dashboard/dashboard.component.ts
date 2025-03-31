@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,5 +24,5 @@ import { RouterOutlet } from '@angular/router';
 })
 
 export class DashboardComponent {
-
+  private alertService = inject(AlertService);
 }
