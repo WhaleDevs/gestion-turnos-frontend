@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
 import { CustomerResponse } from '../../models/customer.response';
 import { CommonModule } from '@angular/common';
-import { CustomerView } from '../../models/customerView.enum';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroPencilSquare, heroTrash } from '@ng-icons/heroicons/outline';
+import { ModalService } from '@app/shared/services/modal.service';
+import { UpdateCustomerComponent } from '../update-customer/update-customer.component';
 
 @Component({
   selector: 'app-list-customers',
@@ -15,7 +16,7 @@ import { heroPencilSquare, heroTrash } from '@ng-icons/heroicons/outline';
   styleUrl: './list-customers.component.scss',
 })
 export class ListCustomersComponent {
-
+  private modalService = inject(ModalService)
   private _customerService = inject(CustomersService);
   customers: CustomerResponse[] = [];
 
@@ -45,7 +46,7 @@ export class ListCustomersComponent {
 
   updateCustomer(customer: CustomerResponse) {
     this._customerService.customerForUpdate.next(customer);
-    this._customerService.currentView.next(CustomerView.UPDATE);
+    this.modalService.open(UpdateCustomerComponent);
   }
 
 }

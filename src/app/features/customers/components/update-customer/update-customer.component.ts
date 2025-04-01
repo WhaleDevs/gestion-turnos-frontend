@@ -3,9 +3,9 @@ import { CustomersService } from '../../services/customers.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerForUpdateDto } from '../../models/customerForUpdateDto.dto';
-import { CustomerView } from '../../models/customerView.enum';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/outline';
+import { ModalService } from '@app/shared/services/modal.service';
 
 @Component({
   selector: 'app-update-customer',
@@ -16,6 +16,7 @@ import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/
 })
 export class UpdateCustomerComponent {
   private _customerService = inject(CustomersService);
+  private modalService = inject(ModalService);
   private fb = inject(FormBuilder);
   customerForm: FormGroup = this.fb.group({
     id:0,
@@ -44,7 +45,10 @@ export class UpdateCustomerComponent {
       };
       console.log('Customer DTO:', customerDto);
       this._customerService.updateCustomer(customerDto).subscribe({
-        next: (response) => console.log('Cliente creado:', response),
+        next: (response) => {
+          console.log('Cliente creado:', response),
+          this.modalService.close();
+        },
         error: (error) => console.error('Error al crear cliente:', error),
       });
     } else {
@@ -52,7 +56,4 @@ export class UpdateCustomerComponent {
     }
   }
 
-  back(){
-    this._customerService.currentView.next(CustomerView.LIST);
-  }
 }

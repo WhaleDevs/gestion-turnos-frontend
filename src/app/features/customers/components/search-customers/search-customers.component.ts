@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomerView } from '../../models/customerView.enum';
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroMagnifyingGlass, heroPlusCircle } from '@ng-icons/heroicons/outline';
+import { ModalService } from '@app/shared/services/modal.service';
+import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 
 @Component({
   selector: 'app-search-customers',
@@ -17,6 +18,7 @@ import { heroMagnifyingGlass, heroPlusCircle } from '@ng-icons/heroicons/outline
 export class SearchCustomersComponent {
   private _customerService = inject(CustomersService);
   private fb = inject(FormBuilder);
+  private modalService = inject(ModalService);
   searchCustomerForm: FormGroup = this.fb.group({
     query: ['', Validators.required],
   });
@@ -35,6 +37,6 @@ export class SearchCustomersComponent {
   }
 
   createCustomer() {
-    this._customerService.currentView.next(CustomerView.CREATE);
+    this.modalService.open(CreateCustomerComponent);
   }
 }
