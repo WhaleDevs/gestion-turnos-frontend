@@ -3,8 +3,8 @@ import { ScheduleService } from '../../services/schedule.service';
 import { DayComponent } from "../day/day.component";
 import { SaveScheduleComponent } from '../save-schedule/save-schedule.component';
 import { SessionService } from '@app/auth/services/session.service';
-import { ScheduleConfigForUpdateDto, ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
 import { NgClass } from '@angular/common';
+import { ScheduleConfigResponse, ScheduleDayConfigResponse } from '../../models/responses/schedule.response';
 
 @Component({
   selector: 'app-list-days',
@@ -17,19 +17,19 @@ export class ListDaysComponent {
 
   private ScheduleService = inject(ScheduleService);
   private sessionService = inject(SessionService);
-  protected schedule: ScheduleConfigForUpdateDto = {} as ScheduleConfigForUpdateDto;
-  days: ScheduleDayConfigForUpdateDto[] = []
-  selectedDaySignal = signal<ScheduleDayConfigForUpdateDto>({} as ScheduleDayConfigForUpdateDto);
+  protected schedule: ScheduleConfigResponse = {} as ScheduleConfigResponse;
+  days: ScheduleDayConfigResponse[] = []
+  selectedDaySignal = signal<ScheduleDayConfigResponse>({} as ScheduleDayConfigResponse);
 
   ngOnInit(): void {
     this.sessionService.getSession$.subscribe({
       next: (data) => {
         if (!data) return;
-          this.ScheduleService.getScheduleUpdate(data.email).subscribe({
+          this.ScheduleService.getScheduleConfigForUpdateResponse(data.email).subscribe({
             next: (data) => {
               if (!data) return;
-              this.schedule = data.data as unknown as ScheduleConfigForUpdateDto;
-              this.ScheduleService.setSignalScheduleUpdate(this.schedule);
+              this.schedule = data.data as unknown as ScheduleConfigResponse;
+              this.ScheduleService.setSignalScheduleConfigResponse(this.schedule);
               this.days = this.schedule.daysConfig;
               this.selectedDaySignal.set(this.days[0]);
             },
@@ -41,7 +41,7 @@ export class ListDaysComponent {
     })
   }
 
-  dayActive(dayResp: ScheduleDayConfigForUpdateDto) {
+  dayActive(dayResp: ScheduleDayConfigResponse) {
     this.selectedDaySignal.set(dayResp);
   }
 

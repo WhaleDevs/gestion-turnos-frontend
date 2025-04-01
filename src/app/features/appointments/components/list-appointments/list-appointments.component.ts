@@ -6,6 +6,8 @@ import { AppointmentResponse } from '../../models/responses/appointments.respons
 import { AppointmentComponent } from "../appointment/appointment.component";
 import { ModalService } from '@app/shared/services/modal.service';
 import { SaveAppointmentComponent } from '../save-appointment/save-appointment.component';
+import { DateTime } from 'luxon';
+import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 
 @Component({
   selector: 'app-list-appointments',
@@ -19,25 +21,22 @@ import { SaveAppointmentComponent } from '../save-appointment/save-appointment.c
 export class ListAppointmentsComponent {
   private modalService = inject(ModalService);
   private appointmentsService = inject(AppointmentsService);
-  appointments = computed(() => this.appointmentsService.signalAppointments());
+  
   date = computed(() => this.appointmentsService.signalDateSelected());
-  appointmentsForDate = computed(() => this.appointments().filter(appointment => this.formateDate(appointment.date) === this.date()));
-  appointmentSelected = computed(() => this.appointmentsService.signalAppointmentSelected());
-  showAppointment:boolean = false;
-  showForm:boolean = false;
+  dayStr = computed(() => this.appointmentsService.signalDayStrFull());
+  dayNumber = computed(() => this.appointmentsService.signalDayNumber());
+
+  appointmentsForDate = computed(() => 
+    this.appointmentsService.signalAppointmentsForDate()
+      .filter(appointment => appointment.date === this.date())
+      .sort((a, b) => {
+        const timeA = DateTime.fromFormat(a.startTime, 'HH:mm').toMillis();
+        const timeB = DateTime.fromFormat(b.startTime, 'HH:mm').toMillis();
+        return timeA - timeB;
+      })
+  );
+
   constructor() {}
-
-  formateDate(date:String): String {
-    return date.split("T")[0];
-  }
-
-  returnDay(date: string): string {
-    if (!date) return "Día no disponible";
-    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-    const dayMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const dateObj = new Date(date + "T00:00:00");
-    return `${dayNames[dateObj.getDay()]} ${dateObj.getDate()} de ${dayMonths[dateObj.getMonth()]}`;
-  }
 
   showMoreDetails(appointment: AppointmentResponse) {
     this.appointmentsService.signalAppointmentSelected.set(appointment);
@@ -45,7 +44,12 @@ export class ListAppointmentsComponent {
   } 
 
   showFormToCreateAppointment() {
-    this.modalService.open(SaveAppointmentComponent);
+    const hoursEnabled: String[] = [];
+    this.appointmentsForDate().forEach(appointment => {
+      hoursEnabled.push(appointment.startTime);
+    });
+    this.appointmentsService.setHoursEnabled(hoursEnabled);
+    this.modalService.open(SaveAppointmentComponent, { width: '600px' });
   }
 
 }

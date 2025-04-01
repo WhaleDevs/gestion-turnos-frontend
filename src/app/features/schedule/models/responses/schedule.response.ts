@@ -9,16 +9,31 @@ export interface ScheduleResponse {
 
 export interface ScheduleDayConfigResponse {
     id: number;
-    day: EDayOfWeek;
+    day: string;
     startTime: string;
     endTime: string;
     slotInterval: number;
-    status: Boolean;
+    status: boolean;
     rests: ScheduleDayRestConfigResponse[];
 }
 
 export interface ScheduleDayRestConfigResponse {
     id: number;
-    startTime: String;
-    endTime: String;
+    startTime: string;
+    endTime: string;
+}
+
+export interface ScheduleConfigResponse {
+    id: number;
+    daysConfig: ScheduleDayConfigResponse[];
+}
+
+export interface ScheduleConfigResponse {
+    id: number;
+    daysConfig: ScheduleDayConfigResponse[];
+}
+
+export const INITAL_SCHEDULE_CONFIG_RESPONSE: ScheduleConfigResponse = {
+    id: 0,
+    daysConfig: []
 }

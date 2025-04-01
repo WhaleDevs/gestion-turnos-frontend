@@ -8,8 +8,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   imports: [AuthFormComponent],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  template: `
+    <app-auth-form
+      title="Registro de Usario"
+      buttonText="R E G I S T R A R S E"
+      [isRegister]="true"
+      (formSubmit)="onRegister($event)"
+    >
+    </app-auth-form>
+  `
 })
 export class RegisterComponent {
   private router = inject(Router);

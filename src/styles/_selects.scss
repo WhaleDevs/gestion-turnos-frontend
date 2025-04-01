@@ -5,10 +5,8 @@
   width: 100%;
   box-shadow: var(--shadow-elevation-medium);
   cursor: pointer;
-  appearance: none; /* Oculta el estilo nativo */
-  -webkit-appearance: none;
-  -moz-appearance: none;
   position: relative;
+
 
   &:focus {
     outline: none;

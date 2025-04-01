@@ -11,7 +11,7 @@ export class SaveScheduleComponent {
   constructor(private scheduleService: ScheduleService) {}
 
   onSave() {
-    this.scheduleService.updateSchedule().subscribe({
+    this.scheduleService.updateScheduleConfigForUpdate().subscribe({
       next: () => {
         console.log('Schedule updated successfully');
       },

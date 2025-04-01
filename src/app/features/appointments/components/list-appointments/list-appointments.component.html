@@ -1,6 +1,6 @@
 <section class="appointments-container">
     <div class="date-and-add-appointment">
-        <p>{{returnDay(date())}}</p>
+        <p>{{dayStr()}}</p>
         <button class="add-appointment" (click)="showFormToCreateAppointment()"><ng-icon name="heroPlus" class="icon icon-medium"></ng-icon>  Crear Reserva</button>
     </div>  
     @for(appointment of appointmentsForDate(); track $index) {

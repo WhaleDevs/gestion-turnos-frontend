@@ -9,14 +9,20 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   imports: [AuthFormComponent],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  template: `
+    <app-auth-form
+      title="Iniciar Sesión"
+      buttonText="I N G R E S A R"
+      (formSubmit)="onLogin($event)"
+    >
+    </app-auth-form>
+  `,
 })
 export class LoginComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
 
-  constructor() { 
+  constructor() {
     console.log('LoginComponent constructor');
   }
 
