@@ -1,13 +1,31 @@
-<form [formGroup]="searchCustomerForm" (ngSubmit)="search()">
-  <div>
-    <label for="query">Buscar Cliente:</label>
-    <input 
-      id="query" 
-      type="text" 
-      formControlName="query" 
-      placeholder="Introduce nombre, apellido, email o teléfono"
-    />
-  </div>
+<section>
+  <form [formGroup]="searchCustomerForm" (ngSubmit)="search()">
+    <button type="button" class="btn large success" (click)="createCustomer()"><ng-icon class="icon icon-medium" name="heroPlusCircle" /><p>Agregar</p></button>
+    
+    <div class="input container">
+      <ng-icon class="icon icon-medium" name="heroMagnifyingGlass" />
+      <input 
+        id="query" 
+        type="text" 
+        formControlName="query" 
+        placeholder="Introduce nombre, apellido, email o teléfono"
+        class="input large"
+      />
+    </div>
+    
+    <button type="submit" [disabled]="searchCustomerForm.invalid" class="btn large primary"><ng-icon class="icon icon-medium" name="heroMagnifyingGlass" /><p>Buscar</p></button>
+  </form>
+</section>
 
-  <button type="submit" [disabled]="searchCustomerForm.invalid">Buscar</button>
-</form>
+<!-- <div class="form-group">
+  <div class="input container">
+    <ng-icon class="icon icon-medium" name="heroUserCircle" />
+    <input 
+        id="query" 
+        type="text" 
+        formControlName="query" 
+        placeholder="Introduce nombre, apellido, email o teléfono"
+        class="input large"
+      />
+  </div>
+</div> -->
