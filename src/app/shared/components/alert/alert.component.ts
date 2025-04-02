@@ -36,6 +36,7 @@ import { Alert } from '@app/utils/alert.interface';
       gap: 10px;
       animation: slideIn 0.3s ease-in-out;
       z-index: 1000;
+      font-size: var(--font-size-l);
     }
 
     .close-button {
