@@ -4,16 +4,24 @@ import { FormValidationService } from '@app/shared/services/form-validation.serv
 
 @Component({
   selector: 'app-form-error',
-  template: `@if(errorMessage){<p class="errorMessage">{{ errorMessage }}</p>}`,
+  template: `<p class="errorMessage">{{ errorMessage }}</p> `,
   imports: [],
-  styles: [`
-    .errorMessage {
-      color: red;
-      font-size: var(--font-size-l);
-      margin-top: 4px;
-      font-weight: 500;
-    }
-  `]
+  styles: [
+    `
+      .errorMessage {
+        color: var(--error);
+        font-size: var(--font-size-s);
+        margin-top: var(--margin-m);
+        font-weight: 500;
+        min-height: var(--font-size-xl);
+        visibility: hidden; 
+      }
+
+      .errorMessage:not(:empty) {
+        visibility: visible; 
+      }
+    `,
+  ],
 })
 export class FormErrorComponent {
   @Input() control!: AbstractControl;
