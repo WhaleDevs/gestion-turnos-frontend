@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '@envs/environment';
 import { HttpClient } from '@angular/common/http';
 import { AppointmentForCreationDto, INIT_APPOINTMENT_FOR_CREATE_DTO } from '../models/requests-dto/appointmentsForCreate.dto';
@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { ApiResponse } from '@app/shared/models/api-response';
 import { EDayOfWeek } from '@app/utils/dayEnum';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
+import { Week } from '../components/calendar/calendar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,18 +19,15 @@ export class AppointmentsService {
   private scheduleService = inject(ScheduleService);
   private url = environment.API_URL + '/appointments';
 
-  signalDayStrFull = computed(() => this.scheduleService.returnDayFullFromDate(this.signalDateSelected()));
-  signalDayStr = computed(() => this.scheduleService.returnDayFromDate(this.signalDateSelected()));
-  signalDayNumber = computed(() => this.scheduleService.returnDayNumberFromDate(this.signalDateSelected()));
-  signalDateSelected = signal<string>(new Date().toISOString().split('T')[0]);
+  signalWeekSelected: WritableSignal<Week[]> = signal<Week[]>([]);
+  signalDateSelected = signal<Week | null>(null);
+  signalDateFromWeek = signal<Week|null>(null);
+  signalDayStatusFalse = computed(() => this.scheduleService.signalDayStatusFalse());
   signalHoursEnabled = signal<String[]>([]);
-
-  signalWeekSelected = signal<[string, string,string,string,string,string,string]>(['', '', '', '', '', '', '']);
   signalAppointmentToCreate = signal<AppointmentForCreationDto>(INIT_APPOINTMENT_FOR_CREATE_DTO);
   signalAppointments = signal<AppointmentResponse[]>([]);
   signalAppointmentsForDate = computed(() => 
-    this.signalAppointments().filter(appointment => appointment.date === this.signalDateSelected()));
-  
+    this.signalAppointments().filter(appointment => appointment.date === this.signalDateSelected()?.date.replaceAll('/', '-')));
   signalAppointmentSelected = signal<AppointmentResponse | null>(null);
   constructor() { }
 
@@ -37,14 +35,9 @@ export class AppointmentsService {
     this.signalAppointmentToCreate.set(appointment); 
   }
 
-  setSignalDateSelected(date: string) {
-    this.signalDateSelected.set(date);
-  }
-
-  getAppointmentsBetweenDates(scheduleId: number): Observable<ApiResponse<AppointmentResponse[]>> {
-    const startDate = this.signalWeekSelected()[0];
-    const endDate = this.signalWeekSelected()[6];
-    console.log('Fechas', startDate, endDate);   
+  getAppointmentsBetweenDates(scheduleId: number, startDate: string, endDate: string): Observable<ApiResponse<AppointmentResponse[]>> {
+    startDate = startDate.replaceAll('/', '-');
+    endDate = endDate.replaceAll('/', '-');
     return this.http.get<ApiResponse<AppointmentResponse[]>>(this.url + '/between-dates' + `?id=${scheduleId}&startDate=${startDate}&endDate=${endDate}`)
     .pipe(
       tap((appointments: ApiResponse<AppointmentResponse[]>) => {
@@ -59,7 +52,6 @@ export class AppointmentsService {
   }
 
   setAppointments(appointments: AppointmentResponse[]) {
-    console.log('Citas', appointments);
     this.signalAppointments.set(appointments);
   }
 

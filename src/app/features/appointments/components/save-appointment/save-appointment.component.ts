@@ -1,11 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroClock, heroPlus, heroUserCircle, heroPhone, heroAtSymbol, heroMapPin, heroIdentification, heroChatBubbleBottomCenterText } from '@ng-icons/heroicons/outline';
-import { SessionService } from '@app/auth/services/session.service';
-import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
+import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 
 @Component({
   selector: 'app-save-appointment',
@@ -18,11 +17,9 @@ import { ScheduleDayConfigResponse } from '@app/features/schedule/models/respons
 
 export class SaveAppointmentComponent {
   private appointmentsService = inject(AppointmentsService);
-  private sessionService = inject(SessionService);
   private scheduleService = inject(ScheduleService);
   date = computed(() => this.appointmentsService.signalDateSelected());
-  day = computed(() => this.appointmentsService.signalDayStr());
-  dayConfig: ScheduleDayConfigResponse | null = null;
+  dayConfig = computed(() => this.scheduleService.signalScheduleConfigResponse().daysConfig.find((day: ScheduleDayConfigResponse) => day.day === this.date()?.dayName) || null);
   hours: string[] = [];
   formSaveAppointmen!: FormGroup;
 
@@ -42,36 +39,14 @@ export class SaveAppointmentComponent {
     });
   }
 
+  
   ngOnInit(): void {
-      this.sessionService.getSession$.subscribe({
-        next: (session) => {
-          if (session) {
-            this.scheduleService.getScheduleAll(session.email).subscribe({
-              next: (schedules) => {
-                this.formSaveAppointmen.patchValue({
-                  scheduleId: schedules.data?.id,
-                  date: this.date()
-                });
-                schedules.data?.daysConfig.forEach(day => {
-                  console.log("COMPARANDO", day.day, this.day());
-                  if (day.day === this.day()) { 
-                    this.dayConfig = day;
-                    this.hours = this.generateHours(day.startTime, day.endTime);
-                    console.log('Dia disponible');
-                  }else{
-                    console.log('Dia no disponible');
-                  }
-                });
-              }
-            });
-          }
-        }
-      });
+    this.hours = this.generateHours(this.dayConfig()?.startTime ?? '', this.dayConfig()?.endTime ?? '');
   }
 
   generateHours(startTime: string, endTime: string): string[] {
     const hoursEnabled = this.appointmentsService.signalHoursEnabled();
-    const interval = this.dayConfig?.slotInterval ?? 60; 
+    const interval = this.dayConfig()?.slotInterval ?? 60; 
     const hours: string[] = [];
     
     const [startHours, startMinutes] = startTime.split(':').map(Number);

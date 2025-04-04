@@ -1,10 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { ScheduleService } from '../../services/schedule.service';
 import { DayComponent } from "../day/day.component";
 import { SaveScheduleComponent } from '../save-schedule/save-schedule.component';
-import { SessionService } from '@app/auth/services/session.service';
 import { NgClass } from '@angular/common';
-import { ScheduleConfigResponse, ScheduleDayConfigResponse } from '../../models/responses/schedule.response';
+import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
 
 @Component({
   selector: 'app-list-days',
@@ -15,43 +14,39 @@ import { ScheduleConfigResponse, ScheduleDayConfigResponse } from '../../models/
 })
 export class ListDaysComponent {
 
-  private ScheduleService = inject(ScheduleService);
-  private sessionService = inject(SessionService);
-  protected schedule: ScheduleConfigResponse = {} as ScheduleConfigResponse;
-  days: ScheduleDayConfigResponse[] = []
-  selectedDaySignal = signal<ScheduleDayConfigResponse>({} as ScheduleDayConfigResponse);
+  private scheduleService = inject(ScheduleService);
+  days = signal<ScheduleDayConfigForUpdateDto[]>([]);
+  selectedDaySignal = signal<ScheduleDayConfigForUpdateDto | undefined>(undefined);
+  wasSelected = signal(false);
 
-  ngOnInit(): void {
-    this.sessionService.getSession$.subscribe({
-      next: (data) => {
-        if (!data) return;
-          this.ScheduleService.getScheduleConfigForUpdateResponse(data.email).subscribe({
-            next: (data) => {
-              if (!data) return;
-              this.schedule = data.data as unknown as ScheduleConfigResponse;
-              this.ScheduleService.setSignalScheduleConfigResponse(this.schedule);
-              this.days = this.schedule.daysConfig;
-              this.selectedDaySignal.set(this.days[0]);
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          })
+  constructor() {
+    effect(() => {
+      const updatedDays = this.scheduleService.signalScheduleConfigForUpdate().scheduleDays;
+      this.days.set(updatedDays);
+      if (this.wasSelected()) {
+        return;
       }
-    })
+      if (updatedDays.length > 0) {
+        this.selectedDaySignal.set(updatedDays[0]);
+        this.wasSelected.set(true);
+      }
+    });
   }
 
-  dayActive(dayResp: ScheduleDayConfigResponse) {
+  dayActive(dayResp: ScheduleDayConfigForUpdateDto) {
     this.selectedDaySignal.set(dayResp);
   }
 
   onSelectChange(event: Event) {
     const select = event.target as HTMLSelectElement;
     const index = parseInt(select.value);
-    if (!isNaN(index)) {
-      this.dayActive(this.days[index]);
+    if (!isNaN(index) && this.days()[index]) {
+      this.dayActive(this.days()[index]);
       select.value = '';
     }
   }
 
+  whatDay() {
+    return this.scheduleService.signalScheduleConfigForUpdate().scheduleDays.find(day => day.day === this.selectedDaySignal()?.day);
+  }
 }

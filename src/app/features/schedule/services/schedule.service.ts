@@ -1,6 +1,6 @@
-import { effect, inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, effect, inject, Injectable, linkedSignal, signal, WritableSignal } from '@angular/core';
 import { environment } from '@envs/environment';
-import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '@app/shared/models/api-response';
 import { INITAL_SCHEDULE_CONFIG_RESPONSE, ScheduleConfigResponse, ScheduleResponse } from '../models/responses/schedule.response';
@@ -19,22 +19,22 @@ export class ScheduleService {
   $scheduleComponentActive = this.scheduleComponentActive.asObservable();
   signalScheduleConfigResponse: WritableSignal<ScheduleConfigResponse> = signal<ScheduleConfigResponse>(INITAL_SCHEDULE_CONFIG_RESPONSE);
   signalScheduleConfigForUpdate: WritableSignal<ScheduleConfigForUpdateDto> = signal<ScheduleConfigForUpdateDto>(INITAL_SCHEDULE_CONFIG_FOR_UPDATE);
-
-
-  constructor() {
-    effect(() => {
-      console.log("UDPATE AGEND RECEIVED", this.signalScheduleConfigForUpdate());
-    });
-  }
-
-  getScheduleAll(email: string): Observable<ApiResponse<ScheduleResponse>> {
-    const newUrl = `${this.url}/schedules/${email}`;
-    return this.http.get<ApiResponse<ScheduleResponse>>(newUrl);
-  }
+  signalDayStatusFalse = linkedSignal(() => this.signalScheduleConfigForUpdate().scheduleDays.filter(day => day.status === false).map(day => day.day));
+  isLoading = signal(false);
 
   getScheduleConfigForUpdateResponse(email: string): Observable<ApiResponse<ScheduleConfigResponse>> {
+    this.isLoading.set(true); 
     const newUrl = `${this.url}/schedules/config/${email}`;
-    return this.http.get<ApiResponse<ScheduleConfigResponse>>(newUrl);
+    return this.http.get<ApiResponse<ScheduleConfigResponse>>(newUrl).pipe(
+      tap((response) => {
+        this.setSignalScheduleConfigResponse(response.data!);
+        this.isLoading.set(false); 
+      }),
+      catchError((error) => {
+        this.isLoading.set(false);
+        return throwError(() => error);
+      })
+    );
   }
 
   setSignalScheduleConfigResponse(schedule: ScheduleConfigResponse) {
@@ -54,7 +54,6 @@ export class ScheduleService {
         }))
       }))
     };
-    console.log("SCHEDULE FOR UPDATE", scheduleForUpdate);
     this.setSignalScheduleConfigForUpdate(scheduleForUpdate);
     this.signalScheduleConfigResponse.set(schedule);
   }
@@ -65,7 +64,7 @@ export class ScheduleService {
 
   updateSignalScheduleConfigForUpdate(schedule: ScheduleDayConfigForUpdateDto) {
     const scheduleForUpdate: ScheduleConfigForUpdateDto = {
-      id: schedule.id,
+      id: this.signalScheduleConfigForUpdate().id,
       scheduleDays: this.signalScheduleConfigForUpdate().scheduleDays.map(day => day.id === schedule.id ? schedule : day)
     };
     this.signalScheduleConfigForUpdate.set(scheduleForUpdate);
@@ -74,18 +73,6 @@ export class ScheduleService {
   updateScheduleConfigForUpdate(): Observable<ApiResponse<any>> {
     const newUrl = `${this.url}/schedules/update-config`;
     return this.http.patch<ApiResponse<any>>(newUrl, this.signalScheduleConfigForUpdate());
-  }
-
-  returnDayFullFromDate(date: string): string {
-    return DateTime.fromISO(date).toLocaleString(DateTime.DATE_HUGE, { locale: 'es' }).split(',')[0][0].toUpperCase() + DateTime.fromISO(date).toLocaleString(DateTime.DATE_HUGE, { locale: 'es' }).slice(1);
-  }
-
-  returnDayFromDate(date: string): string {
-    return DateTime.fromISO(date).toLocaleString(DateTime.DATE_HUGE, { locale: 'es' }).split(',')[0].toUpperCase();
-  }
-
-  returnDayNumberFromDate(date: string): number {
-    return DateTime.fromISO(date).get('day');
   }
 
 }

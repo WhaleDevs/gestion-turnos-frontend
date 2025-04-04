@@ -1,7 +1,7 @@
 <form [formGroup]="formSaveAppointmen" class="form" (ngSubmit)="onSubmit()">
     <h3>Crear Reserva</h3>
-    <p>Fecha: {{date()}}</p>
-    <p> {{dayConfig?.startTime}} - {{dayConfig?.endTime}}</p>
+    <p>Fecha: {{date()?.date}}</p>
+    <p> {{dayConfig()?.startTime}} - {{dayConfig()?.endTime}}</p>
 
     <div class="form-group">
         <label for="hour">Hora</label>
