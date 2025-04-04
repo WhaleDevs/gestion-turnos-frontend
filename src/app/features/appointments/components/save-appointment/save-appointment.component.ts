@@ -5,6 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroClock, heroPlus, heroUserCircle, heroPhone, heroAtSymbol, heroMapPin, heroIdentification, heroChatBubbleBottomCenterText } from '@ng-icons/heroicons/outline';
 import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
+import { ModalService } from '@app/shared/services/modal.service';
 
 @Component({
   selector: 'app-save-appointment',
@@ -18,6 +19,8 @@ import { ScheduleService } from '@app/features/schedule/services/schedule.servic
 export class SaveAppointmentComponent {
   private appointmentsService = inject(AppointmentsService);
   private scheduleService = inject(ScheduleService);
+  private modalService = inject(ModalService);
+
   date = computed(() => this.appointmentsService.signalDateSelected());
   dayConfig = computed(() => this.scheduleService.signalScheduleConfigResponse().daysConfig.find((day: ScheduleDayConfigResponse) => day.day === this.date()?.dayName) || null);
   hours: string[] = [];
@@ -58,11 +61,11 @@ export class SaveAppointmentComponent {
     endTimeObj.setHours(endHours, endMinutes, 0, 0);
   
     while (currentTime < endTimeObj) {
-      hours.push(currentTime.toTimeString().slice(0, 5)); // HH:MM formato
+      hours.push(currentTime.toTimeString().slice(0, 5)); 
       currentTime.setMinutes(currentTime.getMinutes() + interval);
     }
     if(hoursEnabled.length > 0) {
-      return hours.filter(hour => !hoursEnabled.includes(hour));
+      return hours.filter(hour => !hoursEnabled.includes(hour)).filter(hour => !this.dayConfig()?.rests?.find(rest => rest.startTime === hour));
     }
     return hours;
   }
@@ -73,13 +76,16 @@ export class SaveAppointmentComponent {
     const hourEndSelected = this.hours[hourStartIndex + 1]; 
     this.formSaveAppointmen.patchValue({
       startTime: hourStartSelected,
-      endTime: hourEndSelected
+      endTime: hourEndSelected,
+      date: this.date()?.date.replaceAll('/', '-'),
+      scheduleId: this.scheduleService.signalScheduleConfigResponse().id
     });
     console.log('Formulario', this.formSaveAppointmen.value);
     this.appointmentsService.setAppointmentToCreate(this.formSaveAppointmen.value);
     this.appointmentsService.createAppointment().subscribe({
       next: (response) => {
         console.log('Cita creada', response);
+        this.modalService.close();
       },
       error: (error) => {
         console.error('Error al crear la cita', error);
