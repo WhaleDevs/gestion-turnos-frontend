@@ -1,18 +1,13 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
-import { AppointmentsComponent } from '@app/features/appointments/appointments.component';
-import { AppointmentComponent } from '@app/features/appointments/components/appointment/appointment.component';
-import { Week } from '@app/features/appointments/components/calendar/calendar.component';
-import { SaveAppointmentComponent } from '@app/features/appointments/components/save-appointment/save-appointment.component';
-import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { AppointmentsService } from '@app/features/appointments/services/appointments.service';
-import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
-import { AlertService } from '@app/shared/services/alert.service';
 import { ModalService } from '@app/shared/services/modal.service';
+import { AlertService } from '@app/shared/services/alert.service';
+import { SaveAppointmentComponent } from '@app/features/appointments/components/save-appointment/save-appointment.component';
+import { AppointmentComponent } from '@app/features/appointments/components/appointment/appointment.component';
+import { DateTime } from 'luxon';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroTrash, heroUserPlus } from '@ng-icons/heroicons/outline';
-import { heroTrashSolid } from '@ng-icons/heroicons/solid';
-import { DateTime } from 'luxon'; 
+import { heroTrash } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-today',
@@ -20,7 +15,7 @@ import { DateTime } from 'luxon';
   imports: [NgIcon],
   templateUrl: './today.component.html',
   styleUrls: ['./today.component.scss'],
-  providers: [provideIcons({ heroTrash, heroUserPlus, heroTrashSolid })]
+  providers: [provideIcons({ heroTrash})]
 })
 
 export class TodayComponent {
@@ -28,48 +23,74 @@ export class TodayComponent {
   private scheduleService = inject(ScheduleService);
   private modalService = inject(ModalService);
   private alertService = inject(AlertService);
-  signalAppointmentsForDate = computed<AppointmentResponse[]>(() => this.appointmentsService.signalAppointmentsForDate());
-  isDayActive: boolean = false;
-  hoursEnabled: string[] = [];
+  private scheduleConfig = computed(() => this.scheduleService.signalScheduleConfigForUpdate());
+
+  isDayActive = computed(() => {
+    const config = this.scheduleConfig();
+    if (!config) return false;
+    const dateToday = DateTime.now().setLocale('es').toFormat('EEEE').toUpperCase();
+    return config.scheduleDays.some(day => day.day === dateToday && day.status);
+  });
+  
+
+  hoursEnabled = signal<string[]>([]);
+  signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate());
+
   constructor() {
+
+    effect(()=>{
+      console.table(this.isDayActive());
+    })
+
+    
     effect(() => {
       const dateToday = DateTime.now().toISODate();
-      const scheduleConfig = this.scheduleService.signalScheduleConfigResponse();
-      const idSchedule = scheduleConfig.id;
+      const config = this.scheduleConfig();
+      if (!config) return;
+
+      const idSchedule = config.id;
       this.appointmentsService.getAppointmentsBetweenDates(idSchedule, dateToday, dateToday).subscribe();
-      const selectedDay: Week = {
+
+      const selectedDay = {
         date: dateToday,
         dayNumber: DateTime.fromISO(dateToday).day.toString(),
         dayName: DateTime.fromISO(dateToday).setLocale('es').toFormat('EEEE').toUpperCase(),
-        status: scheduleConfig.daysConfig.find((day: ScheduleDayConfigResponse) =>
-          day.day === DateTime.fromISO(dateToday).setLocale('es').toFormat('EEEE').toUpperCase()
-        )?.status ?? false,
+        status: this.isDayActive()
       };
-      this.isDayActive = selectedDay.status;
-      this.appointmentsService.signalDateSelected.set(selectedDay);
-      this.hoursEnabled = [];
-      this.signalAppointmentsForDate().forEach(appointment => {
-        this.hoursEnabled.push(appointment.startTime);
-      });
-      this.appointmentsService.signalHoursEnabled.set(this.hoursEnabled);
-    });
-  }
 
+      this.appointmentsService.signalDateSelected.set(selectedDay);
+    });
+
+    effect(() => {
+      const newHoursEnabled = this.signalAppointmentsForDate().map(appointment => appointment.startTime);
+      this.hoursEnabled.set(newHoursEnabled);
+      this.appointmentsService.signalHoursEnabled.set(newHoursEnabled);
+    });
+
+  }
   showFormToCreateAppointment() {
     this.modalService.open(SaveAppointmentComponent, { width: '600px' });
   }
-  showMoreDetails(appointment: AppointmentResponse) {
+
+  showMoreDetails(appointment: any) {
     this.appointmentsService.signalAppointmentSelected.set(appointment);
     this.modalService.open(AppointmentComponent);
   }
-  deleteAppointment(appointment: AppointmentResponse) {
+
+  deleteAppointment(appointment: any) {
     this.alertService.showInfo('Función no implementada');
   }
 
-  returnIfPlaceForNewAppointments(){
-    const appointment = this.signalAppointmentsForDate()[0];
-    return appointment.startTime === this.hoursEnabled[0] 
-    && this.scheduleService.signalScheduleConfigResponse().daysConfig.find(day => day.day === appointment.date)?.endTime
-    === this.hoursEnabled[this.hoursEnabled.length - 1];
+  returnIfPlaceForNewAppointments() {
+    const appointments = this.signalAppointmentsForDate();
+    if (appointments.length === 0) return true;
+
+    return (
+      appointments[0].startTime === this.hoursEnabled()[0] &&
+      this.scheduleService.signalScheduleConfigResponse().daysConfig.find(day => day.day === appointments[0].date)?.endTime
+      === this.hoursEnabled()[this.hoursEnabled().length - 1]
+    );
   }
+
+
 }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ScheduleService } from '../../services/schedule.service';
 import { AlertService } from '@app/shared/services/alert.service';
+import { ApiResponse } from '@app/shared/models/api-response';
+import { ScheduleConfigResponse } from '../../models/responses/schedule.response';
 
 @Component({
   selector: 'app-save-schedule',
@@ -44,7 +46,7 @@ export class SaveScheduleComponent {
 
   onSave() {
     this.scheduleService.updateScheduleConfigForUpdate().subscribe({
-      next: () => {
+      next: (response: ApiResponse<ScheduleConfigResponse>) => {
         this.alertService.showSuccess('Schedule updated successfully');
       },
       error: (error: Error) => {
