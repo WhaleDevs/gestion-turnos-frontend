@@ -70,9 +70,14 @@ export class ScheduleService {
     this.signalScheduleConfigForUpdate.set(scheduleForUpdate);
   }
 
-  updateScheduleConfigForUpdate(): Observable<ApiResponse<any>> {
+  updateScheduleConfigForUpdate(): Observable<ApiResponse<ScheduleConfigResponse>> {
     const newUrl = `${this.url}/schedules/update-config`;
-    return this.http.patch<ApiResponse<any>>(newUrl, this.signalScheduleConfigForUpdate());
+    return this.http.patch<ApiResponse<ScheduleConfigResponse>>(newUrl, this.signalScheduleConfigForUpdate()).pipe(
+      tap((response: ApiResponse<ScheduleConfigResponse>) => {
+        this.signalScheduleConfigResponse.set({ ...response.data! });
+      })
+    );
   }
+  
 
 }

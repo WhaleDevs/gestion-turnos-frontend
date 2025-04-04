@@ -110,8 +110,10 @@ export class DayComponent {
       scheduleDayConfigForUpdate.day = this.day()?.day || '';
       scheduleDayConfigForUpdate.id = this.day()?.id || 0;
       this.scheduleService.updateSignalScheduleConfigForUpdate(scheduleDayConfigForUpdate);
+      this.scheduleService.updateScheduleConfigForUpdate().subscribe();
     }
   }
+  
 
   formatTime(time: any): string {
     if (!time) return '';

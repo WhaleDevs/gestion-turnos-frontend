@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ScheduleService } from '../../services/schedule.service';
 import { AlertService } from '@app/shared/services/alert.service';
+import { ApiResponse } from '@app/shared/models/api-response';
+import { ScheduleConfigResponse } from '../../models/responses/schedule.response';
 
 @Component({
   selector: 'app-save-schedule',
@@ -45,10 +47,10 @@ export class SaveScheduleComponent {
   onSave() {
     this.scheduleService.updateScheduleConfigForUpdate().subscribe({
       next: () => {
-        this.alertService.showSuccess('Schedule updated successfully');
+        this.alertService.showSuccess('Agenda guardada correctamente');
       },
       error: (error: Error) => {
-        this.alertService.showError('Error updating schedule: ' + error.message);
+        this.alertService.showError('Error al guardar la agenda: ' + error.message);
       }
     });
   }
