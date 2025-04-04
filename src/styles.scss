@@ -6,6 +6,8 @@
 @use "styles/selects";
 @use "styles/form";
 @use "styles/toggles";
+@use "styles/text";
+@use "styles/modal";
 @use "sass:color";
 @import "@ng-select/ng-select/themes/default.theme.css";
 
@@ -21,5 +23,9 @@ html, body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-size: var(--font-size-l);
 }
 

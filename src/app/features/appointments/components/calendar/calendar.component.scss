@@ -1,34 +1,21 @@
-.calendar-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    gap: 16px;
-    color: white;
+::ng-deep {
+    /* ⬆️ Ajustar el tamaño del calendario */
+    .demo-inline-calendar-card {
+        min-width: 300px !important;
+        min-height: 300px !important;
+        font-size: var(--font-size-m) !important;
+        border-radius: var(--border-radius-m) !important;
+        box-shadow: var(--shadow-elevation-medium) !important;
+        background-color: var(--background-light) !important;
+    }
+    .mat-calendar-body-cell-content,
+    .mat-calendar-header,
+    .mat-calendar-table-header th,
+    .mat-calendar-previous-button,
+    .mat-calendar-next-button,
+    .mat-calendar-body-cell,
+    .mat-calendar-body-label,
+    .mat-calendar-period-button {
+        font-size: var(--font-size-m) !important;
+    }
 }
-
-.demo-inline-calendar-card{
-    width: 300px;
-    min-height: 380px;
-    border-radius: 16px;
-}
-
-::ng-deep .mat-calendar-body-today {
-    border: none !important;
-    outline: none !important; 
-    box-shadow: none !important;
-  }
-  
-
-::ng-deep .mat-calendar-body-selected {
-    background-color: #212121 !important;
-    border: 1px solid #212121 !important;
-    color: white !important;
-}
-
-::ng-deep .mat-calendar-body-today {
-    border: 1px solid #212121 !important;
-  }
-  
-

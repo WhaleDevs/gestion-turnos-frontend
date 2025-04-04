@@ -1,17 +1,31 @@
 .countDay-container {
-  display: grid;
-  grid-template-columns: 2fr 10fr;
-  height: 100%;
-  width: 100%;
-  gap: 16px;
-  padding: 16px;
-  border-radius: 16px;
-  background-color: var(--card);  
-  color: var(--foreground);  
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);    
-  border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "title title"
+        "hour stats";
+    height: 100%;
+    width: 100%;
+    gap: var(--gap-l);
+    padding: var(--padding-l);
+    border-radius: var(--border-radius-m);
+    background-color: var(--background-light);
+    box-shadow: var(--shadow-elevation-medium);
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-areas: "title"
+            "stats";
+        gap: var(--gap-s);
+        .hour {
+            display: none;
+        }
+    }
 }
 
+.title {
+    grid-area: title;
+}
 
 .hour {
     display: flex;
@@ -19,22 +33,29 @@
     align-items: center;
     justify-content: center;
     font-size: 64px;
-    border-radius: 16px;
-    padding: 16px;
+    border-radius: var(--border-radius-m);
+    padding: var(--padding-l);
+    background-color: var(--primary);
+    color: var(--text-light);
+    grid-area: hour;
 }
 
 .stats-container {
+    grid-area: stats;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    padding: 8px;
-    gap: 16px;
-    h2{
+    padding: var(--padding-l);
+    gap: var(--gap-l);
+
+    h2 {
         width: 100%;
         font-size: 16px;
-        font-weight: normal;
-        color: var(--foreground);
+        font-weight: var(--font-weight-normal);
+        box-shadow: var(--shadow-elevation-medium);
+        border-radius: var(--border-radius-m);
+        padding: var(--padding-l);
     }
 }
 
@@ -42,11 +63,14 @@
 .stats {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: var(--gap-l);
     width: 100%;
-    border-radius: 16px;
-    padding: 16px;
-    background-color: var(--muted);
-    color: var(--muted-foreground);
-    justify-content: space-between;
+    border-radius: var(--border-radius-m);
+    color: var(--primary);
+    padding: var(--padding-l);
+    padding-left: var(--padding-xl);
+    @media (max-width: 768px) {
+        padding: var(--padding-s);
+        width: 100%;
+    }
 }

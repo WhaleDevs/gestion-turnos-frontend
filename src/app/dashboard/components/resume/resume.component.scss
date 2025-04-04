@@ -12,6 +12,28 @@
       "today mostPopulateTime mostPopulateTime"
       "countDay countDay countDay";
     gap: 16px;
+    height: 100%;
+    @media (max-width: 1200px) {
+      grid-template-rows: auto;
+      grid-template-columns: auto;
+      grid-template-areas:
+        "today"
+        "countDay"
+        "mostPopulateTime";
+    }
+    @media (max-width: 768px) {
+      .stats-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+    
+      .today, .mostPopulateTime, .countDay {
+        width: 100%;
+        min-width: 280px; /* Evita que se achiquen demasiado */
+      }
+    }
   }
   
   .today {
@@ -29,7 +51,9 @@
   .resume-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 16px;
+    height: 100%;
   }
   
   .dark {
@@ -43,4 +67,5 @@
       color: var(--dark-foreground);
     }
   }
+  
   
