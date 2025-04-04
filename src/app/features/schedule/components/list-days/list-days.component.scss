@@ -1,6 +1,8 @@
 .schedule-container{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   gap: var(--gap-l);
   padding: var(--padding-m);
   box-shadow: var(--shadow-elevation-medium);
