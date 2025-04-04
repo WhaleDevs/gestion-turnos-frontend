@@ -8,11 +8,12 @@ import { AppointmentComponent } from '@app/features/appointments/components/appo
 import { DateTime } from 'luxon';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroTrash } from '@ng-icons/heroicons/outline';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-today',
   standalone: true,
-  imports: [NgIcon],
+  imports: [NgIcon, RouterLink],
   templateUrl: './today.component.html',
   styleUrls: ['./today.component.scss'],
   providers: [provideIcons({ heroTrash})]
