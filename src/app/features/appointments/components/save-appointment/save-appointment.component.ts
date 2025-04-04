@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -24,6 +24,10 @@ export class SaveAppointmentComponent {
   formSaveAppointmen!: FormGroup;
 
   constructor(private fb: FormBuilder) {
+    effect(() => {
+      this.hours = this.generateHours(this.dayConfig()?.startTime ?? '', this.dayConfig()?.endTime ?? '');
+    });
+    
     this.formSaveAppointmen = this.fb.group({
       startTime: ['', Validators.required],
       endTime: [''],
@@ -38,12 +42,7 @@ export class SaveAppointmentComponent {
       })
     });
   }
-
   
-  ngOnInit(): void {
-    this.hours = this.generateHours(this.dayConfig()?.startTime ?? '', this.dayConfig()?.endTime ?? '');
-  }
-
   generateHours(startTime: string, endTime: string): string[] {
     const hoursEnabled = this.appointmentsService.signalHoursEnabled();
     const interval = this.dayConfig()?.slotInterval ?? 60; 
@@ -62,8 +61,10 @@ export class SaveAppointmentComponent {
       hours.push(currentTime.toTimeString().slice(0, 5)); // HH:MM formato
       currentTime.setMinutes(currentTime.getMinutes() + interval);
     }
-  
-    return hours.filter(hour => !hoursEnabled.includes(hour));
+    if(hoursEnabled.length > 0) {
+      return hours.filter(hour => !hoursEnabled.includes(hour));
+    }
+    return hours;
   }
   
   onSubmit(): void {

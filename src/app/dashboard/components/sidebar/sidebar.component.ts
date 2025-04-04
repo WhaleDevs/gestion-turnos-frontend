@@ -6,9 +6,43 @@ import { FooterComponent } from "./components/footer/footer.component";
 @Component({
   selector: 'app-sidebar',
   imports: [UserProfileComponent, NavBarComponent, FooterComponent],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
-})
-export class SidebarComponent {
+  template: `
 
-}
+    <section class="sidebar-container">
+        <app-user-profile class="user-profile"></app-user-profile>
+        <app-nav-bar class="nav-bar"></app-nav-bar>
+        <app-footer class="footer"></app-footer>    
+    </section>
+    
+  `,
+  styles: [`
+
+    .sidebar-container {
+        width: 100%;
+        min-height: 100vh;
+        padding: var(--padding-s);
+        display: grid;
+        grid-template-rows: auto 7fr auto;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "user-profile"
+          "nav-bar"
+          "footer";
+        gap: var(--gap-m);
+    }
+    
+    .user-profile {
+      grid-area: user-profile;
+    }
+    
+    .nav-bar {
+      grid-area: nav-bar;
+    }
+    
+    .footer {
+      grid-area: footer;
+    }
+
+  `]
+})
+export class SidebarComponent { }
