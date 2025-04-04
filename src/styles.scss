@@ -5,6 +5,7 @@
 @use "styles/inputs";
 @use "styles/selects";
 @use "styles/form";
+@use "styles/toggles";
 @use "styles/text";
 @use "styles/modal";
 @use "sass:color";
@@ -27,3 +28,4 @@ html, body {
 body {
   font-size: var(--font-size-l);
 }
+

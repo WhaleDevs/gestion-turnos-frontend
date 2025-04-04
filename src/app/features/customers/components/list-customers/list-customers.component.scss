@@ -5,6 +5,10 @@ section {
   justify-content: center;
   width: 96%;
   margin: 0 auto;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--shadow-elevation-medium);
+  height: 100%;
 }
 
 // Tabla
@@ -16,7 +20,7 @@ section {
   justify-content: center;
   border-radius: var(--border-radius-m);
   /* background-color: var(--primary-light); */
-  box-shadow: var(--shadow-elevation-medium);
+  //box-shadow: var(--shadow-elevation-medium);
 
   .row {
     display: grid;

@@ -35,6 +35,7 @@ import { Alert } from '@app/utils/alert.interface';
       align-items: center;
       gap: 10px;
       animation: slideIn 0.3s ease-in-out;
+      font-size: var(--font-size-l);
       z-index: 2000;
       @media screen and (max-width: 768px) {
         top: 65px;
