@@ -46,11 +46,11 @@ export class SaveScheduleComponent {
 
   onSave() {
     this.scheduleService.updateScheduleConfigForUpdate().subscribe({
-      next: (response: ApiResponse<ScheduleConfigResponse>) => {
-        this.alertService.showSuccess('Schedule updated successfully');
+      next: () => {
+        this.alertService.showSuccess('Agenda guardada correctamente');
       },
       error: (error: Error) => {
-        this.alertService.showError('Error updating schedule: ' + error.message);
+        this.alertService.showError('Error al guardar la agenda: ' + error.message);
       }
     });
   }
