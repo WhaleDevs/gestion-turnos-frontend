@@ -7,6 +7,7 @@ import { NgFor } from '@angular/common';
 import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ScheduleDayRestForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
+import { ScheduleDayConfigResponse, ScheduleDayRestConfigResponse } from '../../models/responses/schedule.response';
 
 @Component({
   selector: 'app-day',
@@ -19,10 +20,9 @@ import { ScheduleDayRestForUpdateDto } from '../../models/requests-dto/scheduleC
 export class DayComponent {
   private scheduleService = inject(ScheduleService);
   private fb = inject(FormBuilder);
-  @Input() day!: Signal<ScheduleDayConfigForUpdateDto>;
-  
+  @Input() day!: Signal<ScheduleDayConfigForUpdateDto | undefined>;
   dayUpdateSignal = computed(() => {
-    return this.scheduleService.signalScheduleUpdate().daysConfig.find(d => d.id === this.day().id)
+    return this.scheduleService.signalScheduleConfigForUpdate().scheduleDays.find(d => d.id === this.day()?.id)
       ?? {} as ScheduleDayConfigForUpdateDto;
   });
 
@@ -76,11 +76,11 @@ export class DayComponent {
         updatedRests.forEach((rest: ScheduleDayRestForUpdateDto) => {
           this.rests.push(this.fb.group({
             id: [rest.id || undefined],
-            startRest: [this.formatTime(rest.startTime), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]],
-            endRest: [this.formatTime(rest.endTime), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]]
+            startRest: [this.formatTime(rest.startRest), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]],
+            endRest: [this.formatTime(rest.endRest), [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/)]]
           }));
         });
-      }
+      } 
     });
   }
   
@@ -100,16 +100,16 @@ export class DayComponent {
 
   onSubmit(): void {
     if (this.scheduleDayConfigForm.valid) {
-      this.scheduleService.updateSchedule().subscribe({
-        next: (data) => console.log(data),
-        error: (error) => console.log(error)
-      });
+      this.scheduleService.updateSignalScheduleConfigForUpdate(this.scheduleDayConfigForm.value);
     }
   }
 
   updateDay(): void {
     if (this.scheduleDayConfigForm.valid) {
-      this.scheduleService.updateSignal(this.scheduleDayConfigForm.value);
+      const scheduleDayConfigForUpdate: ScheduleDayConfigForUpdateDto = this.scheduleDayConfigForm.value;
+      scheduleDayConfigForUpdate.day = this.day()?.day || '';
+      scheduleDayConfigForUpdate.id = this.day()?.id || 0;
+      this.scheduleService.updateSignalScheduleConfigForUpdate(scheduleDayConfigForUpdate);
     }
   }
 

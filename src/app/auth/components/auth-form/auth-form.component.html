@@ -1,6 +1,6 @@
 <div class="component-container">
   <section class="form-container">
-    <h2>{{ title }}</h2>
+    <h2 class="title">{{ title }}</h2>
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
 
       @if (isRegister) {
@@ -47,7 +47,7 @@
       <button class="btn primary full" type="submit">
         {{ buttonText }}
       </button>
-      <p class="link" (click)="changeForm()">{{statusForm}}</p>
+      <a class="link primary" (click)="changeForm()">{{statusForm}}</a>
     </form>
   </section>
 </div>

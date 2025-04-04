@@ -1,8 +1,8 @@
 export interface AppointmentResponse {
     id: number;
-    startTime: String;
-    endTime: String;
-    date: String;
+    startTime: string;
+    endTime: string;
+    date: string;
     status: AppointmentStatus;
     description?: string;
     customer?: CustomerResponse;

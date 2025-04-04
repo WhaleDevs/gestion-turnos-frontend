@@ -1,3 +1,5 @@
+import { CustomerForCreationDto } from "@app/features/customers/models/customerForCreationDto.dto";
+
 export interface AppointmentForCreationDto {
     startTime: string;
     endTime: string;
@@ -7,12 +9,6 @@ export interface AppointmentForCreationDto {
     customer: CustomerForCreationDto;
   }
 
-  export interface CustomerForCreationDto {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    email?: string;
-  }
   
   export const INIT_APPOINTMENT_FOR_CREATE_DTO: AppointmentForCreationDto = {
     startTime: '',

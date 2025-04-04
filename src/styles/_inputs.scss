@@ -52,18 +52,23 @@
     align-items: center;
     justify-content: start;
     gap: 10px;
+    border: 1px solid rgb(185, 185, 185);
+    padding: 5px 10px;
+
     .icon {
       width: 24px;
       height: 24px;
       flex-shrink: 0;
     }
     
-    input {
+    input, select {
       border: none;
       box-shadow: none;
-    } 
+      background-color: transparent;
+      outline: none; 
+    }
 
-    &:hover {
+    &:focus-within {
       border-color: var(--primary);
     }
   }
