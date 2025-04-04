@@ -102,5 +102,13 @@
       background-color: var(--info-dark);
     }
   }
+
+  &:disabled{
+    background-color: var(--background-muted);
+    cursor: not-allowed;
+    &:hover{
+      background-color: var(--background-muted);
+    }
+  }
 }
 
