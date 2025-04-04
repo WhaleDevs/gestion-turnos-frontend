@@ -37,7 +37,7 @@ export class CalendarComponent {
     });
     
     effect(() => {
-      if (!this.scheduleService.isLoading() && this.appointmentsService.signalDayStatusFalse().length > 0) {
+      if (!this.scheduleService.isLoading() && this.appointmentsService.signalDayStatusFalse().length >= 0) {
         this.isLoading.set(false);
         this.initializeDate();
       }
@@ -53,9 +53,6 @@ export class CalendarComponent {
 
   private initializeDate() {
     let currentDate = DateTime.now().setLocale('es');
-    while (this.appointmentsService.signalDayStatusFalse().includes(currentDate.weekdayLong?.toLocaleUpperCase() ?? '')) {
-      currentDate = currentDate.plus({ days: 1 });
-    }
     this.dateSelected.set(currentDate.toJSDate());
   }
 
