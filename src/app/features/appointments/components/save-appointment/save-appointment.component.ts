@@ -6,6 +6,7 @@ import { heroClock, heroPlus, heroUserCircle, heroPhone, heroAtSymbol, heroMapPi
 import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { ModalService } from '@app/shared/services/modal.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-save-appointment',
@@ -71,20 +72,30 @@ export class SaveAppointmentComponent {
   }
   
   onSubmit(): void {
-    const hourStartIndex = Number(this.formSaveAppointmen.get('startTime')?.value);
-    const hourStartSelected = this.hours[hourStartIndex];
-    const hourEndSelected = this.hours[hourStartIndex + 1]; 
-    this.formSaveAppointmen.patchValue({
+    let hourStartIndex = Number(this.formSaveAppointmen.get('startTime')?.value);
+    let hourStartSelected = this.hours[hourStartIndex];
+    let hourEndSelected = this.hours[hourStartIndex + 1] ;
+    const interval = this.dayConfig()?.slotInterval ?? 60;
+    const [startHours, startMinutes] = hourStartSelected.split(':').map(Number);
+    const [endHours, endMinutes] = hourEndSelected.split(':').map(Number);
+    const minutesDifference = (endHours - startHours) * 60 + (endMinutes - startMinutes);
+    if (minutesDifference !== interval) {
+      hourEndSelected = DateTime.fromObject({ hour: startHours, minute: startMinutes }).plus({ hours: 1 }).toFormat('HH:mm');
+    }
+    const appointmentPayload = {
+      ...this.formSaveAppointmen.value,
       startTime: hourStartSelected,
       endTime: hourEndSelected,
       date: this.date()?.date.replaceAll('/', '-'),
       scheduleId: this.scheduleService.signalScheduleConfigResponse().id
-    });
-    console.log('Formulario', this.formSaveAppointmen.value);
-    this.appointmentsService.setAppointmentToCreate(this.formSaveAppointmen.value);
+    };
+  
+    this.appointmentsService.setAppointmentToCreate(appointmentPayload);
     this.appointmentsService.createAppointment().subscribe({
       next: (response) => {
         console.log('Cita creada', response);
+        this.appointmentsService.setAppointments([...this.appointmentsService.signalAppointments(), response.data!]);
+        this.appointmentsService.signalAppointmentsForDate.set([...this.appointmentsService.signalAppointmentsForDate(), response.data!]);
         this.modalService.close();
       },
       error: (error) => {
@@ -92,7 +103,5 @@ export class SaveAppointmentComponent {
       }
     });
   }
-  
-
 
 }

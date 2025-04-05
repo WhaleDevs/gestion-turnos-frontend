@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, linkedSignal, signal, WritableSignal } from '@angular/core';
 import { environment } from '@envs/environment';
 import { HttpClient } from '@angular/common/http';
 import { AppointmentForCreationDto, INIT_APPOINTMENT_FOR_CREATE_DTO } from '../models/requests-dto/appointmentsForCreate.dto';
@@ -26,7 +26,7 @@ export class AppointmentsService {
   signalHoursEnabled = signal<String[]>([]);
   signalAppointmentToCreate = signal<AppointmentForCreationDto>(INIT_APPOINTMENT_FOR_CREATE_DTO);
   signalAppointments = signal<AppointmentResponse[]>([]);
-  signalAppointmentsForDate = computed(() => 
+  signalAppointmentsForDate = linkedSignal(() => 
     this.signalAppointments().filter(appointment => appointment.date === this.signalDateSelected()?.date.replaceAll('/', '-')));
   signalAppointmentSelected = signal<AppointmentResponse | null>(null);
   constructor() { }
@@ -55,8 +55,8 @@ export class AppointmentsService {
     this.signalAppointments.set(appointments);
   }
 
-  createAppointment(): Observable<AppointmentResponse> {
-    return this.http.post<AppointmentResponse>(this.url, this.signalAppointmentToCreate());
+  createAppointment(): Observable<ApiResponse<AppointmentResponse>> {
+    return this.http.post<ApiResponse<AppointmentResponse>>(this.url, this.signalAppointmentToCreate());
   }
 
   setHoursEnabled(hours: String[]) {
