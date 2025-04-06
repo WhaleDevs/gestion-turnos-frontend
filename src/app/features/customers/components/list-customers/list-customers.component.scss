@@ -26,6 +26,26 @@ section {
   justify-content: center;
   border-radius: var(--border-radius-m);
 
+  .row-header{
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 2fr;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: var(--padding-l);
+    border-bottom: 1px solid var(--primary);
+    background-color: var(--background-light);
+    border-top-left-radius: var(--border-radius-m);
+    border-top-right-radius: var(--border-radius-m);
+  }
+
+  .cell-header {
+    padding: var(--padding-s);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+  }
+
   .row {
     display: grid;
     grid-template-columns: 2fr 3fr 2fr 2fr;
@@ -35,17 +55,20 @@ section {
     width: 100%;
     padding: var(--padding-l);
     border-bottom: 1px solid var(--primary);
+
+    &:nth-child(even) {
+      background-color: var(--background-light); 
+    }
+
+    &:nth-child(odd) {
+      background-color: white; 
+    }
   }
 
   .cell {
     padding: var(--padding-s);
     font-size: var(--font-size-m);
     text-align: left;
-  }
-
-  .header{
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-medium);
   }
 
   .btn-cell{
