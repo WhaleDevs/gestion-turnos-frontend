@@ -1,6 +1,6 @@
 <section>
   <form [formGroup]="searchCustomerForm" (ngSubmit)="search()">
-    <button type="button" class="btn large success" (click)="createCustomer()"><ng-icon class="icon icon-medium" name="heroPlusCircle" /><p>Agregar</p></button>
+    <button type="button" class="btn large success add-btn" (click)="createCustomer()"><ng-icon class="icon icon-medium" name="heroPlusCircle" /><p>Agregar</p></button>
     
     <div class="input container">
       <ng-icon class="icon icon-medium" name="heroMagnifyingGlass" />
@@ -17,15 +17,3 @@
   </form>
 </section>
 
-<!-- <div class="form-group">
-  <div class="input container">
-    <ng-icon class="icon icon-medium" name="heroUserCircle" />
-    <input 
-        id="query" 
-        type="text" 
-        formControlName="query" 
-        placeholder="Introduce nombre, apellido, email o teléfono"
-        class="input large"
-      />
-  </div>
-</div> -->
