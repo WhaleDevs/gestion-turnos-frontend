@@ -12,4 +12,10 @@
     font-size: var(--font-size-m);
     font-weight: var(--font-weight-normal);
     color: var(--text-dark);
+    .secondary {
+        color: var(--secondary);
+    }
+    .primary {
+        color: var(--primary);
+    }
 }

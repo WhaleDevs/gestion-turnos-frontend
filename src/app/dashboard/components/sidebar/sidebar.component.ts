@@ -28,7 +28,7 @@ import { FooterComponent } from "./components/footer/footer.component";
           "user-profile"
           "nav-bar"
           "footer";
-        gap: var(--gap-m);
+        gap: var(--gap-l);
     }
     
     .user-profile {

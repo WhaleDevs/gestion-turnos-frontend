@@ -45,7 +45,11 @@ export class TodayComponent {
   
 
   hoursEnabled = signal<string[]>([]);
-  signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate());
+  signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate().sort((a, b) => {
+    const timeA = DateTime.fromISO(a.startTime);
+    const timeB = DateTime.fromISO(b.startTime);
+    return timeA.toMillis() - timeB.toMillis();
+  }));
 
   constructor() {
 

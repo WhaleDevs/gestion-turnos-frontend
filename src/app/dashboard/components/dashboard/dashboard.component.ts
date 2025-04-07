@@ -16,11 +16,7 @@ import { AlertService } from '@app/shared/services/alert.service';
     .dashboard {
     width: 100%;
     height: 100%;
-    border-radius: 16px;
-    padding: 16px;
-    border: 1px solid var(--border);
-    background-color: var(--background);
-    
+    padding: var(--padding-m);
 }`],
   standalone: true
 })

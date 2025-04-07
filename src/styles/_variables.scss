@@ -1,14 +1,22 @@
+@use "sass:color";
+
+$primary-color: #002C34;
+$secondary-color: #EEEBD3;
+$success-color: #3A8A49;
+$warning-color: #B77A11;
+$error-color: #F44366;
+$info-color: #17a2b8;
+
 :root {
   /* 🎨 1. Colores principales */
-  --primary: #007bff;
-  --primary-dark: #0056b3;
-  --primary-light: #66b2ff;
+  --primary: #{color.adjust($primary-color, $lightness: 0%)};
+  --primary-dark: #{color.adjust($primary-color, $lightness: -10%)};
+  --primary-light: #{color.adjust($primary-color, $lightness: 10%)};
 
   /* 🎨 2. Colores secundarios */
-  --secondary: #6c757d;
-  --secondary-hover: #495057; 
-  --secondary-light: #adb5bd;
-  --secondary-dark: #495057;
+  --secondary: #{color.adjust($secondary-color, $lightness: 0%)};
+  --secondary-light: #{color.adjust($secondary-color, $lightness: 10%)};
+  --secondary-dark: #{color.adjust($secondary-color, $lightness: -10%)};
 
   /* 🎨 3. Colores de fondo */
   --background-light: #f8f9fa;
@@ -21,15 +29,17 @@
   --text-muted: #6c757d;
 
   /* 🎨 5. Colores de estado (feedback) */
-  --success: #28a745;
-  --success-dark: #218838;
-  --error: #dc3545;
-  --error-dark: #c82333;   
-  --warning: #ffc107;
-  --warning-dark: #e0a800; 
-  --info: #17a2b8;
-  --info-dark: #138496;
+  --success: #{color.adjust($success-color, $lightness: 0%)};
+  --success-hover: #{color.adjust($success-color, $lightness: -10%)};
 
+  --error: #{color.adjust($error-color, $lightness: 0%)};
+  --error-hover: #{color.adjust($error-color, $lightness: -10%)};
+
+  --warning: #{color.adjust($warning-color, $lightness: 0%)};
+  --warning-hover: #{color.adjust($warning-color, $lightness: -10%)};
+
+  --info: #{color.adjust($info-color, $lightness: 0%)};
+  --info-hover: #{color.adjust($info-color, $lightness: -10%)};
   /* 🎨 6. Colores de borde y líneas */
   --border-light: #dee2e6;
   --border-dark: #495057;
@@ -91,5 +101,24 @@
     0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.27),
     7.5px 7.1px 11.6px -1.2px hsl(var(--shadow-color) / 0.27),
     33px 31.4px 51.2px -2.5px hsl(var(--shadow-color) / 0.27);
+
+  --brigthness-xl: 100%;
+  --brigthness-l: 80%;
+  --brigthness-m: 60%;
+  --brigthness-s: 40%;
+  --brigthness-xs: 20%;
+  --brigthness-xxs: 10%;
+  --contrast: 0%;
+  --saturation: 100%;
+
+  //modificando el color con el brillo
+  --primary-color-100:
+  --primary-color-200: var(--brigthness-m) var(--saturation) var(--contrast) #002C34;
+  --primary-color-300: var(--brigthness-s) var(--saturation) var(--contrast) #002C34;
+  --primary-color-400: var(--brigthness-xs) var(--saturation) var(--contrast) #002C34;
+  --primary-color-500: var(--brigthness-xxs) var(--saturation) var(--contrast) #002C34;
+
+  
+
 
 }
