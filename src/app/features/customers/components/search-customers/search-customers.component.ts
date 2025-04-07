@@ -36,9 +36,7 @@ export class SearchCustomersComponent {
   search() {
     if (this.searchCustomerForm.valid) {
       const query = this.searchCustomerForm.get('query')?.value;
-      this._customerService.searchCustomers(query).subscribe({
-        /**Mostrar Errores uwu */
-      });
+      this._customerService.searchCustomers(query).subscribe({});
     }
   }
 

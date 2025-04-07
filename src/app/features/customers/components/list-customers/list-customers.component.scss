@@ -9,6 +9,12 @@ section {
   border-radius: var(--border-radius-m);
   box-shadow: var(--shadow-elevation-medium);
   height: 100%;
+  
+  @media (max-width: 768px) {
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: none;
+    box-shadow: none;
+  }
 }
 
 // Tabla
@@ -19,29 +25,50 @@ section {
   align-items: center;
   justify-content: center;
   border-radius: var(--border-radius-m);
-  /* background-color: var(--primary-light); */
-  //box-shadow: var(--shadow-elevation-medium);
 
-  .row {
+  .row-header{
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr 3fr;
+    grid-template-columns: 2fr 3fr 2fr 2fr;
     align-items: center;
     justify-content: center;
     gap: 8px;
     width: 100%;
     padding: var(--padding-l);
-    border-bottom: 1px solid var(--primary-light);
+    border-bottom: 1px solid var(--primary);
+    background-color: var(--background-light);
+    border-top-left-radius: var(--border-radius-m);
+    border-top-right-radius: var(--border-radius-m);
+  }
+
+  .cell-header {
+    padding: var(--padding-s);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 2fr;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: var(--padding-l);
+    border-bottom: 1px solid var(--primary);
+
+    &:nth-child(even) {
+      background-color: var(--background-light); 
+    }
+
+    &:nth-child(odd) {
+      background-color: white; 
+    }
   }
 
   .cell {
     padding: var(--padding-s);
     font-size: var(--font-size-m);
     text-align: left;
-  }
-
-  .header{
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-medium);
   }
 
   .btn-cell{
@@ -58,4 +85,37 @@ section {
     overflow-y: auto;
     width: 100%;
   }
+}
+
+//cards
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-l);
+  min-height: 100%;
+  width: 100%;
+
+  @media screen and (max-width: 576px) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--gap-l);
+  }
+}
+
+.card {
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: var(--border-radius-m);
+  background-color: var(--background-light);
+}
+
+.card-actions{
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+  width: 100%;
+  margin-top: var(--margin-m);
+  gap: var(--gap-m);
 }
