@@ -46,7 +46,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--gap-xs);
 }
 
 .breaks-header {
@@ -57,14 +57,7 @@
   width: 100%;
   box-sizing: border-box;
   flex-wrap: wrap;
-  gap: 16px;
-}
-
-.breaks-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--foreground);
+  gap: var(--gap-s);
 }
 
 .breaks-list {

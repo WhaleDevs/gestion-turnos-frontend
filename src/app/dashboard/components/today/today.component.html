@@ -1,22 +1,38 @@
 <section class="today-container">
-    <h2 class="title">Turnos de hoy</h2>
+    <div class="title-container">
+        <h2 class="title">Turnos de hoy</h2>
+    @if (totalPages() > 1 && isDayActive()) {
+        <div class="pagination-controls">
+            <button class="pagination-controls-btn" (click)="prevPage()">
+                <ng-icon class="icon icon-small" name="heroChevronLeft"></ng-icon>
+            </button>
+            <span>{{ currentPage() + 1 }} de {{ totalPages() }}</span>
+            <button class="pagination-controls-btn" (click)="nextPage()">
+                <ng-icon class="icon icon-small" name="heroChevronRight"></ng-icon>
+            </button>
+        </div>
+    }
+    </div>
     @if (!isDayActive()) {
-    <a class="link primary" routerLink="/dashboard/agenda">Dia no habil, cambia la configuración de tu agenda para visualizar los turnos
+    <a class="link primary" routerLink="/dashboard/agenda">Dia no habil, cambia la configuración de tu agenda para
+        visualizar los turnos
         disponibles</a>
     }@else {
-        @for(appointment of signalAppointmentsForDate(); track $index) {
-            <article class="item-container">
-                <div class="item-info" (click)="showMoreDetails(appointment)">
-                    <p>{{appointment.startTime}}</p>
-                    <span>|</span>
-                    <p>{{appointment.customer?.firstName}}, {{appointment.customer?.lastName}}</p>
-                </div>
-                <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteAppointment(appointment)"></ng-icon>
-            </article>
-        }@empty {
-            <p>No hay turnos para el dia de hoy.</p>
-        }@if (!returnIfPlaceForNewAppointments()) {
-            <button class="btn small secondary" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
-        }
+    @for (appointment of paginatedAppointments(); track $index) {
+    <article class="item-container">
+        <div class="item-info" (click)="showMoreDetails(appointment)">
+            <p>{{ appointment.startTime }}</p>
+            <span>|</span>
+            <p>{{ appointment.customer?.firstName }}, {{ appointment.customer?.lastName }}</p>
+        </div>
+        <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteAppointment(appointment)"></ng-icon>
+    </article>
     }
-</section>
+    @empty {
+    <p>No hay turnos para el dia de hoy.</p>
+    <button class="btn small secondary" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
+    }@if (!returnIfPlaceForNewAppointments()) {
+    <button class="btn small secondary" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
+    }
+    }   
+    </section>

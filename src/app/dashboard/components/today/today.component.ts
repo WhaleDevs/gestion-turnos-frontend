@@ -7,7 +7,7 @@ import { SaveAppointmentComponent } from '@app/features/appointments/components/
 import { AppointmentComponent } from '@app/features/appointments/components/appointment/appointment.component';
 import { DateTime } from 'luxon';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroTrash } from '@ng-icons/heroicons/outline';
+import { heroChevronLeft, heroChevronRight, heroTrash } from '@ng-icons/heroicons/outline';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
   imports: [NgIcon, RouterLink],
   templateUrl: './today.component.html',
   styleUrls: ['./today.component.scss'],
-  providers: [provideIcons({ heroTrash})]
+  providers: [provideIcons({ heroTrash,heroChevronLeft, heroChevronRight})]
 })
 
 export class TodayComponent {
@@ -25,7 +25,17 @@ export class TodayComponent {
   private modalService = inject(ModalService);
   private alertService = inject(AlertService);
   private scheduleConfig = computed(() => this.scheduleService.signalScheduleConfigForUpdate());
-
+  totalPages = computed(() => {
+    return Math.ceil(this.signalAppointmentsForDate().length / this.pageSize);
+  });
+  paginatedAppointments = computed(() => {
+    const allAppointments = this.signalAppointmentsForDate();
+    const start = this.currentPage() * this.pageSize;
+    const end = start + this.pageSize;
+    return allAppointments.slice(start, end);
+  });  
+  currentPage = signal(0);
+  pageSize = 5;
   isDayActive = computed(() => {
     const config = this.scheduleConfig();
     if (!config) return false;
@@ -35,7 +45,11 @@ export class TodayComponent {
   
 
   hoursEnabled = signal<string[]>([]);
-  signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate());
+  signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate().sort((a, b) => {
+    const timeA = DateTime.fromISO(a.startTime);
+    const timeB = DateTime.fromISO(b.startTime);
+    return timeA.toMillis() - timeB.toMillis();
+  }));
 
   constructor() {
 
@@ -93,5 +107,17 @@ export class TodayComponent {
     );
   }
 
+  nextPage() {
+    if (this.currentPage() < this.totalPages() - 1) {
+      this.currentPage.update(p => p + 1);
+    }
+  }
+  
+  prevPage() {
+    if (this.currentPage() > 0) {
+      this.currentPage.update(p => p - 1);
+    }
+  }
+  
 
 }

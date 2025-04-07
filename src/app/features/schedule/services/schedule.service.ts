@@ -6,6 +6,7 @@ import { ApiResponse } from '@app/shared/models/api-response';
 import { INITAL_SCHEDULE_CONFIG_RESPONSE, ScheduleConfigResponse, ScheduleResponse } from '../models/responses/schedule.response';
 import { INITAL_SCHEDULE_CONFIG_FOR_UPDATE, ScheduleConfigForUpdateDto, ScheduleDayConfigForUpdateDto } from '../models/requests-dto/scheduleConfigForUpdate.dto';
 import { DateTime } from 'luxon';
+import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,7 @@ export class ScheduleService {
   }
 
   setSignalScheduleConfigResponse(schedule: ScheduleConfigResponse) {
+    console.log(schedule);
     const scheduleForUpdate: ScheduleConfigForUpdateDto = {
       id: schedule.id,
       scheduleDays: schedule.daysConfig.map(day => ({
@@ -78,6 +80,10 @@ export class ScheduleService {
       })
     );
   }
-  
+
+  getMostDemandedAppointments(months:string,email: string): Observable<ApiResponse<any[]>> {
+    const newUrl = `${this.url}/schedules/stats/${email}?months=${months}`;
+    return this.http.get<ApiResponse<any[]>>(newUrl);
+  }
 
 }

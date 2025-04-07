@@ -8,6 +8,10 @@
         <div class="input container">
             <ng-icon class="icon icon-small" name="heroClock" />
                 <select class="select large light" formControlName="startTime" id="hour">
+                    <option value="" disabled>Selecciona una hora</option>
+                    @if(hours.length === 0) {
+                        <option value="">No hay horas disponibles</option>
+                    }
                     @for (hour of hours; track $index) {
                     <option [value]="$index">{{ hour }}</option>
                     }
