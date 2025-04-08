@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroAtSymbol, heroUserCircle } from '@ng-icons/heroicons/outline';
+import { heroAtSymbol, heroChevronDown, heroChevronUp, heroUserCircle } from '@ng-icons/heroicons/outline';
 import { ConfigService } from '../../services/config.service';
 import { UpdateProfileDto } from '../../models/updateProfileDto.dto';
 import { FormErrorComponent } from '../../../../shared/components/form-error/form-error.component';
@@ -15,7 +15,7 @@ import { FormErrorComponent } from '../../../../shared/components/form-error/for
 @Component({
   selector: 'app-update-profile',
   imports: [ReactiveFormsModule, CommonModule, NgIcon, FormErrorComponent],
-  providers: [provideIcons({ heroUserCircle, heroAtSymbol })],
+  providers: [provideIcons({ heroUserCircle, heroAtSymbol, heroChevronDown, heroChevronUp })],
   templateUrl: './update-profile.component.html',
   styleUrl: './update-profile.component.scss',
 })

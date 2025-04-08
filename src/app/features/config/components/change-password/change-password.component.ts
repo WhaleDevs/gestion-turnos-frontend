@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { heroEye, heroEyeSlash, heroLockClosed } from '@ng-icons/heroicons/outline';
+import { heroChevronDown, heroChevronUp, heroEye, heroEyeSlash, heroLockClosed } from '@ng-icons/heroicons/outline';
 import { ConfigService } from '../../services/config.service';
 import { ChangePasswordDto } from '../../models/changePasswordDto.dto';
 import { StatusButton } from '@app/utils/types';
@@ -11,7 +11,7 @@ import { FormErrorComponent } from "../../../../shared/components/form-error/for
 @Component({
   selector: 'app-change-password',
   imports: [ReactiveFormsModule, CommonModule, NgIcon, FormErrorComponent],
-  providers: [provideIcons({ heroEyeSlash, heroEye, heroLockClosed})],
+  providers: [provideIcons({ heroEyeSlash, heroEye, heroLockClosed, heroChevronDown, heroChevronUp})],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
 })
@@ -21,17 +21,22 @@ export class ChangePasswordComponent {
   protected statusButtonOne: StatusButton = 'hidePassword';
   protected statusButtonTwo: StatusButton = 'hidePassword';
   protected statusButtonThree: StatusButton = 'hidePassword';
-  isFormEnabled = true; 
+  isAccordionOpen = false;
+  isFormEnabled = true;
 
   form: FormGroup = this.fb.group({
-    oldPassword: [{ value: '', disabled: true }, [Validators.required]],
-    newPassword: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
-    newPasswordRepeat: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
+    oldPassword: ['', [Validators.required]],
+    newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
+    newPasswordRepeat: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
   })
 
   constructor(){}
 
-  toggleForm(){
+  toggleAccordion() {
+    this.isAccordionOpen = !this.isAccordionOpen;
+  }
+
+  /* toggleForm(){
     Object.keys(this.form.controls).forEach(key => {
       const control = this.form.get(key);
       if (control) {
@@ -44,7 +49,7 @@ export class ChangePasswordComponent {
         }
       }
     });
-  }
+  } */
   changePassword(){
     if(this.form.valid){
       if(this.form.value.newPassword !== this.form.value.newPasswordRepeat){
