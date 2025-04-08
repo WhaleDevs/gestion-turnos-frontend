@@ -22,29 +22,22 @@ import { FormErrorComponent } from '../../../../shared/components/form-error/for
 export class UpdateProfileComponent {
   private _config = inject(ConfigService);
   private fb = inject(FormBuilder);
-  isFormEnabled:boolean = true;
+  isAccordionOpen = false;
+  isFormEnabled = true;
+
+
   form: FormGroup = this.fb.group({
-    firstName: [{ value: '', disabled: true }, [Validators.minLength(2), Validators.maxLength(30)]],
-    lastName: [{ value: '', disabled: true }, [Validators.minLength(2), Validators.maxLength(30)]],
-    email: [{ value: '', disabled: true }, [Validators.email]],
+    firstName: ['', [Validators.minLength(2), Validators.maxLength(30)]],
+    lastName: ['', [Validators.minLength(2), Validators.maxLength(30)]],
+    email: ['', [Validators.email]],
   });
   
 
   constructor(){}
 
-  toggleForm(){
-    Object.keys(this.form.controls).forEach(key => {
-      const control = this.form.get(key);
-      if (control) {
-        if (control.disabled) {
-          control.enable();
-          this.isFormEnabled=!this.isFormEnabled;
-        } else {
-          control.disable();
-          this.isFormEnabled=!this.isFormEnabled;
-        }
-      }
-    });
+
+  toggleAccordion() {
+    this.isAccordionOpen = !this.isAccordionOpen;
   }
 
   updateProfile() {
