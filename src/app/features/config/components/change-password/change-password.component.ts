@@ -36,20 +36,6 @@ export class ChangePasswordComponent {
     this.isAccordionOpen = !this.isAccordionOpen;
   }
 
-  /* toggleForm(){
-    Object.keys(this.form.controls).forEach(key => {
-      const control = this.form.get(key);
-      if (control) {
-        if (control.disabled) {
-          control.enable();
-          this.isFormEnabled=!this.isFormEnabled;
-        } else {
-          control.disable();
-          this.isFormEnabled=!this.isFormEnabled;
-        }
-      }
-    });
-  } */
   changePassword(){
     if(this.form.valid){
       if(this.form.value.newPassword !== this.form.value.newPasswordRepeat){
@@ -64,7 +50,6 @@ export class ChangePasswordComponent {
 
       this._config.changePassword(request).subscribe({
         next: () => alert('Nueva contraseña perfecta padre'),
-        /* manejo de errores */
       })
     }
   }

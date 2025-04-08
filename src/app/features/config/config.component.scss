@@ -1,5 +1,30 @@
 section{
   display: flex;
   flex-direction: column;
-  gap: var(--gap-xl)
+  gap: var(--gap-xl);
+  width: 50%;
+  
+
+  @media (max-width: 1360px) {
+    width: 75%;
+  }
+
+  @media (max-width: 1270px) {
+    width: 100%;
+  }
+}
+
+.title-container{
+  display: flex;
+  box-shadow: var(--shadow-elevation-medium);
+  background-color: var(--background-light);
+  border-radius: var(--border-radius-m);
+  padding: var(--padding-l);
+  border: 1px solid #ccc;
+
+  h1{
+    font-size: var(--font-size-h1);
+    color: var(--primary);
+    font-weight: var(--font-weight-medium);
+  }
 }

@@ -2,7 +2,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
-  width: 50%;
+  width: 100%;
   box-shadow: var(--shadow-elevation-medium);
   background-color: var(--background-light);
 
@@ -26,11 +26,4 @@
     background-color: var(--background-light);
   }
 
-  @media (max-width: 1360px) {
-    width: 75%;
-  }
-
-  @media (max-width: 1270px) {
-    width: 100%;
-  }
 }
