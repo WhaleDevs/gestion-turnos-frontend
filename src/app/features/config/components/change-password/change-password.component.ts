@@ -7,6 +7,7 @@ import { ChangePasswordDto } from '../../models/changePasswordDto.dto';
 import { StatusButton } from '@app/utils/types';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { FormErrorComponent } from "../../../../shared/components/form-error/form-error.component";
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-change-password',
@@ -18,6 +19,7 @@ import { FormErrorComponent } from "../../../../shared/components/form-error/for
 export class ChangePasswordComponent {
   private _config = inject(ConfigService);
   private fb = inject(FormBuilder);
+  private _alertService = inject(AlertService);
   protected statusButtonOne: StatusButton = 'hidePassword';
   protected statusButtonTwo: StatusButton = 'hidePassword';
   protected statusButtonThree: StatusButton = 'hidePassword';
@@ -49,7 +51,7 @@ export class ChangePasswordComponent {
       }
 
       this._config.changePassword(request).subscribe({
-        next: () => alert('Nueva contraseña perfecta padre'),
+        next: () => this._alertService.showSuccess('Contraseña cambiada!'),
       })
     }
   }

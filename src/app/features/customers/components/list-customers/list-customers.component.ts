@@ -8,6 +8,7 @@ import { ModalService } from '@app/shared/services/modal.service';
 import { UpdateCustomerComponent } from '../update-customer/update-customer.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-list-customers',
@@ -18,10 +19,11 @@ import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/co
   styleUrl: './list-customers.component.scss',
 })
 export class ListCustomersComponent {
-  private modalService = inject(ModalService)
+  private _modalService = inject(ModalService);
   private _customerService = inject(CustomersService);
-  customers: CustomerResponse[] = [];
   private breakpointObserver = inject(BreakpointObserver);
+  private _alertService = inject(AlertService);
+  customers: CustomerResponse[] = [];
 
   isMobile = signal(false);
 
@@ -45,15 +47,17 @@ export class ListCustomersComponent {
 
   deleteCustomer(id: number) {
     console.log(id);
-    this.modalService
+    this._modalService
     .openWithResult(ConfirmDialogComponent, {}, {
       message: '¿Estás seguro de que querés eliminar este cliente?'
     })
     .subscribe((confirmed: boolean) => {
       console.log(confirmed);
       if (confirmed) {
-        this._customerService.deleteCustomerById(id).subscribe(() => {
-          // Mostrar alerta de éxito
+        this._customerService.deleteCustomerById(id).subscribe({
+          next: () => {
+            this._alertService.showSuccess('Cliente eliminado');
+          }
         });
       }
     });
@@ -61,7 +65,7 @@ export class ListCustomersComponent {
 
   updateCustomer(customer: CustomerResponse) {
     this._customerService.customerForUpdate.next(customer);
-    this.modalService.open(UpdateCustomerComponent);
+    this._modalService.open(UpdateCustomerComponent);
   }
 
 }

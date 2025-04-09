@@ -11,6 +11,7 @@ import { heroAtSymbol, heroChevronDown, heroChevronUp, heroUserCircle } from '@n
 import { ConfigService } from '../../services/config.service';
 import { UpdateProfileDto } from '../../models/updateProfileDto.dto';
 import { FormErrorComponent } from '../../../../shared/components/form-error/form-error.component';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-update-profile',
@@ -21,6 +22,7 @@ import { FormErrorComponent } from '../../../../shared/components/form-error/for
 })
 export class UpdateProfileComponent {
   private _config = inject(ConfigService);
+  private _alertService = inject(AlertService);
   private fb = inject(FormBuilder);
   isAccordionOpen = false;
   isFormEnabled = true;
@@ -56,7 +58,7 @@ export class UpdateProfileComponent {
 
       this._config.updateProfile(request).subscribe({
         next: () => {
-          console.log('datos updateados');
+          this._alertService.showSuccess('Datos actualizados!');
         },
       });
     }

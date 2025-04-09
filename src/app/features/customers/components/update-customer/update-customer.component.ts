@@ -6,6 +6,7 @@ import { CustomerForUpdateDto } from '../../models/customerForUpdateDto.dto';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/outline';
 import { ModalService } from '@app/shared/services/modal.service';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-update-customer',
@@ -17,6 +18,7 @@ import { ModalService } from '@app/shared/services/modal.service';
 export class UpdateCustomerComponent {
   private _customerService = inject(CustomersService);
   private modalService = inject(ModalService);
+  private _alertService = inject(AlertService);
   private fb = inject(FormBuilder);
   customerForm: FormGroup = this.fb.group({
     id:0,
@@ -46,7 +48,7 @@ export class UpdateCustomerComponent {
       console.log('Customer DTO:', customerDto);
       this._customerService.updateCustomer(customerDto).subscribe({
         next: (response) => {
-          console.log('Cliente creado:', response),
+          this._alertService.showSuccess('Cliente modificado!')
           this.modalService.close();
         },
         error: (error) => console.error('Error al crear cliente:', error),

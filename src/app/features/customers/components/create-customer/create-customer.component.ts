@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/outline';
 import { ModalService } from '@app/shared/services/modal.service';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-create-customer',
@@ -22,6 +23,7 @@ import { ModalService } from '@app/shared/services/modal.service';
 })
 export class CreateCustomerComponent {
   private _customerService = inject(CustomersService);
+  private _alertService = inject(AlertService);
   private modalService = inject(ModalService);
   private fb = inject(FormBuilder);
   customerForm: FormGroup = this.fb.group({
@@ -52,8 +54,8 @@ export class CreateCustomerComponent {
       };
       console.log('Customer DTO:', customerDto);
       this._customerService.createCustomer(customerDto).subscribe({
-        next: (response) => {
-          console.log('Cliente creado:', response)
+        next: () => {
+          this._alertService.showSuccess('Cliente agregado!')
           this.modalService.close();
         },
         error: (error) => console.error('Error al crear cliente:', error),
