@@ -9,9 +9,9 @@ import { heroXCircle } from '@ng-icons/heroicons/outline';
   providers: [provideIcons({ heroXCircle })],
   template: `
     <div class="modal">
-      <div class="modal-header">
+      <!-- <div class="modal-header">
         <button class="close-btn" (click)="close()"><ng-icon class="icon icon-medium" name="heroXCircle"></ng-icon></button>
-      </div>
+      </div> -->
       <ng-container #modalContent></ng-container>
     </div>
   `,
@@ -21,7 +21,7 @@ import { heroXCircle } from '@ng-icons/heroicons/outline';
       flex-direction: column;
       width: 100%;
       height: 100%;
-      gap: 16px;
+      /* gap: 16px; */
     }
     .modal-header {
       display: flex;

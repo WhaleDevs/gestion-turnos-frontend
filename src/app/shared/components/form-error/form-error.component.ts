@@ -15,6 +15,7 @@ import { FormValidationService } from '@app/shared/services/form-validation.serv
         font-weight: 500;
         min-height: var(--font-size-xl);
         visibility: hidden; 
+        margin-left: var(--margin-l)
       }
 
       .errorMessage:not(:empty) {

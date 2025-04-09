@@ -12,11 +12,12 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import {  heroEnvelope, heroPhone, heroUserCircle,  } from '@ng-icons/heroicons/outline';
 import { ModalService } from '@app/shared/services/modal.service';
 import { AlertService } from '@app/shared/services/alert.service';
+import { FormErrorComponent } from "../../../../shared/components/form-error/form-error.component";
 
 @Component({
   selector: 'app-create-customer',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, NgIcon],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon, FormErrorComponent],
   providers: [provideIcons({heroUserCircle, heroPhone, heroEnvelope})],
   templateUrl: './create-customer.component.html',
   styleUrl: './create-customer.component.scss',
