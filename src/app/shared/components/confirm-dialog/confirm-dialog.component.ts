@@ -18,13 +18,13 @@ import { ModalService } from '@app/shared/services/modal.service';
 })
 export class ConfirmDialogComponent {
   @Input() message = '¿Estás seguro?';
-  private modalService = inject(ModalService);
+  modalClose: (result: boolean) => void = () => {}; 
 
   confirm() {
-    this.modalService.close();
+    this.modalClose(true); 
   }
 
   close() {
-    this.modalService.close();
+    this.modalClose(false);
   }
 }

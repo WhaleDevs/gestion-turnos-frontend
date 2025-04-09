@@ -7,6 +7,7 @@ import { heroPencilSquare, heroTrash } from '@ng-icons/heroicons/outline';
 import { ModalService } from '@app/shared/services/modal.service';
 import { UpdateCustomerComponent } from '../update-customer/update-customer.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-list-customers',
@@ -43,12 +44,19 @@ export class ListCustomersComponent {
   }
 
   deleteCustomer(id: number) {
-    /*Preguntar si quiere eliminarlo uwu */
-    this._customerService.deleteCustomerById(id).subscribe({
-      next: () => {
-        /**Alerta success */
-      }
+    console.log(id);
+    this.modalService
+    .openWithResult(ConfirmDialogComponent, {}, {
+      message: '¿Estás seguro de que querés eliminar este cliente?'
     })
+    .subscribe((confirmed: boolean) => {
+      console.log(confirmed);
+      if (confirmed) {
+        this._customerService.deleteCustomerById(id).subscribe(() => {
+          // Mostrar alerta de éxito
+        });
+      }
+    });
   }
 
   updateCustomer(customer: CustomerResponse) {

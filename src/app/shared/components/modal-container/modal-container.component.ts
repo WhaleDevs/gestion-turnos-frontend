@@ -38,11 +38,17 @@ export class ModalContainerComponent {
   @ViewChild('modalContent', { read: ViewContainerRef, static: true }) 
   modalContent!: ViewContainerRef;
 
+  innerComponentRef?: ComponentRef<any>; 
+
   constructor(private modalService: ModalService) {}
 
-  loadComponent<T>(component: Type<T>) {
+  loadComponent<T>(component: Type<T>, data?: Partial<T>) {
     this.modalContent.clear();
-    this.modalContent.createComponent(component);
+    this.innerComponentRef = this.modalContent.createComponent(component); 
+  
+    if (data) {
+      Object.assign(this.innerComponentRef.instance, data);
+    }
   }
 
   close() {
