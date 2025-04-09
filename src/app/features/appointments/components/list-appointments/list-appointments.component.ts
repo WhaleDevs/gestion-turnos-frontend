@@ -1,46 +1,62 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroClock, heroPlus } from '@ng-icons/heroicons/outline';
-import { AppointmentResponse } from '../../models/responses/appointments.response';
-import { AppointmentComponent } from "../appointment/appointment.component";
+import { AppointmentResponse, AppointmentStatus } from '../../models/responses/appointments.response';
+import { AppointmentComponent } from '../appointment/appointment.component';
 import { ModalService } from '@app/shared/services/modal.service';
 import { SaveAppointmentComponent } from '../save-appointment/save-appointment.component';
-import { DateTime } from 'luxon';
-import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-list-appointments',
   standalone: true,
-  imports: [NgIcon, RouterLink],
+  imports: [NgIcon, RouterLink, NgClass],
   templateUrl: './list-appointments.component.html',
   styleUrls: ['./list-appointments.component.scss'],
-  providers: [provideIcons({ heroClock, heroPlus })]
+  providers: [provideIcons({ heroClock, heroPlus })],
 })
-
 export class ListAppointmentsComponent {
   private modalService = inject(ModalService);
   private appointmentsService = inject(AppointmentsService);
-  
-  date = computed(() => this.appointmentsService.signalDateSelected());
+  appointmentStatus = AppointmentStatus;
 
-  appointmentsForDate = computed(() => 
-    this.appointmentsService.signalAppointmentsForDate()
-  );  
+  appointmentsLength = computed(() => this.appointmentsService.signalAppointmentsForDate().length);
+  date = computed(() => this.appointmentsService.signalDateSelected());
+  selectedStatus = signal<AppointmentStatus | null>(null);
+  appointmentsForDate = computed(() => {
+    const allAppointments = this.appointmentsService.signalAppointmentsForDate();
+    const status = this.selectedStatus();
+    return status ? allAppointments.filter(a => a.status === status) : allAppointments;
+  });
+  hoursForDate = computed(() => this.appointmentsService.signalHoursNoFilters());
+
+
+  constructor() {
+    effect(() => {
+      console.log("\n\n\n\n");
+      console.count();
+      console.log("Signal appointments length", this.appointmentsService.signalAppointmentsForDate().length);
+      console.log("Date: ", this.date());
+      console.log("Selected status: ", this.selectedStatus());
+      console.log("Appointments for date: ", this.appointmentsForDate());
+      console.log("Hours for date: ", this.hoursForDate());
+    });
+  }
+
+  filter(status: AppointmentStatus | null) {
+    this.selectedStatus.set(status);
+  }
 
   showMoreDetails(appointment: AppointmentResponse) {
     this.appointmentsService.signalAppointmentSelected.set(appointment);
     this.modalService.open(AppointmentComponent);
-  } 
+  }
 
   showFormToCreateAppointment() {
-    const hoursEnabled: String[] = [];
-    this.appointmentsForDate().forEach(appointment => {
-      hoursEnabled.push(appointment.startTime);
-    });
+    const hoursEnabled: string[] = this.appointmentsForDate().map(a => a.startTime);
     this.appointmentsService.setHoursEnabled(hoursEnabled);
     this.modalService.open(SaveAppointmentComponent, { width: '600px' });
   }
-
 }

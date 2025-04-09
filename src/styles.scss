@@ -8,6 +8,7 @@
 @use "styles/toggles";
 @use "styles/text";
 @use "styles/modal";
+@use "styles/status";
 @use "sass:color";
 @import "@ng-select/ng-select/themes/default.theme.css";
 
@@ -27,6 +28,6 @@ html, body {
 
 body {
   font-size: var(--font-size-l);
-  background-color: var(--primary);
+  background-color: #fff;
 }
 

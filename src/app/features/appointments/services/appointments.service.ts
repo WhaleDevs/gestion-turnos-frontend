@@ -1,69 +1,186 @@
-import { computed, inject, Injectable, linkedSignal, signal, WritableSignal } from '@angular/core';
+import { computed, effect, inject, Injectable, linkedSignal, signal, WritableSignal } from '@angular/core';
 import { environment } from '@envs/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppointmentForCreationDto, INIT_APPOINTMENT_FOR_CREATE_DTO } from '../models/requests-dto/appointmentsForCreate.dto';
 import { AppointmentResponse } from '../models/responses/appointments.response';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ApiResponse } from '@app/shared/models/api-response';
-import { EDayOfWeek } from '@app/utils/dayEnum';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { Week } from '../components/calendar/calendar.component';
+import { DateTime } from 'luxon';
+import { CustomerResponse } from '@app/features/customers/models/customer.response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentsService {
 
+  // ─────────────────────────────────────────────
+  // 🔧 INYECCIONES Y CONFIG
+  // ─────────────────────────────────────────────
   private http = inject(HttpClient);
   private scheduleService = inject(ScheduleService);
   private url = environment.API_URL + '/appointments';
 
+  // ─────────────────────────────────────────────
+  // 📡 SIGNALS
+  // ─────────────────────────────────────────────
+  signalHoursForDate = computed(() => this.generateHours(
+    this.scheduleService.signalScheduleConfigResponse()?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.startTime ?? '',
+    this.scheduleService.signalScheduleConfigResponse()?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.endTime ?? '',
+    false
+  ))
+
+  signalHoursNoFilters = computed(() => this.generateHours(
+    this.scheduleService.signalScheduleConfigResponse()?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.startTime ?? '',
+    this.scheduleService.signalScheduleConfigResponse()?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.endTime ?? '',
+    true
+  ));
+
   signalWeekSelected: WritableSignal<Week[]> = signal<Week[]>([]);
   signalDateSelected = signal<Week | null>(null);
-  signalDateFromWeek = signal<Week|null>(null);
+  signalDateFromWeek = signal<Week | null>(null);
   signalDayStatusFalse = computed(() => this.scheduleService.signalDayStatusFalse());
   signalHoursEnabled = signal<String[]>([]);
   signalAppointmentToCreate = signal<AppointmentForCreationDto>(INIT_APPOINTMENT_FOR_CREATE_DTO);
   signalAppointments = signal<AppointmentResponse[]>([]);
-  signalAppointmentsForDate = linkedSignal(() => 
-    this.signalAppointments().filter(appointment => appointment.date === this.signalDateSelected()?.date.replaceAll('/', '-')));
+  signalAppointmentsForDate = linkedSignal(() =>
+    this.signalAppointments()
+      .filter(appointment => appointment.date === this.signalDateSelected()?.date.replaceAll('/', '-'))
+      .sort((a: AppointmentResponse, b: AppointmentResponse) =>
+        DateTime.fromISO(a.startTime).toMillis() - DateTime.fromISO(b.startTime).toMillis()
+      )
+  );
   signalAppointmentSelected = signal<AppointmentResponse | null>(null);
-  constructor() { }
+
+  // ─────────────────────────────────────────────
+  // ⚙️ MÉTODOS PÚBLICOS DE MODIFICACIÓN
+  // ─────────────────────────────────────────────
 
   setAppointmentToCreate(appointment: AppointmentForCreationDto) {
-    this.signalAppointmentToCreate.set(appointment); 
-  }
-
-  getAppointmentsBetweenDates(scheduleId: number, startDate: string, endDate: string): Observable<ApiResponse<AppointmentResponse[]>> {
-    startDate = startDate.replaceAll('/', '-');
-    endDate = endDate.replaceAll('/', '-');
-    return this.http.get<ApiResponse<AppointmentResponse[]>>(this.url + '/between-dates' + `?id=${scheduleId}&startDate=${startDate}&endDate=${endDate}`)
-    .pipe(
-      tap((appointments: ApiResponse<AppointmentResponse[]>) => {
-        if (appointments.data) {
-          appointments.data?.map(appointment => {
-            appointment.date = this.formateDate(appointment.date);
-          });
-        }
-        this.setAppointments(appointments.data!)
-      })
-    );
+    this.signalAppointmentToCreate.set(appointment);
   }
 
   setAppointments(appointments: AppointmentResponse[]) {
     this.signalAppointments.set(appointments);
   }
 
+  setHoursEnabled(hours: String[]) {
+    this.signalHoursEnabled.set(hours);
+  }
+
+  // ─────────────────────────────────────────────
+  // 📡 LLAMADAS HTTP
+  // ─────────────────────────────────────────────
+
+  getAppointmentsBetweenDates(scheduleId: number, startDate: string, endDate: string): Observable<ApiResponse<AppointmentResponse[]>> {
+    startDate = startDate.replaceAll('/', '-');
+    endDate = endDate.replaceAll('/', '-');
+    return this.http.get<ApiResponse<AppointmentResponse[]>>(this.url + '/between-dates' + `?id=${scheduleId}&startDate=${startDate}&endDate=${endDate}`)
+      .pipe(
+        tap((appointments: ApiResponse<AppointmentResponse[]>) => {
+          if (appointments.data) {
+            appointments.data?.forEach(appointment => {
+              appointment.date = this.formateDate(appointment.date);
+            });
+          }
+          this.setAppointments(appointments.data!);
+        })
+      );
+  }
+
   createAppointment(): Observable<ApiResponse<AppointmentResponse>> {
     return this.http.post<ApiResponse<AppointmentResponse>>(this.url, this.signalAppointmentToCreate());
   }
 
-  setHoursEnabled(hours: String[]) {
-    this.signalHoursEnabled.set(hours);
-  } 
+  // ─────────────────────────────────────────────
+  // 🧠 LÓGICA DE HORARIOS Y DESCANSOS
+  // ─────────────────────────────────────────────
 
-  formateDate(date: string): string {
+  generateHours(startTime: string, endTime: string, noFilterHours: boolean = false) {
+    const hoursEnabled = this.signalHoursEnabled();
+    const interval = this.scheduleService.signalScheduleConfigResponse()
+      ?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.slotInterval ?? 60;
+
+    const hours: string[] = [];
+
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+    let currentTime = new Date();
+    currentTime.setHours(startHours, startMinutes, 0, 0);
+
+    const endTimeObj = new Date();
+    endTimeObj.setHours(endHours, endMinutes, 0, 0);
+
+    const rests = this.scheduleService.signalScheduleConfigResponse()
+      ?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.rests ?? [];
+
+    while (currentTime < endTimeObj) {
+      const currentHourStr = currentTime.toTimeString().slice(0, 5);
+
+      const isRestTime = rests.some(rest =>
+        rest.startTime === currentHourStr ||
+        this.isInRestPeriod(currentHourStr, rest)
+      );
+
+      if (!isRestTime) {
+        hours.push(currentHourStr);
+      }
+
+      currentTime.setMinutes(currentTime.getMinutes() + interval);
+    }
+
+    const filteredHours = hours.filter(hour => {
+      const hourOnly = hour.split(":")[0];
+      let isDisabled = hoursEnabled.includes(hour);
+      if(noFilterHours){
+        isDisabled = false;
+      }
+      const isRestHour = rests.some(rest =>
+        rest.startTime === hour ||
+        rest.startTime.split(":")[0] === hourOnly
+      );
+
+      return !isDisabled && !isRestHour;
+    });
+    return filteredHours;
+  }
+
+  // ─────────────────────────────────────────────
+  // 🕐 UTILIDAD PRIVADA
+  // ─────────────────────────────────────────────
+
+  private isInRestPeriod(time: string, rest: { startTime: string, endTime: string }): boolean {
+    const [h1, m1] = rest.startTime.split(':').map(Number);
+    const [h2, m2] = rest.endTime.split(':').map(Number);
+    const [ch, cm] = time.split(':').map(Number);
+
+    const restStart = h1 * 60 + m1;
+    const restEnd = h2 * 60 + m2;
+    const current = ch * 60 + cm;
+
+    return current > restStart && current < restEnd;
+  }
+
+  private formateDate(date: string): string {
     return date.split("T")[0];
+  }
+
+  updateAppointmentStatus(appointmentId: number, status: string): Observable<ApiResponse<AppointmentResponse>> {
+    const httpParams = new HttpParams()
+      .set(':id', appointmentId.toString())
+      .set(':status', status);
+    return this.http.patch<ApiResponse<AppointmentResponse>>(
+      `${this.url}/update-status`,
+      null,
+      { params: httpParams }
+    );
+  }
+
+  searchCustomerByPhoneNumber(phoneNumber: string): Observable<ApiResponse<CustomerResponse>> {
+    const httpParams = new HttpParams().set('query', phoneNumber);
+    return this.http.get<ApiResponse<CustomerResponse>>(`${this.url}/search`, { params: httpParams });
   }
 }

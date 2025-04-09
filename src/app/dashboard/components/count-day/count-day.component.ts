@@ -1,6 +1,8 @@
 import { Component, computed, effect, inject, linkedSignal, OnDestroy, OnInit } from '@angular/core';
 import { AppointmentResponse, AppointmentStatus } from '@app/features/appointments/models/responses/appointments.response';
 import { AppointmentsService } from '@app/features/appointments/services/appointments.service';
+import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
+import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 
 @Component({
   selector: 'app-count-day',
@@ -10,22 +12,21 @@ import { AppointmentsService } from '@app/features/appointments/services/appoint
 export class CountDayComponent implements OnInit, OnDestroy {
   hourMinutes: string = '';
   private appointomentsService = inject(AppointmentsService);
-  appointmentForDate = this.appointomentsService.signalAppointmentsForDate;
+  
+  appointmentForDate = computed(() => this.appointomentsService.signalAppointmentsForDate());
 
-  appointmentsFinish = computed(() =>
-    this.appointmentForDate().filter((appointment) => appointment.status === AppointmentStatus.TERMINADO)
+  private filterByStatus = (status: string) => computed(() =>
+    this.appointmentForDate().filter((a: AppointmentResponse) => a.status === status)
   );
-  
-  appointmentsCancel = computed(() =>
-    this.appointmentForDate().filter((appointment) => appointment.status === AppointmentStatus.AUSENTE)
-  );
-  
-  appointmentsFree = computed(() =>
-    this.appointmentForDate().filter((appointment) => appointment.status === AppointmentStatus.DISPONIBLE)
-  );
-  
+
+  appointmentsFinish = this.filterByStatus(AppointmentStatus.TERMINADO);
+  appointmentsCancel = this.filterByStatus(AppointmentStatus.AUSENTE);
+  appointmentsReserved = this.filterByStatus(AppointmentStatus.RESERVADO);
+  appointmentsPending = this.filterByStatus(AppointmentStatus.ESPERANDO);
+  appointmentsFree = computed(() => this.appointomentsService.signalHoursForDate());
+
+
   private intervalId: ReturnType<typeof setTimeout> | null = null;
-
 
   ngOnInit() {
     this.updateTime();

@@ -1,28 +1,51 @@
 <section class="appointments-container">
     @if (date()?.status) {
     <div class="date-and-add-appointment">
-        <p>{{date()?.dayName}}</p>
-        <button class="btn small" (click)="showFormToCreateAppointment()"><ng-icon name="heroPlus"
-                class="icon icon-medium"></ng-icon> Crear Reserva</button>
+        <div class="info-date-header">
+            <p>{{date()?.dayName}}<span class="date"> - {{date()?.date}}</span></p>
+            <p>Turnos libres: {{hoursForDate().length - appointmentsLength()}}</p>
+        </div>
+        <button class="btn primary small" (click)="showFormToCreateAppointment()"
+        [disabled]="hoursForDate().length - appointmentsLength() === 0"
+        >
+            <ng-icon [ngClass]="hoursForDate().length - appointmentsLength() === 0 ? 'disabled' : ''" name="heroPlus" class="icon icon-medium"></ng-icon> Crear Reserva</button>
     </div>
+    <ul class="list-appointment-status">
+        <li [ngClass]="selectedStatus() === null ? 'active' : ''" (click)="filter(null)">TODOS</li>
+
+        <li [ngClass]="selectedStatus() === appointmentStatus.RESERVADO ? 'active' : ''"
+            (click)="filter(appointmentStatus.RESERVADO)">RESERVADO <div class="circle"
+                [ngClass]="appointmentStatus.RESERVADO"></div>
+        </li>
+        <li [ngClass]="selectedStatus() === appointmentStatus.TERMINADO ? 'active' : ''"
+            (click)="filter(appointmentStatus.TERMINADO)">TERMINADO <div class="circle"
+                [ngClass]="appointmentStatus.TERMINADO"></div>
+        </li>
+        <li [ngClass]="selectedStatus() === appointmentStatus.AUSENTE ? 'active' : ''"
+            (click)="filter(appointmentStatus.AUSENTE)">AUSENTE <div class="circle"
+                [ngClass]="appointmentStatus.AUSENTE"></div>
+        </li>
+    </ul>
     }
 
     @if (!date()?.status) {
-    <a class="link primary medium" routerLink="/dashboard/agenda">Dia no habil, cambia la configuración de tu agenda para visualizar los turnos disponibles</a>
+    <a class="link primary medium" routerLink="/dashboard/agenda">Dia no habil, cambia la configuración de tu agenda
+        para visualizar los turnos disponibles</a>
     }@else {
-        @for(appointment of appointmentsForDate(); track $index) {
-        <div class="appointment" (click)="showMoreDetails(appointment)">
-            <div class="logo-hours">
-                <ng-icon name="heroClock" class="icon icon-medium"></ng-icon>
-            </div>
-            <div class="info-appointment">
-                <p>{{appointment.startTime}}</p>
-                <p>{{appointment.customer?.firstName}}, {{appointment.customer?.lastName}}</p>
-            </div>
+    @for(appointment of appointmentsForDate(); track $index) {
+    <div class="appointment" (click)="showMoreDetails(appointment)">
+        <div class="logo-hours">
+            <ng-icon name="heroClock" class="icon icon-medium"></ng-icon>
         </div>
-        }@empty {
-        <p>No hay turnos</p>
-        }
+        <div class="info-appointment">
+            <p>{{appointment.startTime}}</p>
+            <p>{{appointment.customer?.firstName}}, {{appointment.customer?.lastName}}</p>
+        </div>
+        <div class="circle" [ngClass]="appointment.status"></div>
+    </div>
+    }@empty {
+    <p>No hay turnos</p>
+    }
     }
 
 </section>

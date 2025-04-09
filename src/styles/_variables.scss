@@ -52,37 +52,41 @@ $info-color: #17a2b8;
   --highlight: #ff5722;
 
   /* 🎨 9. Padding */
-  --padding-s: 0.4rem;  
-  --padding-m: 0.8rem;  
-  --padding-l: 1.6rem;  
-  --padding-xl: 3.2rem; 
+  --padding-s: 0.4rem;
+  --padding-m: 0.8rem;
+  --padding-l: 1.6rem;
+  --padding-xl: 3.2rem;
 
   /* 🎨 10. Margen */
-  --margin-s: 0.4rem;   
-  --margin-m: 0.8rem;   
-  --margin-l: 1.6rem;  
-  --margin-xl: 3.2rem;  
+  --margin-s: 0.4rem;
+  --margin-m: 0.8rem;
+  --margin-l: 1.6rem;
+  --margin-xl: 3.2rem;
 
   /* 🎨 11. Gap */
-  --gap-s: 0.4rem;      
-  --gap-m: 0.8rem;      
-  --gap-l: 1.6rem;      
-  --gap-xl: 3.2rem;     
+  --gap-s: 0.4rem;
+  --gap-m: 0.8rem;
+  --gap-l: 1.6rem;
+  --gap-xl: 3.2rem;
 
   /* 🎨 12. Border radius */
-  --border-radius-s: 0.4rem;  
-  --border-radius-m: 0.8rem;  
-  --border-radius-l: 1.6rem;  
-  --border-radius-xl: 3.2rem; 
+  --border-radius-s: 0.4rem;
+  --border-radius-m: 0.8rem;
+  --border-radius-l: 1.6rem;
+  --border-radius-xl: 3.2rem;
 
   /* 🎨 11. Font */
   --font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 
   /* 🎨 12. Font size */
-  --font-size-s: 1.2rem;  /* 12px / 10 = 1.2rem */
-  --font-size-m: 1.4rem;  /* 14px / 10 = 1.4rem */
-  --font-size-l: 1.6rem;  /* 16px / 10 = 1.6rem */
-  --font-size-xl: 1.8rem; /* 18px / 10 = 1.8rem */  
+  --font-size-s: 1.2rem;
+  /* 12px / 10 = 1.2rem */
+  --font-size-m: 1.4rem;
+  /* 14px / 10 = 1.4rem */
+  --font-size-l: 1.6rem;
+  /* 16px / 10 = 1.6rem */
+  --font-size-xl: 1.8rem;
+  /* 18px / 10 = 1.8rem */
 
   /* 🎨 13. Font weight */
   --font-weight-light: 300;
@@ -113,12 +117,9 @@ $info-color: #17a2b8;
 
   //modificando el color con el brillo
   --primary-color-100:
-  --primary-color-200: var(--brigthness-m) var(--saturation) var(--contrast) #002C34;
+    --primary-color-200: var(--brigthness-m) var(--saturation) var(--contrast) #002C34;
   --primary-color-300: var(--brigthness-s) var(--saturation) var(--contrast) #002C34;
   --primary-color-400: var(--brigthness-xs) var(--saturation) var(--contrast) #002C34;
   --primary-color-500: var(--brigthness-xxs) var(--saturation) var(--contrast) #002C34;
-
-  
-
 
 }
