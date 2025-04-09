@@ -3,8 +3,13 @@ section{
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 96%;
+  width: 100%;
   margin: 0 auto;
+  padding: var(--padding-m);
+  border-radius: var(--border-radius-m);
+  background-color: var(--background-light);
+  border: 1px solid #CCC;
+  box-shadow: var(--shadow-elevation-medium);
 }
 
 form{

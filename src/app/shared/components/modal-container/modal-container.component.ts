@@ -5,7 +5,7 @@ import { heroXCircle } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-modal-container',
-  imports: [NgIcon],
+  /* imports: [NgIcon], */
   providers: [provideIcons({ heroXCircle })],
   template: `
     <div class="modal">
