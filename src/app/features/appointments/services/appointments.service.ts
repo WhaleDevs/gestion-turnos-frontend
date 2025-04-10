@@ -94,6 +94,24 @@ export class AppointmentsService {
     return this.http.post<ApiResponse<AppointmentResponse>>(this.url, this.signalAppointmentToCreate());
   }
 
+
+  updateAppointmentStatus(appointmentId: number, status: string): Observable<ApiResponse<AppointmentResponse>> {
+    const httpParams = new HttpParams()
+      .set(':id', appointmentId.toString())
+      .set(':status', status);
+    return this.http.patch<ApiResponse<AppointmentResponse>>(
+      `${this.url}/update-status`,
+      null,
+      { params: httpParams }
+    );
+  }
+
+  deleteAppointment(): Observable<ApiResponse<AppointmentResponse>> {
+    const httpParams = new HttpParams()
+      .set(':id', this.signalAppointmentSelected()?.id.toString()!);
+    return this.http.delete<ApiResponse<AppointmentResponse>>(this.url, { params: httpParams });
+  }
+
   // ─────────────────────────────────────────────
   // 🧠 LÓGICA DE HORARIOS Y DESCANSOS
   // ─────────────────────────────────────────────
@@ -135,7 +153,7 @@ export class AppointmentsService {
     const filteredHours = hours.filter(hour => {
       const hourOnly = hour.split(":")[0];
       let isDisabled = hoursEnabled.includes(hour);
-      if(noFilterHours){
+      if (noFilterHours) {
         isDisabled = false;
       }
       const isRestHour = rests.some(rest =>
@@ -168,14 +186,4 @@ export class AppointmentsService {
     return date.split("T")[0];
   }
 
-  updateAppointmentStatus(appointmentId: number, status: string): Observable<ApiResponse<AppointmentResponse>> {
-    const httpParams = new HttpParams()
-      .set(':id', appointmentId.toString())
-      .set(':status', status);
-    return this.http.patch<ApiResponse<AppointmentResponse>>(
-      `${this.url}/update-status`,
-      null,
-      { params: httpParams }
-    );
-  }
 }
