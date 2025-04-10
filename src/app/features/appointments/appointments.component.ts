@@ -23,9 +23,6 @@ import { WeekComponent } from './components/week/week.component';
       'calendar appointments';
     gap: var(--gap-l);
     padding: var(--padding-m);
-    border-radius: var(--border-radius-m);
-    box-shadow: var(--shadow-elevation-medium);
-    background-color: var(--background-light);
     width: 100%;
     height: 100%;
     @media screen and (max-width: 1200px) {

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '../../services/alert.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -17,6 +17,7 @@ import { Alert } from '@app/utils/alert.interface';
   })],
   
   template: `
+  @let alert = this.alert();
   @if(alert) {
     <div class="alert" [ngClass]="'alert-' + alert.type" role="alert">
     <ng-icon class="icon-medium" [name]="alert.type"></ng-icon>
@@ -87,35 +88,37 @@ import { Alert } from '@app/utils/alert.interface';
       }
     }
   `]
-})
-export class AlertComponent implements OnInit, OnDestroy {
-  alert: Alert | null = null;
-  private timeout: any;
+})export class AlertComponent implements OnDestroy {
+  alert = computed(() => this.alertService.alertSubject());
   private alertService = inject(AlertService);
 
-  ngOnInit() {
-    this.alertService.alert$.subscribe(alert => {
-      if (alert) {
-        this.alert = alert;
-        this.timeout = setTimeout(() => {
-          this.closeAlert();
-        }, 3000);
+  private clearTimeoutFn: (() => void) | null = null;
+
+  constructor() {
+    effect(() => {
+      const currentAlert = this.alert();
+
+      // Limpia el timeout anterior
+      if (this.clearTimeoutFn) {
+        this.clearTimeoutFn();
+        this.clearTimeoutFn = null;
+      }
+
+      // Si hay alerta, seteamos un nuevo timeout
+      if (currentAlert) {
+        const timeout = setTimeout(() => this.closeAlert(), 3000);
+        this.clearTimeoutFn = () => clearTimeout(timeout);
       }
     });
   }
 
   ngOnDestroy() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+    if (this.clearTimeoutFn) {
+      this.clearTimeoutFn();
     }
   }
 
   closeAlert() {
-    this.alert = null;
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
+    this.alertService.clear();
   }
-
-
 }

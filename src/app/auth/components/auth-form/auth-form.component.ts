@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroEyeSlash, heroEye, heroLockClosed, heroAtSymbol, heroUserCircle } from '@ng-icons/heroicons/outline';
 import { StatusButton, StatusForm } from '../../../utils/types';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -15,7 +16,7 @@ import { StatusButton, StatusForm } from '../../../utils/types';
 export class AuthFormComponent implements OnChanges {
   private fb = inject(FormBuilder);
   private route = inject(Router);
-
+  private alertService = inject(AlertService);
   @Input() title: string = 'Formulario';
   @Input() buttonText: string = 'Enviar';
   @Input() isRegister: boolean = false;
@@ -56,6 +57,7 @@ export class AuthFormComponent implements OnChanges {
       this.formSubmit.emit(this.form.value);
     }else{
       console.log('Formulario inválido');
+      this.alertService.showError('Por favor, completa todos los campos');
       this.form.markAllAsTouched();
     }
   }

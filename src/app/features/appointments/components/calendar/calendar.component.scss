@@ -4,9 +4,7 @@
         min-width: 300px !important;
         min-height: 300px !important;
         font-size: var(--font-size-m) !important;
-        border-radius: var(--border-radius-m) !important;
-        box-shadow: var(--shadow-elevation-medium) !important;
-        background-color: var(--background-light) !important;
+    
     }
     .mat-calendar-body-cell-content,
     .mat-calendar-header,
@@ -17,5 +15,21 @@
     .mat-calendar-body-label,
     .mat-calendar-period-button {
         font-size: var(--font-size-m) !important;
+    }
+}
+
+.calendar-container{
+    height: 100%;
+    border-radius: var(--border-radius-m) !important;
+    box-shadow: var(--shadow-elevation-medium) !important;
+    background-color: var(--background-light) !important;
+    border: 1px solid var(--border-light) !important;
+    padding: var(--padding-m) !important;
+    @media screen and (max-width: 1200px) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m) !important;
+        align-items: center;
+        justify-content: center;
     }
 }

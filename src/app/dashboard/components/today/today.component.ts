@@ -9,14 +9,16 @@ import { DateTime } from 'luxon';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroChevronLeft, heroChevronRight, heroTrash } from '@ng-icons/heroicons/outline';
 import { RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
+import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
 
 @Component({
   selector: 'app-today',
   standalone: true,
-  imports: [NgIcon, RouterLink],
+  imports: [NgIcon, RouterLink, NgClass],
   templateUrl: './today.component.html',
   styleUrls: ['./today.component.scss'],
-  providers: [provideIcons({ heroTrash,heroChevronLeft, heroChevronRight})]
+  providers: [provideIcons({ heroTrash, heroChevronLeft, heroChevronRight })]
 })
 
 export class TodayComponent {
@@ -33,7 +35,7 @@ export class TodayComponent {
     const start = this.currentPage() * this.pageSize;
     const end = start + this.pageSize;
     return allAppointments.slice(start, end);
-  });  
+  });
   currentPage = signal(0);
   pageSize = 5;
   isDayActive = computed(() => {
@@ -42,7 +44,7 @@ export class TodayComponent {
     const dateToday = DateTime.now().setLocale('es').toFormat('EEEE').toUpperCase();
     return config.scheduleDays.some(day => day.day === dateToday && day.status);
   });
-  
+
 
   hoursEnabled = signal<string[]>([]);
   signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate().sort((a, b) => {
@@ -53,11 +55,11 @@ export class TodayComponent {
 
   constructor() {
 
-    effect(()=>{
+    effect(() => {
       console.table(this.isDayActive());
     })
 
-    
+
     effect(() => {
       const dateToday = DateTime.now().toISODate();
       const config = this.scheduleConfig();
@@ -87,23 +89,35 @@ export class TodayComponent {
     this.modalService.open(SaveAppointmentComponent, { width: '600px' });
   }
 
-  showMoreDetails(appointment: any) {
+  showMoreDetails(appointment: AppointmentResponse) {
     this.appointmentsService.signalAppointmentSelected.set(appointment);
     this.modalService.open(AppointmentComponent);
   }
 
-  deleteAppointment(appointment: any) {
-    this.alertService.showInfo('Función no implementada');
+  deleteAppointment(appointment: AppointmentResponse) {
+    //confirmar? usar componente que arreglo rafa // note hoy jueves 10 de abril
+    this.appointmentsService.signalAppointmentSelected.set(appointment);
+    this.appointmentsService.deleteAppointment().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.alertService.showSuccess('Turno eliminado correctamente');
+          this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
+            .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
+          this.appointmentsService.signalAppointmentSelected.set(null);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.alertService.showError('Error al eliminar el turno');
+      }
+    });
   }
 
   returnIfPlaceForNewAppointments() {
     const appointments = this.signalAppointmentsForDate();
     if (appointments.length === 0) return true;
-
     return (
-      appointments[0].startTime === this.hoursEnabled()[0] &&
-      this.scheduleService.signalScheduleConfigResponse().daysConfig.find(day => day.day === appointments[0].date)?.endTime
-      === this.hoursEnabled()[this.hoursEnabled().length - 1]
+      this.appointmentsService.signalHoursNoFilters().length > appointments.length
     );
   }
 
@@ -112,12 +126,10 @@ export class TodayComponent {
       this.currentPage.update(p => p + 1);
     }
   }
-  
+
   prevPage() {
     if (this.currentPage() > 0) {
       this.currentPage.update(p => p - 1);
     }
   }
-  
-
 }
