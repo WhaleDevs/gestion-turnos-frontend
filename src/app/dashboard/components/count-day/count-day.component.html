@@ -5,17 +5,23 @@
   <div class="stats-container">
     <article class="stats">
       <p>Turnos realizados</p>
-      <p>7</p>
+      <p class="count">{{ appointmentsFinish().length }}</p>
     </article>
 
     <article class="stats">
       <p>Turnos cancelados</p>
-      <p>1</p>
+      <p class="count">{{ appointmentsCancel().length }}</p>
     </article>
 
     <article class="stats">
       <p>Turnos libres</p>
-      <p>2</p>
+      <p class="count">{{ appointmentsFree().length }}</p>
     </article>
+
+    <article class="stats">
+      <p>Turnos reservados</p>
+      <p class="count">{{ appointmentsReserved().length }}</p>
+    </article>
+
   </div>
 </section>

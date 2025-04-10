@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Alert } from '@app/utils/alert.interface';
 import { ReplaySubject } from 'rxjs';
 
@@ -6,26 +6,25 @@ import { ReplaySubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AlertService {
-  private alertSubject = new ReplaySubject<Alert | null>(1);
-  alert$ = this.alertSubject.asObservable();
+  alertSubject = signal<Alert | null>(null);
 
   showSuccess(message: string) {
-    this.alertSubject.next({ type: 'success', message });
+    this.alertSubject.set({ type: 'success', message });
   }
 
   showError(message: string) {
-    this.alertSubject.next({ type: 'error', message });
+    this.alertSubject.set({ type: 'error', message });
   }
 
   showWarning(message: string) {
-    this.alertSubject.next({ type: 'warning', message });
+    this.alertSubject.set({ type: 'warning', message });
   }
 
   showInfo(message: string) {
-    this.alertSubject.next({ type: 'info', message });
+    this.alertSubject.set({ type: 'info', message });
   }
 
   clear() {
-    this.alertSubject.next(null);
+    this.alertSubject.set(null);
   }
 }

@@ -44,11 +44,7 @@
     grid-area: stats;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: start;
-    padding: var(--padding-l);
-    gap: var(--gap-l);
-
+    gap: var(--gap-s);
     h2 {
         width: 100%;
         font-size: 16px;
@@ -63,12 +59,13 @@
 .stats {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: var(--gap-l);
     width: 100%;
+    background-color: rgba(128, 128, 128, 0.295);
     border-radius: var(--border-radius-m);
-    color: var(--primary);
     padding: var(--padding-l);
-    padding-left: var(--padding-xl);
+    
     @media (max-width: 768px) {
         padding: var(--padding-s);
         width: 100%;
