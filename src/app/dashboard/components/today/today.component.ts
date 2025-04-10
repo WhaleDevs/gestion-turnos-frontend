@@ -9,11 +9,12 @@ import { DateTime } from 'luxon';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroChevronLeft, heroChevronRight, heroTrash } from '@ng-icons/heroicons/outline';
 import { RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-today',
   standalone: true,
-  imports: [NgIcon, RouterLink],
+  imports: [NgIcon, RouterLink, NgClass],
   templateUrl: './today.component.html',
   styleUrls: ['./today.component.scss'],
   providers: [provideIcons({ heroTrash,heroChevronLeft, heroChevronRight})]
@@ -99,11 +100,8 @@ export class TodayComponent {
   returnIfPlaceForNewAppointments() {
     const appointments = this.signalAppointmentsForDate();
     if (appointments.length === 0) return true;
-
     return (
-      appointments[0].startTime === this.hoursEnabled()[0] &&
-      this.scheduleService.signalScheduleConfigResponse().daysConfig.find(day => day.day === appointments[0].date)?.endTime
-      === this.hoursEnabled()[this.hoursEnabled().length - 1]
+      this.appointmentsService.signalHoursNoFilters().length > appointments.length
     );
   }
 

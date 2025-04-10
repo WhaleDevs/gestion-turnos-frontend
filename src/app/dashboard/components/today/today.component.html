@@ -1,7 +1,7 @@
 <section class="today-container">
     <div class="title-container">
         <h2 class="title">Turnos de hoy</h2>
-    @if (totalPages() > 1 && isDayActive()) {
+        @if (totalPages() > 1 && isDayActive()) {
         <div class="pagination-controls">
             <button class="pagination-controls-btn" (click)="prevPage()">
                 <ng-icon class="icon icon-small" name="heroChevronLeft"></ng-icon>
@@ -11,7 +11,7 @@
                 <ng-icon class="icon icon-small" name="heroChevronRight"></ng-icon>
             </button>
         </div>
-    }
+        }
     </div>
     @if (!isDayActive()) {
     <a class="link primary" routerLink="/dashboard/agenda">Dia no habil, cambia la configuración de tu agenda para
@@ -24,6 +24,7 @@
             <p>{{ appointment.startTime }}</p>
             <span>|</span>
             <p>{{ appointment.customer?.firstName }}, {{ appointment.customer?.lastName }}</p>
+            <div class="circle" [ngClass]="appointment.status"></div>
         </div>
         <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteAppointment(appointment)"></ng-icon>
     </article>
@@ -32,7 +33,9 @@
     <p>No hay turnos para el dia de hoy.</p>
     <button class="btn small secondary" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
     }@if (!returnIfPlaceForNewAppointments()) {
-    <button class="btn small secondary" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
+    <p class="info">No hay lugar para un nuevo turno</p>
+    }@else { 
+        <button class="btn small secondary full" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
     }
-    }   
-    </section>
+    }
+</section>

@@ -178,9 +178,4 @@ export class AppointmentsService {
       { params: httpParams }
     );
   }
-
-  searchCustomerByPhoneNumber(phoneNumber: string): Observable<ApiResponse<CustomerResponse>> {
-    const httpParams = new HttpParams().set('query', phoneNumber);
-    return this.http.get<ApiResponse<CustomerResponse>>(`${this.url}/search`, { params: httpParams });
-  }
 }
