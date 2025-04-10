@@ -25,9 +25,9 @@
   <div class="cards">
     @for (customer of customers; track customer.id) {
       <div class="card">
-        <div><strong>Nombre:</strong> {{ customer.firstName }} {{ customer.lastName }}</div>
-        <div><strong>Email:</strong> {{ customer.email }}</div>
-        <div><strong>Teléfono:</strong> {{ customer.phoneNumber }}</div>
+        <div><span>Nombre:</span> {{ customer.firstName }} {{ customer.lastName }}</div>
+        <div><span>Email:</span> {{ customer.email }}</div>
+        <div><span>Teléfono:</span> {{ customer.phoneNumber }}</div>
         <div class="card-actions">
           <button class="btn medium warning" (click)="updateCustomer(customer)">
             <ng-icon class="icon icon-small" name="heroPencilSquare" />

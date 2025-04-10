@@ -9,6 +9,7 @@
   justify-content: center;
   gap: var(--gap-m);
 
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
   &.small{
     font-size: var(--font-size-s);
@@ -66,7 +67,7 @@
       color: var(--text-light);
     }
     &:hover {
-      background-color: var(--success-dark);
+      background-color: var(--success-hover);
     }
   }
 
@@ -77,18 +78,18 @@
       color: var(--text-light);
     }
     &:hover {
-      background-color: var(--error-dark);
+      background-color: var(--error-hover);
     }
   }
 
   &.warning {
     background-color: var(--warning);
-    color: var(--text-dark);
+    color: var(--text-light);
     .icon{
       color: var(--text-light);
     }
     &:hover {
-      background-color: var(--warning-dark);
+      background-color: var(--warning-hover);
     }
   }
 
@@ -99,7 +100,7 @@
       color: var(--text-light);
     }
     &:hover {
-      background-color: var(--info-dark);
+      background-color: var(--info-hover);
     }
   }
 

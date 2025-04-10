@@ -5,13 +5,13 @@ import { heroXCircle } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-modal-container',
-  imports: [NgIcon],
+  /* imports: [NgIcon], */
   providers: [provideIcons({ heroXCircle })],
   template: `
     <div class="modal">
-      <div class="modal-header">
+      <!-- <div class="modal-header">
         <button class="close-btn" (click)="close()"><ng-icon class="icon icon-medium" name="heroXCircle"></ng-icon></button>
-      </div>
+      </div> -->
       <ng-container #modalContent></ng-container>
     </div>
   `,
@@ -21,7 +21,7 @@ import { heroXCircle } from '@ng-icons/heroicons/outline';
       flex-direction: column;
       width: 100%;
       height: 100%;
-      gap: 16px;
+      /* gap: 16px; */
     }
     .modal-header {
       display: flex;
@@ -38,11 +38,17 @@ export class ModalContainerComponent {
   @ViewChild('modalContent', { read: ViewContainerRef, static: true }) 
   modalContent!: ViewContainerRef;
 
+  innerComponentRef?: ComponentRef<any>; 
+
   constructor(private modalService: ModalService) {}
 
-  loadComponent<T>(component: Type<T>) {
+  loadComponent<T>(component: Type<T>, data?: Partial<T>) {
     this.modalContent.clear();
-    this.modalContent.createComponent(component);
+    this.innerComponentRef = this.modalContent.createComponent(component); 
+  
+    if (data) {
+      Object.assign(this.innerComponentRef.instance, data);
+    }
   }
 
   close() {
