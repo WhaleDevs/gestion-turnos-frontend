@@ -31,11 +31,10 @@
     }
     @empty {
     <p>No hay turnos para el dia de hoy.</p>
-    <button class="btn small secondary" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
     }@if (!returnIfPlaceForNewAppointments()) {
     <p class="info">No hay lugar para un nuevo turno</p>
-    }@else { 
-        <button class="btn small secondary full" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
+    }@else {
+    <button class="btn small secondary full" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
     }
     }
 </section>

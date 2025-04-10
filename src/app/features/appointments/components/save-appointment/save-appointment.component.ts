@@ -157,6 +157,8 @@ export class SaveAppointmentComponent {
       this.showPhoneError = true;
       this.clearCustomerFields();
       return;
+    }else{
+      this.showPhoneError = false;
     }
 
     this.customerService.searchCustomers(value).subscribe({
