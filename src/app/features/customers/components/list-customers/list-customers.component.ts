@@ -37,12 +37,13 @@ export class ListCustomersComponent {
       this.customers = customers;
       console.log(customers);
     });
-
+    console.table(this.customers);
     this.updateListCustomers();
+    console.table(this.customers);
   }
 
   updateListCustomers() {
-    this._customerService.findAll().subscribe();
+    this._customerService.searchCustomers('', '1', '10').subscribe();
   }
 
   deleteCustomer(id: number) {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@envs/environment.development';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -6,6 +6,7 @@ import { CustomerResponse, INITIAL_CUSTOMER_FOR_UPDATE, INITIAL_CUSTOMERS } from
 import { ApiResponse } from '@app/shared/models/api-response';
 import { CustomerForCreationDto } from '../models/customerForCreationDto.dto';
 import { CustomerForUpdateDto } from '../models/customerForUpdateDto.dto';
+import { PaginatedResponse } from '@app/shared/models/paginated.response';
 
 
 @Injectable({
@@ -34,15 +35,27 @@ export class CustomersService {
     )
   }
 
-  searchCustomers(query:string): Observable<ApiResponse<CustomerResponse[]>>{
-    return this.http.get<ApiResponse<CustomerResponse[]>>(`${this.url}/customers/search?query=${query}`).pipe(
-      tap((response: ApiResponse<CustomerResponse[]>) => {
-        if (response.success && response.data) {
-          this.customers.next(response.data);
-        }
-      })
-    )
+  searchCustomers(
+    query: string,
+    page: string,
+    limit: string
+  ): Observable<ApiResponse<PaginatedResponse<CustomerResponse>>> {
+    const params = new HttpParams()
+      .set('query', query)
+      .set('page', page)
+      .set('limit', limit);
+  
+    return this.http
+      .get<ApiResponse<PaginatedResponse<CustomerResponse>>>(`${this.url}/customers/search`, { params })
+      .pipe(
+        tap((response) => {
+          if (response.success && response.data) {
+            this.customers.next(response.data.data);
+          }
+        })
+      );
   }
+  
 
   updateCustomer(customerDto: CustomerForUpdateDto):Observable<ApiResponse<void>> {
     return this.http.patch<ApiResponse<void>>(`${this.url}/customers`, customerDto);
