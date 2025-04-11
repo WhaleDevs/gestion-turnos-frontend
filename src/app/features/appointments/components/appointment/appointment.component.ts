@@ -30,10 +30,27 @@ import { NgClass } from '@angular/common';
             </option>
           } 
         </select>
+        <button  class="btn full" (click)="deleteAppointment()">ELIMINAR TURNO</button>
       </div>
   </section>  
     `,
   styles: `
+    .btn{
+      font-size: var(--font-size-s);
+      padding: var(--padding-m);
+      box-shadow: none;
+      border-radius: var(--border-radius-s);
+      border: 1px solid var(--border-light);
+      background-color: var(--background-light);
+      cursor: pointer;
+      width: 100%;
+      &:hover{
+        background-color: var(--background-muted);
+        color: var(--text-light);
+      }
+    }
+
+
     .appointment-container{
         display: flex;
         flex-direction: column;
@@ -48,9 +65,8 @@ import { NgClass } from '@angular/common';
       display: flex;
       flex-direction: column;
       padding: var(--padding-m);
-      border: 1px solid var(--border-light);
       border-radius: var(--border-radius-m);
-      gap: var(--gap-m);
+      gap: var(--gap-l);
       height: 100%;
       width: 100%;
     }
@@ -66,10 +82,26 @@ export class AppointmentComponent {
     AppointmentStatus.TERMINADO,
     AppointmentStatus.AUSENTE
   ];
+
   closeAppointmentEvent() {
     this.appointmentsService.signalAppointmentSelected.set(null);
     this.modalService.close();
   }
+
+  deleteAppointment() {
+    this.appointmentsService.deleteAppointment().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
+            .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
+          this.appointmentsService.signalAppointmentSelected.set(null);
+          this.alertService.showSuccess('Turno eliminado correctamente');
+          this.closeAppointmentEvent();
+        }
+      }
+    });
+  }
+
 
   onStatusChange(newStatus: AppointmentStatus) {
     const appointment = this.appointment();

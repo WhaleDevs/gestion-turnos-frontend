@@ -105,10 +105,6 @@ export class TodayComponent {
             .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
           this.appointmentsService.signalAppointmentSelected.set(null);
         }
-      },
-      error: (error) => {
-        console.log(error);
-        this.alertService.showError('Error al eliminar el turno');
       }
     });
   }
