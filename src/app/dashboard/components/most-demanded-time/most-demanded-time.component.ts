@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '@app/auth/services/session.service';
 import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
@@ -9,20 +9,25 @@ import { heroCalendar } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-most-demanded-time',
-  imports: [ FormsModule, NgIcon],
+  imports: [FormsModule, NgIcon],
   templateUrl: './most-demanded-time.component.html',
   styleUrl: './most-demanded-time.component.scss',
-  providers: [provideIcons({heroCalendar})]
+  providers: [provideIcons({ heroCalendar })]
 })
 export class MostDemandedTimeComponent {
   private scheduleService = inject(ScheduleService);
   private sessionService = inject(SessionService);
-
+  private screenWidth = signal(window.innerWidth);
+  isSmallScreen = computed(() => this.screenWidth() <= 1200);
   selectedMonths: string = '1';
   turns: any[] = [];
-  turnsAgroupedForHour: {hour:string, count:number}[] = [];
+  turnsAgroupedForHour: { hour: string, count: number }[] = [];
 
-  constructor() {}
+  constructor() {
+    window.addEventListener('resize', () => {
+      this.screenWidth.set(window.innerWidth);
+    });
+  }
 
   ngOnInit(): void {
     this.callStats();
@@ -45,7 +50,7 @@ export class MostDemandedTimeComponent {
               if (response.data) {
                 this.turns = response.data;
                 this.turns = this.turns.filter(turn => turn.count > 0);
-              }else{
+              } else {
                 console.log('No hay turnos mas demandados');
               }
             },
@@ -58,13 +63,9 @@ export class MostDemandedTimeComponent {
     })
   }
 
-  /* 
-    PASO A PASO:
-      1- BUSCAR EL HORARIO MAS TEMPRANO QUE ARRANCA A TRABAJAR EN UN DIA
-      2- BUSCAR EL HORARIO MAS TARDE QUE TERMINA DE TRABAJAR EN UN DIA
-      3- BUSCAR TODOS LOS INTERVALOS Y GENERAR LAS DISITNTAS HORAS
-      4- CONTABILIZAR TODOS LOS TURNOS QUE SE EJECUTAN EN CADA HORA
-      5- MOSTRAR LA HORA CON MAS TURNOS
-  */
-
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', () => {
+      this.screenWidth.set(window.innerWidth);
+    });
+  }
 }

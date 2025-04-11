@@ -19,9 +19,15 @@
       @for (i of turns; track $index) {
       <div class="column-container">
         <p>{{i.hour}}</p>
-        <div [style.height.px]="i.count*20" 
-        [style.max-height.px]="250"
-        >{{i.count}}</div>
+        @if (isSmallScreen()) {
+          <div [style.width.px]="(i.count*20)" 
+          [style.max-width.px]="250"
+          >{{i.count}}</div>
+        }@else{
+          <div [style.height.px]="(i.count*20)" 
+          [style.max-height.px]="250"
+          >{{i.count}}</div>
+        }
       </div>
       }
     </div>
