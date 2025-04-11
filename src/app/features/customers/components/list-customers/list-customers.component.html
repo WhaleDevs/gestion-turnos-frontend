@@ -1,15 +1,17 @@
 <section>
   @if(!isMobile()){
-    <div class="navigation-menu">
-      @for (page of pages(); track page) {
-        <button
-          class="btn primary small"
-          [class.active]="currentPage() === page"
-          (click)="navigate(page)"
-        >
-          {{ page }}
-        </button>
-      }
+    <div class="navigation-container">
+      <div class="navigation-menu">
+        @for (page of pages(); track page) {
+          <button class="btn primary small" [class.active]="currentPage() === page" (click)="navigate(page)" > {{ page }} </button>
+        }
+      </div>
+      <select class="select medium primary" (change)="changePageSize($event)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
     </div>
     <div class="table">
       <div class="row-header">

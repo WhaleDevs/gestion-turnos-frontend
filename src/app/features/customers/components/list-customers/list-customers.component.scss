@@ -21,13 +21,26 @@ section {
   }
 }
 
+.navigation-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  gap: var(--gap-l);
+}
+
 .navigation-menu{
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: center;
   justify-content: start;
   width: 100%;
   gap: var(--gap-s);
+}
+
+.select{
+  width: auto;
 }
 
 // Tabla

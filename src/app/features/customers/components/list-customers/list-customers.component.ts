@@ -75,6 +75,12 @@ export class ListCustomersComponent {
     this._modalService.open(UpdateCustomerComponent);
   }
 
+  changePageSize($event: Event) {
+    const newSize = parseInt(($event.target as HTMLSelectElement).value, 10);
+    this._customerService.pageSize.set(newSize);
+    this._customerService.currentPage.set(1);
+  }
+
   navigate(page: number) {
     this._customerService.currentPage.set(page);
   }
@@ -87,4 +93,5 @@ export class ListCustomersComponent {
       this._customerService.pageSize.set(this._customerService.pageSize()+4);
     }
   }
+
 }
