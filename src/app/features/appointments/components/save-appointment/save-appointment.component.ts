@@ -161,11 +161,13 @@ export class SaveAppointmentComponent {
       this.showPhoneError = false;
     }
 
-    this.customerService.searchCustomers(value).subscribe({
+    this.customerService.query.set(value);
+
+    this.customerService.searchCustomers().subscribe({
       next: ({ success, data }) => {
         if (!data) return;
-        if (success && data?.length > 0) {
-          const customer = data[0];
+        if (success && data?.data.length > 0) {
+          const customer = data.data[0];
           this.alertService.showSuccess('Cliente encontrado');
           this.searching.set(false);
           this.formSaveAppointment.get('customer')?.patchValue({

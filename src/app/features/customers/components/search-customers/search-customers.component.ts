@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
 import {
   FormBuilder,
@@ -27,20 +27,22 @@ export class SearchCustomersComponent {
   private _customerService = inject(CustomersService);
   private fb = inject(FormBuilder);
   private modalService = inject(ModalService);
+  queryInput = signal('')
   searchCustomerForm: FormGroup = this.fb.group({
     query: [''],
   });
 
-  constructor() {}
-
-  search() {
-    if (this.searchCustomerForm.valid) {
-      const query = this.searchCustomerForm.get('query')?.value;
-      this._customerService.searchCustomers(query, '1', '10').subscribe({});
-    }
+  constructor() {
+    effect(() => {
+      this._customerService.query.set( this.queryInput());
+    })
   }
 
   createCustomer() {
     this.modalService.open(CreateCustomerComponent);
+  }
+
+  updateQuery(event: Event){
+    this.queryInput.set((event.target as HTMLInputElement).value);
   }
 }
