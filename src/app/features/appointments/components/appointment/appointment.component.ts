@@ -115,17 +115,14 @@ export class AppointmentComponent {
             status: newStatus
           };
 
-          this.appointment.update(() => updatedAppointment);
+          this.appointment.set(updatedAppointment);
 
-          this.appointmentsService.signalAppointmentsForDate.update(prev =>
+          this.appointmentsService.signalAppointments.update(prev =>
             prev.map(a => a.id === updatedAppointment.id ? updatedAppointment : a)
           );
 
           this.alertService.showSuccess("Estado cambiado correctamente.")
         }
-      },
-      error: (err) => {
-        console.error('Error al actualizar el estado', err);
       }
     });
   }

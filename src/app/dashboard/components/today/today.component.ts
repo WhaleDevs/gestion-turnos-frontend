@@ -95,20 +95,16 @@ export class TodayComponent {
   }
 
   deleteAppointment(appointment: AppointmentResponse) {
-    //confirmar? usar componente que arreglo rafa // note hoy jueves 10 de abril
     this.appointmentsService.signalAppointmentSelected.set(appointment);
-    this.appointmentsService.deleteAppointment().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.alertService.showSuccess('Turno eliminado correctamente');
-          this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
-            .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
-          this.appointmentsService.signalAppointmentSelected.set(null);
-        }
+    this.appointmentsService.deleteAppointment().subscribe(() => {
+      const currentPageIndex = this.currentPage(); 
+      const turnosRestantes = this.paginatedAppointments();
+      if (turnosRestantes.length === 0 && currentPageIndex > 0) {
+        this.currentPage.set(currentPageIndex - 1);
       }
     });
   }
-
+  
   returnIfPlaceForNewAppointments() {
     const appointments = this.signalAppointmentsForDate();
     if (appointments.length === 0) return true;
