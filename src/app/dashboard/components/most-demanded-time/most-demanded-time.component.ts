@@ -5,14 +5,14 @@ import { SessionService } from '@app/auth/services/session.service';
 import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroCalendar } from '@ng-icons/heroicons/outline';
+import { heroArrowPath, heroCalendar } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-most-demanded-time',
   imports: [FormsModule, NgIcon],
   templateUrl: './most-demanded-time.component.html',
   styleUrl: './most-demanded-time.component.scss',
-  providers: [provideIcons({ heroCalendar })]
+  providers: [provideIcons({ heroCalendar, heroArrowPath})]
 })
 export class MostDemandedTimeComponent {
   private scheduleService = inject(ScheduleService);
@@ -35,6 +35,10 @@ export class MostDemandedTimeComponent {
 
   generateTurns(event: Event) {
     this.selectedMonths = (event.target as HTMLSelectElement).value;
+    this.callStats();
+  }
+
+  refresh() {
     this.callStats();
   }
 
