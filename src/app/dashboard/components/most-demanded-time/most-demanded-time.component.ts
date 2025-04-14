@@ -6,6 +6,8 @@ import { AppointmentResponse } from '@app/features/appointments/models/responses
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroArrowPath, heroCalendar } from '@ng-icons/heroicons/outline';
+import { T } from 'node_modules/@angular/cdk/portal-directives.d-d581f5ee';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-most-demanded-time',
@@ -22,7 +24,7 @@ export class MostDemandedTimeComponent {
   selectedMonths: string = '1';
   turns: any[] = [];
   turnsAgroupedForHour: { hour: string, count: number }[] = [];
-
+  loading = signal(false);
   constructor() {
     window.addEventListener('resize', () => {
       this.screenWidth.set(window.innerWidth);
@@ -30,41 +32,40 @@ export class MostDemandedTimeComponent {
   }
 
   ngOnInit(): void {
-    this.callStats();
-  }
-
-  generateTurns(event: Event) {
-    this.selectedMonths = (event.target as HTMLSelectElement).value;
-    this.callStats();
+    this.refresh();
   }
 
   refresh() {
+    this.loading.set(true);
     this.callStats();
   }
 
   callStats() {
     console.log("Llamando a la api con el mes: ", this.selectedMonths);
-    this.sessionService.getSession$.subscribe({
-      next: (session) => {
-        if (session) {
-          const email = session.email;
-          this.scheduleService.getMostDemandedAppointments(this.selectedMonths, email).subscribe({
-            next: (response) => {
-              console.log('Turnos mas demandados', response);
-              if (response.data) {
-                this.turns = response.data;
-                this.turns = this.turns.filter(turn => turn.count > 0);
-              } else {
-                console.log('No hay turnos mas demandados');
+    setTimeout(() => {
+      this.sessionService.getSession$.subscribe({
+        next: (session) => {
+          if (session) {
+            const email = session.email;
+            this.scheduleService.getMostDemandedAppointments(this.selectedMonths, email).subscribe({
+              next: (response) => {
+                console.log('Turnos mas demandados', response);
+                if (response.data) {
+                  this.turns = response.data;
+                  this.turns = this.turns.filter(turn => turn.count > 0);
+                } else {
+                  console.log('No hay turnos mas demandados');
+                }
+              },
+              error: (error) => {
+                console.error('Error al obtener los turnos mas demandados', error);
               }
-            },
-            error: (error) => {
-              console.error('Error al obtener los turnos mas demandados', error);
-            }
-          })
+            })
+          }
+          this.loading.set(false);
         }
-      }
-    })
+      })
+    },250)
   }
 
   ngOnDestroy(): void {

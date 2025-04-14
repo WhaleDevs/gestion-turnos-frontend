@@ -1,34 +1,40 @@
-<section class="headMap-container">
-  <div class="header-title">
-    <h2 class="title">
-      Los horarios mas reservados
-      <ng-icon class="icon icon-small" (click)="refresh()" name="heroArrowPath" />
-    </h2>
-    <div class="form-group">
-      <div class="input container">
-        <ng-icon class="icon icon-small" name="heroCalendar" />
-        <select class="select small light" id="select-month">
-          <option value="1">1 Mes</option>
-          <option value="3">3 Meses</option>
-          <option value="6">6 Meses</option>
-          <option value="12">12 Meses</option>
-          <option value="99">Historico</option>
-        </select>
+@if (loading()) {
+  <section class="headMap-container gray">
+    <p>Cargando...</p>
+  </section>
+}@else {
+  <section class="headMap-container">
+    <div class="header-title">
+      <h2 class="title">
+        Los horarios mas reservados
+        <ng-icon class="icon icon-small" (click)="refresh()" name="heroArrowPath" />
+      </h2>
+      <div class="form-group">
+        <div class="input container">
+          <ng-icon class="icon icon-small" name="heroCalendar" />
+          <select class="select small light" id="select-month">
+            <option value="1">1 Mes</option>
+            <option value="3">3 Meses</option>
+            <option value="6">6 Meses</option>
+            <option value="12">12 Meses</option>
+            <option value="99">Historico</option>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="headMap">
-    <div class="column">
-      @for (i of turns; track $index) {
-      <div class="column-container">
-        <p>{{i.hour}}</p>
-        @if (isSmallScreen()) {
-        <div [style.width.px]="(i.count*20)" [style.max-width.px]="250">{{i.count}}</div>
-        }@else{
-        <div [style.height.px]="(i.count*20)" [style.max-height.px]="250">{{i.count}}</div>
+    <div class="headMap">
+      <div class="column">
+        @for (i of turns; track $index) {
+        <div class="column-container">
+          <p>{{i.hour}}</p>
+          @if (isSmallScreen()) {
+          <div [style.width.px]="(i.count*20)" [style.max-width.px]="250">{{i.count}}</div>
+          }@else{
+          <div [style.height.px]="(i.count*20)" [style.max-height.px]="250">{{i.count}}</div>
+          }
+        </div>
         }
       </div>
-      }
     </div>
-  </div>
-</section>
+  </section>
+}

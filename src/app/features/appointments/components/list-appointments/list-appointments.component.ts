@@ -9,6 +9,7 @@ import { SaveAppointmentComponent } from '../save-appointment/save-appointment.c
 import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { AlertService } from '@app/shared/services/alert.service';
+import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-list-appointments',
@@ -63,20 +64,21 @@ export class ListAppointmentsComponent {
   }
 
   deleteAppointment(appointment: AppointmentResponse) {
-    //confirmar? usar componente que arreglo rafa // note hoy jueves 10 de abril
-    this.appointmentsService.signalAppointmentSelected.set(appointment);
-    this.appointmentsService.deleteAppointment().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.alertService.showSuccess('Turno eliminado correctamente');
-          this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
-            .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
-          this.appointmentsService.signalAppointmentSelected.set(null);
-        }
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este cliente?' }).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.appointmentsService.signalAppointmentSelected.set(appointment);
+        this.appointmentsService.deleteAppointment().subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.alertService.showSuccess('Turno eliminado correctamente');
+              this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
+                .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
+              this.appointmentsService.signalAppointmentSelected.set(null);
+            }
+          }
+        });
       }
-    });
+    })
   }
 
-
-  
 }
