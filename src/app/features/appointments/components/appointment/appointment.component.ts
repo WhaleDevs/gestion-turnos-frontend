@@ -1,10 +1,11 @@
 import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { ModalService } from '@app/shared/services/modal.service';
-import { AppointmentStatus } from '../../models/responses/appointments.response';
+import { AppointmentResponse, AppointmentStatus } from '../../models/responses/appointments.response';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@app/shared/services/alert.service';
 import { NgClass } from '@angular/common';
+import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-appointment',
@@ -89,18 +90,22 @@ export class AppointmentComponent {
   }
 
   deleteAppointment() {
-    this.appointmentsService.deleteAppointment().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
-            .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
-          this.appointmentsService.signalAppointmentSelected.set(null);
-          this.alertService.showSuccess('Turno eliminado correctamente');
-          this.closeAppointmentEvent();
-        }
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este cliente?' }).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.appointmentsService.deleteAppointment().subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.alertService.showSuccess('Turno eliminado correctamente');
+              this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
+                .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
+              this.appointmentsService.signalAppointmentSelected.set(null);
+            }
+          }
+        });
       }
-    });
+    })
   }
+
 
 
   onStatusChange(newStatus: AppointmentStatus) {
