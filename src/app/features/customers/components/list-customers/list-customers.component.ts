@@ -38,7 +38,7 @@ export class ListCustomersComponent {
     this.breakpointObserver
     .observe([`(max-width: 768px)`])
     .subscribe((result) => {
-      this._customerService.pageSize.set(4);
+      this._customerService.pageSize.set(this.pageSize());
       this._customerService.currentPage.set(1);
       this._customerService.isMobile.set(result.matches)
     });
