@@ -166,7 +166,7 @@ export class AppointmentsService {
 
       currentTime.setMinutes(currentTime.getMinutes() + interval);
     }
-
+    
     const filteredHours = hours.filter(hour => {
       const hourOnly = hour.split(":")[0];
       let isDisabled = hoursEnabled.includes(hour);
@@ -177,7 +177,6 @@ export class AppointmentsService {
         rest.startTime === hour ||
         rest.startTime.split(":")[0] === hourOnly
       );
-
       return !isDisabled && !isRestHour;
     });
     return filteredHours;

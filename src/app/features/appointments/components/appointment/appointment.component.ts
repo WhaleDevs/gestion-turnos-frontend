@@ -99,6 +99,7 @@ export class AppointmentComponent {
               this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
                 .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
               this.appointmentsService.signalAppointmentSelected.set(null);
+              this.closeAppointmentEvent();
             }
           }
         });

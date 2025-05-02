@@ -50,6 +50,7 @@ export class ListAppointmentsComponent {
 
   showFormToCreateAppointment() {
     const hoursEnabled: string[] = this.appointmentsForDate().map(a => a.startTime);
+    console.log("hoursEnabled", hoursEnabled);
     this.appointmentsService.setHoursEnabled(hoursEnabled);
     this.modalService.open(SaveAppointmentComponent, { width: '600px' });
   }
