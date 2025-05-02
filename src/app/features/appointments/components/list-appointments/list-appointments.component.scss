@@ -46,6 +46,7 @@
 
 .appointment{
     display: flex;
+    width: 100%;
     gap: var(--gap-m);
     padding: var(--padding-m);
     background-color: var(--background-light);
@@ -107,4 +108,34 @@
 .disabled{
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+
+.appointment-container-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-m);
+    width: 100%;
+}
+
+.trash{
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-m);
+    &:hover{
+        transition: background-color 0.5s ease;
+        background-color: var(--primary);
+        color: var(--text-light);
+        cursor: pointer;
+        .icon{
+            color: var(--text-light);
+        }
+    }
 }

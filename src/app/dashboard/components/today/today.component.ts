@@ -11,6 +11,7 @@ import { heroChevronLeft, heroChevronRight, heroTrash } from '@ng-icons/heroicon
 import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
+import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-today',
@@ -95,22 +96,19 @@ export class TodayComponent {
   }
 
   deleteAppointment(appointment: AppointmentResponse) {
-    //confirmar? usar componente que arreglo rafa // note hoy jueves 10 de abril
-    this.appointmentsService.signalAppointmentSelected.set(appointment);
-    this.appointmentsService.deleteAppointment().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.alertService.showSuccess('Turno eliminado correctamente');
-          this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
-            .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
-          this.appointmentsService.signalAppointmentSelected.set(null);
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, {message: '¿Estás seguro de que querés eliminar este cliente?'}).subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.appointmentsService.signalAppointmentSelected.set(appointment);
+          this.appointmentsService.deleteAppointment().subscribe(() => {
+            const currentPageIndex = this.currentPage();
+            const turnosRestantes = this.paginatedAppointments();
+            if (turnosRestantes.length === 0 && currentPageIndex > 0) {
+              this.currentPage.set(currentPageIndex - 1);
+            }
+          });
+          this.alertService.showSuccess('Turno eliminado');
         }
-      },
-      error: (error) => {
-        console.log(error);
-        this.alertService.showError('Error al eliminar el turno');
-      }
-    });
+      });
   }
 
   returnIfPlaceForNewAppointments() {

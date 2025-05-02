@@ -111,5 +111,18 @@
       background-color: var(--background-muted);
     }
   }
+
+  &.delete{
+    background-color: var(--background-muted);
+    color: var(--text-light);
+    .icon{
+      color: var(--text-light);
+    }
+    &:hover {
+      background-color: var(--background-muted);
+    }
+  }
+
+
 }
 

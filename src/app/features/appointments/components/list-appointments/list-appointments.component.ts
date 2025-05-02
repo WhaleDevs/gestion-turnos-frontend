@@ -1,13 +1,15 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroClock, heroPlus } from '@ng-icons/heroicons/outline';
+import { heroClock, heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
 import { AppointmentResponse, AppointmentStatus } from '../../models/responses/appointments.response';
 import { AppointmentComponent } from '../appointment/appointment.component';
 import { ModalService } from '@app/shared/services/modal.service';
 import { SaveAppointmentComponent } from '../save-appointment/save-appointment.component';
 import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { AlertService } from '@app/shared/services/alert.service';
+import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-list-appointments',
@@ -15,11 +17,12 @@ import { NgClass } from '@angular/common';
   imports: [NgIcon, RouterLink, NgClass],
   templateUrl: './list-appointments.component.html',
   styleUrls: ['./list-appointments.component.scss'],
-  providers: [provideIcons({ heroClock, heroPlus })],
+  providers: [provideIcons({ heroClock, heroPlus, heroTrash })],
 })
 export class ListAppointmentsComponent {
   private modalService = inject(ModalService);
   private appointmentsService = inject(AppointmentsService);
+  private alertService = inject(AlertService);
   appointmentStatus = AppointmentStatus;
 
   appointmentsLength = computed(() => this.appointmentsService.signalAppointmentsForDate().length);
@@ -34,15 +37,6 @@ export class ListAppointmentsComponent {
 
 
   constructor() {
-    effect(() => {
-      console.log("\n\n\n\n");
-      console.count();
-      console.log("Signal appointments length", this.appointmentsService.signalAppointmentsForDate().length);
-      console.log("Date: ", this.date());
-      console.log("Selected status: ", this.selectedStatus());
-      console.log("Appointments for date: ", this.appointmentsForDate());
-      console.log("Hours for date: ", this.hoursForDate());
-    });
   }
 
   filter(status: AppointmentStatus | null) {
@@ -59,4 +53,23 @@ export class ListAppointmentsComponent {
     this.appointmentsService.setHoursEnabled(hoursEnabled);
     this.modalService.open(SaveAppointmentComponent, { width: '600px' });
   }
+
+  deleteAppointment(appointment: AppointmentResponse) {
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este cliente?' }).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.appointmentsService.signalAppointmentSelected.set(appointment);
+        this.appointmentsService.deleteAppointment().subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.alertService.showSuccess('Turno eliminado correctamente');
+              this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
+                .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
+              this.appointmentsService.signalAppointmentSelected.set(null);
+            }
+          }
+        });
+      }
+    })
+  }
+
 }

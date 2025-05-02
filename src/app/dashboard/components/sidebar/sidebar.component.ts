@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UserProfileComponent } from "./components/user-profile/user-profile.component";
 import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -8,7 +8,7 @@ import { FooterComponent } from "./components/footer/footer.component";
   imports: [UserProfileComponent, NavBarComponent, FooterComponent],
   template: `
 
-    <section class="sidebar-container">
+    <section class="sidebar-container" (click)="closeSidebarOut()">
         <app-user-profile class="user-profile"></app-user-profile>
         <app-nav-bar class="nav-bar"></app-nav-bar>
         <app-footer class="footer"></app-footer>    
@@ -45,4 +45,11 @@ import { FooterComponent } from "./components/footer/footer.component";
 
   `]
 })
-export class SidebarComponent { }
+export class SidebarComponent {
+  @Output() closeSidebar = new EventEmitter<void>();
+
+  closeSidebarOut() {
+    this.closeSidebar.emit();
+  }
+
+}
