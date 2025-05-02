@@ -1,5 +1,5 @@
 <section>
-  <form [formGroup]="searchCustomerForm" (ngSubmit)="search()">
+  <form [formGroup]="searchCustomerForm">
     <button type="button" class="btn large success add-btn" (click)="createCustomer()"><ng-icon class="icon icon-medium" name="heroPlusCircle" /><p>Agregar</p></button>
     
     <div class="input container">
@@ -10,6 +10,7 @@
         formControlName="query" 
         placeholder="Introduce nombre, apellido, email o teléfono"
         class="input large"
+        (input) = "updateQuery($event)"
       />
     </div>
     

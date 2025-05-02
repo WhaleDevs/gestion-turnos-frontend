@@ -5,12 +5,13 @@ section {
   justify-content: center;
   width: 100%;
   margin: 0 auto;
-  background-color: var(--background-light);
-  border-radius: var(--border-radius-m);
-  box-shadow: var(--shadow-elevation-medium);
+  /* background-color: var(--background-light);
   border: 1px solid #ccc;
+  box-shadow: var(--shadow-elevation-medium); */
+  border-radius: var(--border-radius-m);
   height: 100%;
 
+  gap: var(--gap-m);
   @media (max-width: 769px) {
     background-color: rgba(255, 255, 255, 0);
     background-color: none;
@@ -18,6 +19,33 @@ section {
     box-shadow: none;
     border: none;
   }
+}
+
+.navigation-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  gap: var(--gap-l);
+  padding: var(--padding-m);
+  border-radius: var(--border-radius-m);
+  background-color: var(--background-light);
+  box-shadow: var(--shadow-elevation-medium); 
+  border: 1px solid #ccc;
+}
+
+.navigation-menu{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  gap: var(--gap-s);
+}
+
+.select{
+  width: auto;
 }
 
 // Tabla
@@ -28,6 +56,9 @@ section {
   align-items: center;
   justify-content: center;
   border-radius: var(--border-radius-m);
+  background-color: var(--background-light);
+  border: 1px solid #ccc;
+  box-shadow: var(--shadow-elevation-medium); 
 
   .row-header {
     display: grid;
@@ -104,7 +135,8 @@ section {
   justify-content: center;
   align-items: center;
   gap: var(--gap-l);
-  min-height: 100%;
+  height: 500px; 
+  overflow-y: auto;
   width: 100%;
 
   @media screen and (max-width: 576px) {

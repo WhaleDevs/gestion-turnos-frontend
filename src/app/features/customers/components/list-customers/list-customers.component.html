@@ -1,5 +1,18 @@
 <section>
   @if(!isMobile()){
+    <div class="navigation-container">
+      <div class="navigation-menu">
+        @for (page of pages(); track page) {
+          <button class="btn primary small" [class.active]="currentPage() === page" (click)="navigate(page)" > {{ page }} </button>
+        }
+      </div>
+      <select class="select medium primary" (change)="changePageSize($event)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
+    </div>
     <div class="table">
       <div class="row-header">
         <div class="cell-header">Nombre</div>
@@ -8,7 +21,7 @@
         <div class="cell-header">Acciones</div>
     </div>
     <div class="body">
-      @for(customer of customers; track customer.id){
+      @for(customer of customers(); track customer.id){
         <div class="row">
           <div class="cell">{{ customer.firstName }} {{ customer.lastName }}</div>
           <div class="cell">{{ customer.email }}</div>
@@ -22,8 +35,8 @@
     </div>
   </div>
  }@else {
-  <div class="cards">
-    @for (customer of customers; track customer.id) {
+  <div class="cards" (scroll)="onScroll($event)">
+    @for (customer of customers(); track customer.id) {
       <div class="card">
         <div><span>Nombre:</span> {{ customer.firstName }} {{ customer.lastName }}</div>
         <div><span>Email:</span> {{ customer.email }}</div>

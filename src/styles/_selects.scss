@@ -18,6 +18,11 @@
     cursor: not-allowed;
   }
 
+  &.primary{
+    background-color: var(--primary);
+    color: var(--text-light);
+  }
+
   &.error {
     border-color: var(--error);
   }
