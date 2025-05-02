@@ -15,7 +15,8 @@ import { CustomerResponse } from '@app/features/customers/models/customer.respon
   providedIn: 'root'
 })
 export class AppointmentsService {
-
+  constructor() {
+  }
   // ─────────────────────────────────────────────
   // 🔧 INYECCIONES Y CONFIG
   // ─────────────────────────────────────────────
@@ -45,13 +46,15 @@ export class AppointmentsService {
   signalHoursEnabled = signal<String[]>([]);
   signalAppointmentToCreate = signal<AppointmentForCreationDto>(INIT_APPOINTMENT_FOR_CREATE_DTO);
   signalAppointments = signal<AppointmentResponse[]>([]);
-  signalAppointmentsForDate = linkedSignal(() =>
+
+  signalAppointmentsForDate = computed(() =>
     this.signalAppointments()
-      .filter(appointment => appointment.date === this.signalDateSelected()?.date.replaceAll('/', '-'))
+      .filter(appointment => appointment.date === this.signalDateSelected()?.date)
       .sort((a: AppointmentResponse, b: AppointmentResponse) =>
         DateTime.fromISO(a.startTime).toMillis() - DateTime.fromISO(b.startTime).toMillis()
       )
   );
+  
   signalAppointmentSelected = signal<AppointmentResponse | null>(null);
 
   // ─────────────────────────────────────────────
@@ -91,7 +94,14 @@ export class AppointmentsService {
   }
 
   createAppointment(): Observable<ApiResponse<AppointmentResponse>> {
-    return this.http.post<ApiResponse<AppointmentResponse>>(this.url, this.signalAppointmentToCreate());
+    return this.http.post<ApiResponse<AppointmentResponse>>(this.url, this.signalAppointmentToCreate()).pipe(
+      tap((response)=>{
+        if (response.data) {
+          response.data.date = this.formateDate(response.data.date);
+        }
+        this.setAppointments([response.data!, ...this.signalAppointments()]);
+      })
+    );
   }
 
 
@@ -109,9 +119,16 @@ export class AppointmentsService {
   deleteAppointment(): Observable<ApiResponse<AppointmentResponse>> {
     const httpParams = new HttpParams()
       .set(':id', this.signalAppointmentSelected()?.id.toString()!);
-    return this.http.delete<ApiResponse<AppointmentResponse>>(this.url, { params: httpParams });
+    return this.http.delete<ApiResponse<AppointmentResponse>>(this.url, { params: httpParams }).pipe(
+      tap((response) => {
+        if (response.success) {
+          this.setAppointments(this.signalAppointments().filter(appointment => appointment.id !== this.signalAppointmentSelected()?.id));
+          this.signalAppointmentSelected.set(null);
+        }
+      })
+    );
   }
-
+  
   // ─────────────────────────────────────────────
   // 🧠 LÓGICA DE HORARIOS Y DESCANSOS
   // ─────────────────────────────────────────────

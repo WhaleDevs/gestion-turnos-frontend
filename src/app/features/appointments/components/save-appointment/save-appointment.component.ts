@@ -14,6 +14,7 @@ import { ModalService } from '@app/shared/services/modal.service';
 import { AlertService } from '@app/shared/services/alert.service';
 
 import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
+import { AppointmentResponse } from '../../models/responses/appointments.response';
 
 @Component({
   selector: 'app-save-appointment',
@@ -92,17 +93,13 @@ export class SaveAppointmentComponent {
 
     this.appointmentsService.setAppointmentToCreate(payload);
     this.appointmentsService.createAppointment().subscribe({
-      next: (response) => {
-        console.log('Cita creada', response);
-        this.appointmentsService.setAppointments([...this.appointmentsService.signalAppointments(), response.data!]);
-        this.appointmentsService.signalAppointmentsForDate.set([...this.appointmentsService.signalAppointmentsForDate(), response.data!]);
+      next: () => {
         this.modalService.close();
       },
       error: (error) => {
         console.error('Error al crear la cita', error);
       }
     });
-
   }
 
   private calculateEndTime(start: string, index: number): string {
@@ -161,11 +158,11 @@ export class SaveAppointmentComponent {
       this.showPhoneError = false;
     }
 
-    this.customerService.searchCustomers(value).subscribe({
+    this.customerService.searchCustomers(value, '1', '1').subscribe({
       next: ({ success, data }) => {
         if (!data) return;
-        if (success && data?.length > 0) {
-          const customer = data[0];
+        if (success && data?.data?.length > 0) {
+          const customer = data.data[0];
           this.alertService.showSuccess('Cliente encontrado');
           this.searching.set(false);
           this.formSaveAppointment.get('customer')?.patchValue({

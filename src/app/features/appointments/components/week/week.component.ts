@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { Week } from '../calendar/calendar.component';
 import { NgClass } from '@angular/common';
@@ -11,12 +11,17 @@ import { NgClass } from '@angular/common';
 export class WeekComponent {
   private appointmentsService = inject(AppointmentsService);
   weekSelected = computed<Week[]>(() => (this.appointmentsService.signalWeekSelected()));
-  constructor() {}
+  constructor() {
+    effect(() => {
+      console.log(this.appointmentsService.signalDateSelected());
+    })
+  }
 
   dayActive(day: Week) {
     this.appointmentsService.signalDateSelected.set(day);
     this.appointmentsService.signalDateFromWeek.set(day);
   }
+
   whatDay() {
     return this.appointmentsService.signalDateSelected()?.dayName;
   }

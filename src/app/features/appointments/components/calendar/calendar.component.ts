@@ -31,9 +31,8 @@ export class CalendarComponent {
   constructor() { 
     this.dateAdapter.setLocale('es');
     this.dateAdapter.getFirstDayOfWeek = () => 1;
-
     effect(() => {
-      this.dateSelected.set(new Date(this.appointmentsService.signalDateFromWeek()?.date ?? ''));
+      this.dateSelected.set(DateTime.fromISO(this.appointmentsService.signalDateFromWeek()?.date ?? '').toJSDate());
     });
     
     effect(() => {
@@ -64,7 +63,7 @@ export class CalendarComponent {
     for (let i = 0; i < 7; i++) {
       const day = startOfWeek.plus({ days: i });
       week.push({
-        date: day.toFormat('yyyy/MM/dd'),
+        date: day.toFormat('yyyy-MM-dd'),
         dayName: day.weekdayLong?.toLocaleUpperCase() ?? '',
         dayNumber: day.toFormat('d'),
         status: !this.appointmentsService.signalDayStatusFalse().includes(day.weekdayLong?.toLocaleUpperCase() ?? '')
@@ -80,7 +79,7 @@ export class CalendarComponent {
     if (!day) return;
     let startOfWeek = DateTime.fromJSDate(day).setLocale('es');
     let dayWeek: Week = {
-      date: startOfWeek.toFormat('yyyy/MM/dd'),
+      date: startOfWeek.toFormat('yyyy-MM-dd'),
       dayNumber: startOfWeek.toFormat('d'),
       dayName: startOfWeek.weekdayLong?.toLocaleUpperCase() ?? '',
       status: !this.appointmentsService.signalDayStatusFalse().includes(startOfWeek.weekdayLong?.toLocaleUpperCase() ?? '')

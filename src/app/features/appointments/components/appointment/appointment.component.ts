@@ -1,10 +1,11 @@
 import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { ModalService } from '@app/shared/services/modal.service';
-import { AppointmentStatus } from '../../models/responses/appointments.response';
+import { AppointmentResponse, AppointmentStatus } from '../../models/responses/appointments.response';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@app/shared/services/alert.service';
 import { NgClass } from '@angular/common';
+import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-appointment',
@@ -30,10 +31,27 @@ import { NgClass } from '@angular/common';
             </option>
           } 
         </select>
+        <button  class="btn full" (click)="deleteAppointment()">ELIMINAR TURNO</button>
       </div>
   </section>  
     `,
   styles: `
+    .btn{
+      font-size: var(--font-size-s);
+      padding: var(--padding-m);
+      box-shadow: none;
+      border-radius: var(--border-radius-s);
+      border: 1px solid var(--border-light);
+      background-color: var(--background-light);
+      cursor: pointer;
+      width: 100%;
+      &:hover{
+        background-color: var(--background-muted);
+        color: var(--text-light);
+      }
+    }
+
+
     .appointment-container{
         display: flex;
         flex-direction: column;
@@ -48,9 +66,8 @@ import { NgClass } from '@angular/common';
       display: flex;
       flex-direction: column;
       padding: var(--padding-m);
-      border: 1px solid var(--border-light);
       border-radius: var(--border-radius-m);
-      gap: var(--gap-m);
+      gap: var(--gap-l);
       height: 100%;
       width: 100%;
     }
@@ -66,10 +83,30 @@ export class AppointmentComponent {
     AppointmentStatus.TERMINADO,
     AppointmentStatus.AUSENTE
   ];
+
   closeAppointmentEvent() {
     this.appointmentsService.signalAppointmentSelected.set(null);
     this.modalService.close();
   }
+
+  deleteAppointment() {
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este cliente?' }).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.appointmentsService.deleteAppointment().subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.alertService.showSuccess('Turno eliminado correctamente');
+              this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
+                .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
+              this.appointmentsService.signalAppointmentSelected.set(null);
+            }
+          }
+        });
+      }
+    })
+  }
+
+
 
   onStatusChange(newStatus: AppointmentStatus) {
     const appointment = this.appointment();
@@ -83,17 +120,14 @@ export class AppointmentComponent {
             status: newStatus
           };
 
-          this.appointment.update(() => updatedAppointment);
+          this.appointment.set(updatedAppointment);
 
-          this.appointmentsService.signalAppointmentsForDate.update(prev =>
+          this.appointmentsService.signalAppointments.update(prev =>
             prev.map(a => a.id === updatedAppointment.id ? updatedAppointment : a)
           );
 
           this.alertService.showSuccess("Estado cambiado correctamente.")
         }
-      },
-      error: (err) => {
-        console.error('Error al actualizar el estado', err);
       }
     });
   }
