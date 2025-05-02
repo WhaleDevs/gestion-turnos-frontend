@@ -4,7 +4,7 @@
 
     <section  class="day-container" 
     [title]="!day.status ? 'Día no disponible' : 'Seleccionar día'"
-    [ngClass]="{ 'selected': whatDay() === day.dayName}"
+    [ngClass]="{ 'selected': whatDay() == day.dayName}"
     (click)="dayActive(day)"
     >
         <p>{{ day.dayName.slice(0, 3) }}</p>

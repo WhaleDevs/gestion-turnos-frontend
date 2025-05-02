@@ -37,15 +37,6 @@ export class ListAppointmentsComponent {
 
 
   constructor() {
-    effect(() => {
-      console.log("\n\n\n\n");
-      console.count();
-      console.log("Signal appointments length", this.appointmentsService.signalAppointmentsForDate().length);
-      console.log("Date: ", this.date());
-      console.log("Selected status: ", this.selectedStatus());
-      console.log("Appointments for date: ", this.appointmentsForDate());
-      console.log("Hours for date: ", this.hoursForDate());
-    });
   }
 
   filter(status: AppointmentStatus | null) {

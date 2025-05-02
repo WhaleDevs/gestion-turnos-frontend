@@ -16,13 +16,6 @@ import { CustomerResponse } from '@app/features/customers/models/customer.respon
 })
 export class AppointmentsService {
   constructor() {
-    effect(()=>{
-      console.log("CAMBIO");
-      console.log(this.signalAppointments());
-      console.log("FECHA: ", this.signalDateSelected());
-      console.log("CAMBIO POR FECHA");
-      console.log(this.signalAppointmentsForDate());
-    })
   }
   // ─────────────────────────────────────────────
   // 🔧 INYECCIONES Y CONFIG

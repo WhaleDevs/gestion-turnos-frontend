@@ -31,9 +31,8 @@ export class CalendarComponent {
   constructor() { 
     this.dateAdapter.setLocale('es');
     this.dateAdapter.getFirstDayOfWeek = () => 1;
-
     effect(() => {
-      this.dateSelected.set(new Date(this.appointmentsService.signalDateFromWeek()?.date ?? ''));
+      this.dateSelected.set(DateTime.fromISO(this.appointmentsService.signalDateFromWeek()?.date ?? '').toJSDate());
     });
     
     effect(() => {
