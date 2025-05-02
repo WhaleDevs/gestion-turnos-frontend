@@ -96,16 +96,19 @@ export class AppointmentComponent {
           next: (response) => {
             if (response.success) {
               this.alertService.showSuccess('Turno eliminado correctamente');
-              this.appointmentsService.signalAppointments.set(this.appointmentsService.signalAppointments()
-                .filter(appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id));
-              this.appointmentsService.signalAppointmentSelected.set(null);
-              this.closeAppointmentEvent();
+              this.appointmentsService.signalAppointments.set(
+                this.appointmentsService.signalAppointments().filter(
+                  appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id
+                )
+              );
+              this.closeAppointmentEvent(); 
             }
           }
         });
       }
-    })
+    });
   }
+
 
 
 
