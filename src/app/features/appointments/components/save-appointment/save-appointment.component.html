@@ -1,0 +1,70 @@
+<form [formGroup]="formSaveAppointment" class="form" (ngSubmit)="onSubmit()">
+    <h3>Crear Reserva</h3>
+    <p>Fecha: {{date()?.date}}</p>
+    <p> {{dayConfig()?.startTime}} - {{dayConfig()?.endTime}}</p>
+
+    <div class="form-group">
+        <label for="hour">Hora</label>
+        <div class="input container">
+            <ng-icon class="icon icon-small" name="heroClock" />
+            <select class="select large light" formControlName="startTime" id="hour">
+                <option value="" selected>Selecciona una hora</option>
+                @for (hour of hours(); track $index) {
+                <option [value]="$index">{{ hour }}</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Descripcion</label>
+        <div class="input container">
+            <ng-icon class="icon icon-small" name="heroChatBubbleBottomCenterText" />
+            <input class="input" type="text" formControlName="description" id="description" name="description"
+                required />
+        </div>
+    </div>
+
+    <p class="title">Datos del cliente</p>
+
+    <div class="form-group" formGroupName="customer">
+        <label for="phone">Telefono</label>
+        <div class="input container">
+            <ng-icon class="icon icon-small" name="heroPhone" />
+            <input class="input" type="text" (input)="onPhoneNumberChange($event)" [value]="phoneNumber()" formControlName="phoneNumber" id="phone" name="phone" required/>
+        </div>
+        @if(showPhoneError) {
+            <p>El telefono debe tener al menos 10 caracteres</p>
+        }
+    </div>
+    <div class="grid">
+        <div class="required">
+            <div class="form-group" formGroupName="customer">
+                <label for="name">Nombre</label>
+                <div class="input container">
+                    <ng-icon class="icon icon-small" name="heroUserCircle" />
+                    <input class="input" type="text" formControlName="firstName" id="name" name="name" required />
+                </div>
+            </div>
+            <div class="form-group" formGroupName="customer">
+                <label for="lastName">Apellido</label>
+                <div class="input container">
+                    <ng-icon class="icon icon-small" name="heroUserCircle" />
+                    <input class="input" type="text" formControlName="lastName" id="lastName" name="lastName"
+                        required />
+                </div>
+            </div>
+        </div>
+        <div class="no-required">
+            <div class="form-group" formGroupName="customer">
+                <label for="email">Email</label>
+                <div class="input container">
+                    <ng-icon class="icon icon-small" name="heroAtSymbol" />
+                    <input class="input" type="email" formControlName="email" id="email" name="email" required />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <button class="btn primary full" type="submit">Guardar</button>
+</form>

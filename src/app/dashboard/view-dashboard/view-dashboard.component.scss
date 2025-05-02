@@ -1,21 +1,110 @@
-.grid-container{
+.grid-container {
     display: grid;
     grid-template-columns: 2fr 10fr;
     grid-template-rows: 1fr;
     grid-template-areas: "sidebar main";
-    height: 100vh;
-    padding: 16px;
-    gap: 16px;
+    min-height: 100vh;
+    gap: var(--gap-m);
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-areas: "main";
+        position: relative;
+        padding-top: 70px; 
+    }
 }
 
-.sidebar{
+.header-mobile {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    padding: var(--padding-m);
+    z-index: 1001;
+    align-items: center;
+    box-shadow: var(--shadow-elevation-medium);
+    @media screen and (max-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--gap-m);
+        background-color: var(--primary);
+        color: var(--text-light);
+    }
+}
+
+.app-title {
+    color: var(--text-light);
+    font-weight: var(--font-weight-normal);
+}
+
+.sidebar {
     grid-area: sidebar;
-    border-radius: 16px;
+    border-radius: var(--border-radius-m);
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+    
+    @media screen and (max-width: 768px) {
+        position: fixed;
+        top: 60px; 
+        left: 0;
+        height: calc(100vh - 60px); 
+        z-index: 1000;
+        transform: translateX(-100%);
+        padding: var(--padding-m);
+        border-radius: 0;
+        margin: 0;
+        width: 280px;
+        background-color: var(--background-light);
+        &.active {
+            transform: translateX(0);
+        }
+    }
+}
+
+.main {
+    grid-area: main;
+    border-radius: var(--border-radius-m);
     height: 100%;
 }
 
-.main{
-    grid-area: main;
-    border-radius: 16px;
-    height: 100%;
+.menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 20px;
+    cursor: pointer;
+    padding: var(--padding-m);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 60px; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(2px);
+    
+    @media screen and (max-width: 768px) {
+        &.active {
+            display: block;
+        }
+    }
 }

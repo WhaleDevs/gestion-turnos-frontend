@@ -1,4 +1,14 @@
 <section class="component-container grid-container">
-    <app-sidebar class="sidebar"></app-sidebar>
+    <div class="header-mobile">
+        <button class="menu-toggle" (click)="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="app-title">GESTURN</h1>
+        <div class="user-profile"></div>
+    </div>
+    <div class="overlay" [class.active]="isSidebarOpen" (click)="closeSidebar()"></div>
+    <app-sidebar class="sidebar" [class.active]="isSidebarOpen"
+    (closeSidebar)="closeSidebar()"
+    ></app-sidebar>
     <app-dashboard class="main"></app-dashboard>
 </section>

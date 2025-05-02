@@ -1,0 +1,141 @@
+.appointments-container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+    padding: var(--padding-m);
+    color: var(--foreground);
+    transition: background-color 0.5s ease;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius-m);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-elevation-medium);
+    height: 100%;
+}
+
+.date-and-add-appointment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gap-m);
+    @media screen and (max-width: 576px) {
+        display: grid;
+        grid-template-columns: 1fr auto;
+    }
+}
+
+.add-appointment{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-m);
+    padding: var(--padding-m);
+    border-radius: var(--border-radius-m);
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    border: none;
+    @media screen and (max-width: 576px) {
+        width: 100%;
+    }
+}
+
+.btn{
+    @media screen and (max-width: 576px) {
+        width: 100%;
+    }
+}
+
+.appointment{
+    display: flex;
+    width: 100%;
+    gap: var(--gap-m);
+    padding: var(--padding-m);
+    background-color: var(--background-light);
+    box-shadow: var(--shadow-elevation-low);
+    border-radius: var(--border-radius-m);
+    border: 1px solid var(--border-light);
+    transition: background-color 0.5s ease;
+    &:hover{
+        transition: background-color 0.5s ease;
+        background-color: var(--primary);
+        color: var(--text-light);
+        cursor: pointer;
+        .icon{
+            color: var(--text-light);
+        }
+    }
+}
+
+.logo-hours{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-m);
+    padding: var(--padding-m);
+    border-radius: var(--border-radius-m);
+    background-color: var(--muted);
+    color: var(--foreground);
+    transition: background-color 0.5s ease;
+}
+
+.info-appointment{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+    width: 100%;
+    transition: background-color 0.5s ease;
+}
+
+
+.active {
+    background-color: var(--primary);
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+
+.info-date-header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-s);
+}
+
+.date{
+    @media screen and (max-width: 576px) {
+        display: none;
+    }
+}
+
+.disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+.appointment-container-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-m);
+    width: 100%;
+}
+
+.trash{
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-m);
+    &:hover{
+        transition: background-color 0.5s ease;
+        background-color: var(--primary);
+        color: var(--text-light);
+        cursor: pointer;
+        .icon{
+            color: var(--text-light);
+        }
+    }
+}

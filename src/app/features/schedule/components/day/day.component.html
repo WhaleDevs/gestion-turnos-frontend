@@ -1,0 +1,72 @@
+<form [formGroup]="scheduleDayConfigForm" class="day-container">
+  <!-- Header with day name and status -->
+  <div class="header">
+    <h3 class="day-title">{{ day()?.day }}</h3>
+    <div class="toggle-container">
+      <label for="status" class="toggle-label">Estado</label>
+      <label class="switch">
+        <input id="status" class="input" formControlName="status" type="checkbox" (change)="updateDay()" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Time configuration section -->
+  <div class="time-settings">
+
+    <div class="form-group">
+      <label class="label" for="startTime">Fecha de inicio</label>
+      <input class="input" type="time" id="startTime" formControlName="startTime" placeholder="Ej. 09:00"
+        (input)="updateDay()" />
+    </div>
+
+    <div class="form-group">
+      <label class="label" for="endTime">Hora de fin</label>
+      <input class="input" type="time" id="endTime" formControlName="endTime" placeholder="Ej. 18:00"
+        (input)="updateDay()" />
+    </div>
+
+    <div class="form-group">
+      <label class="label" for="slotInterval">Duración de turnos</label>
+      <input class="input" id="slotInterval" formControlName="slotInterval" type="number" placeholder="Ej. 30"
+        (input)="updateDay()" />
+    </div>
+
+  </div>
+
+  <!-- Breaks section -->
+  <div class="breaks-section" formArrayName="rests">
+    <div class="breaks-header">
+      <h4 class="title">Descansos</h4>
+      <button type="button" class="btn primary light medium" (click)="addRest()">
+        <ng-icon name="heroPlus" class="icon icon-small"></ng-icon>
+        <span class="button-text">Agregar</span>
+      </button>
+    </div>
+    <p class="sub-title secondary">
+      El tiempo de descanso debe coincidir con la duración de un turno. Por ejemplo: {{day()?.slotInterval}} minutos.
+      También es posible agrupar varios turnos, como en este caso: {{(day()?.slotInterval || 0) * 2}} minutos.
+    </p>
+    <div class="breaks-list">
+      <div class="break-item" *ngFor="let rest of rests.controls; let i = index" [formGroupName]="i">
+        <div class="form-group">
+          <label class="label" for="startRest-{{ i }}">Inicio Desc. {{ i + 1 }}</label>
+          <input class="input" type="time" id="startRest-{{ i }}" formControlName="startRest" placeholder="Ej. 12:00"
+            (input)="updateDay()" />
+        </div>
+
+        <div class="form-group">
+          <label class="label" for="endRest-{{ i }}">Fin Desc. {{ i + 1 }}</label>
+          <input class="input" type="time" id="endRest-{{ i }}" formControlName="endRest" placeholder="Ej. 13:00"
+            (input)="updateDay()" />
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn primary light small btn-delete-break" (click)="removeRest(i)">
+            <ng-icon name="heroTrash" class="icon icon-small"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

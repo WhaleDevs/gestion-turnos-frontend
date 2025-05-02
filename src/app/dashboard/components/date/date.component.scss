@@ -1,7 +1,11 @@
 .date-container{
-    gap: 16px;
-    padding: 16px;
-    border-radius: 16px;
-    background-color: #212121;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap-l);
+    padding: var(--padding-l);
+    border-radius: var(--border-radius-m);
+    box-shadow: var(--shadow-elevation-medium);
+    background-color: var(--background-light);
+    height: 100%;
 }

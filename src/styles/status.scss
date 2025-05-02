@@ -1,0 +1,59 @@
+.TERMINADO {
+    background-color: green;
+    color: white;
+}
+
+.RESERVADO {
+    background-color: yellow;
+    color: black;
+}
+
+.AUSENTE {
+    background-color: red;
+    color: white;
+}
+
+.list-appointment-status {
+    display: flex;
+    list-style: none;
+    gap: var(--gap-s);
+    width: 100%;
+    font-size: var(--font-size-s);
+    color: var(--text-muted);
+
+    @media screen and (max-width: 576px) {
+        flex-direction: column;
+        gap: var(--gap-m);
+        text-align: center;
+    }
+}
+
+.list-appointment-status li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-m);
+    background-color: var(--background-light);
+    border-radius: var(--border-radius-m);
+    border: 1px solid var(--border-light);
+    padding: var(--padding-m);
+    box-shadow: var(--shadow-elevation-low);
+    cursor: default;
+    @media screen and (max-width: 576px) {
+        width: 100%;
+    }
+    &:hover{
+        background-color: var(--primary);
+        color: var(--text-light);
+        cursor: pointer;
+    }
+}
+
+
+.circle
+{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    padding: 0;
+}

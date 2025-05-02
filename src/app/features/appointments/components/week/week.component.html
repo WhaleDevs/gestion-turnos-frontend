@@ -1,0 +1,18 @@
+@if (weekSelected().length > 0) {
+    <div class="week-container">
+    @for (day of weekSelected(); track $index) {
+
+    <section  class="day-container" 
+    [title]="!day.status ? 'Día no disponible' : 'Seleccionar día'"
+    [ngClass]="{ 'selected': whatDay() == day.dayName}"
+    (click)="dayActive(day)"
+    >
+        <p>{{ day.dayName.slice(0, 3) }}</p>
+        <p>{{ day.dayNumber }}</p>
+    </section>
+
+    }
+</div>
+}@else {
+    <p>No hay semana seleccionada</p>
+}

@@ -1,0 +1,123 @@
+@use "sass:color";
+
+$primary-color: #002C34;
+$secondary-color: #EEEBD3;
+$success-color: #3A8A49;
+$warning-color: #B77A11;
+$error-color: #F44366;
+$info-color: #17a2b8;
+
+:root {
+  /* 🎨 1. Colores principales */
+  --primary: #{color.adjust($primary-color, $lightness: 0%)};
+  --primary-dark: #{color.adjust($primary-color, $lightness: -10%)};
+  --primary-light: #{color.adjust($primary-color, $lightness: 10%)};
+
+  /* 🎨 2. Colores secundarios */
+  --secondary: #{color.adjust($secondary-color, $lightness: 0%)};
+  --secondary-light: #{color.adjust($secondary-color, $lightness: 10%)};
+  --secondary-dark: #{color.adjust($secondary-color, $lightness: -10%)};
+
+  /* 🎨 3. Colores de fondo */
+  --background-light: #f8f9fa;
+  --background-dark: #343a40;
+  --background-muted: #727272;
+
+  /* 🎨 4. Colores de texto */
+  --text-light: #ffffff;
+  --text-dark: #212529;
+  --text-muted: #6c757d;
+
+  /* 🎨 5. Colores de estado (feedback) */
+  --success: #{color.adjust($success-color, $lightness: 0%)};
+  --success-hover: #{color.adjust($success-color, $lightness: -10%)};
+
+  --error: #{color.adjust($error-color, $lightness: 0%)};
+  --error-hover: #{color.adjust($error-color, $lightness: -10%)};
+
+  --warning: #{color.adjust($warning-color, $lightness: 0%)};
+  --warning-hover: #{color.adjust($warning-color, $lightness: -10%)};
+
+  --info: #{color.adjust($info-color, $lightness: 0%)};
+  --info-hover: #{color.adjust($info-color, $lightness: -10%)};
+  /* 🎨 6. Colores de borde y líneas */
+  --border-light: #dee2e6;
+  --border-dark: #495057;
+
+  /* 🎨 7. Colores de sombra y profundidad */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+
+  /* 🎨 8. Colores de énfasis o acción */
+  --highlight: #ff5722;
+
+  /* 🎨 9. Padding */
+  --padding-s: 0.4rem;
+  --padding-m: 0.8rem;
+  --padding-l: 1.6rem;
+  --padding-xl: 3.2rem;
+
+  /* 🎨 10. Margen */
+  --margin-s: 0.4rem;
+  --margin-m: 0.8rem;
+  --margin-l: 1.6rem;
+  --margin-xl: 3.2rem;
+
+  /* 🎨 11. Gap */
+  --gap-s: 0.4rem;
+  --gap-m: 0.8rem;
+  --gap-l: 1.6rem;
+  --gap-xl: 3.2rem;
+
+  /* 🎨 12. Border radius */
+  --border-radius-s: 0.4rem;
+  --border-radius-m: 0.8rem;
+  --border-radius-l: 1.6rem;
+  --border-radius-xl: 3.2rem;
+
+  /* 🎨 11. Font */
+  --font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+
+  /* 🎨 12. Font size */
+  --font-size-s: 1.2rem;  /* 12px / 10 = 1.2rem */
+  --font-size-m: 1.4rem;  /* 14px / 10 = 1.4rem */
+  --font-size-l: 1.6rem;  /* 16px / 10 = 1.6rem */
+  --font-size-xl: 1.8rem; /* 18px / 10 = 1.8rem */ 
+  --font-size-h2: 2.2rem;   /* 22px: para títulos de nivel medio */
+  --font-size-h1: 2.6rem;   /* 26px: para encabezados principales */
+
+  /* 🎨 13. Font weight */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --shadow-color: 0deg 0% 0%;
+  --shadow-elevation-low:
+    0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.15),
+    1.3px 1.3px 2.1px -2.5px hsl(var(--shadow-color) / 0.15);
+  --shadow-elevation-medium:
+    0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.22),
+    6.6px 6.3px 10.3px -2.5px hsl(var(--shadow-color) / 0.22);
+  --shadow-elevation-high:
+    0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.27),
+    7.5px 7.1px 11.6px -1.2px hsl(var(--shadow-color) / 0.27),
+    33px 31.4px 51.2px -2.5px hsl(var(--shadow-color) / 0.27);
+
+  --brigthness-xl: 100%;
+  --brigthness-l: 80%;
+  --brigthness-m: 60%;
+  --brigthness-s: 40%;
+  --brigthness-xs: 20%;
+  --brigthness-xxs: 10%;
+  --contrast: 0%;
+  --saturation: 100%;
+
+  //modificando el color con el brillo
+  --primary-color-100:
+    --primary-color-200: var(--brigthness-m) var(--saturation) var(--contrast) #002C34;
+  --primary-color-300: var(--brigthness-s) var(--saturation) var(--contrast) #002C34;
+  --primary-color-400: var(--brigthness-xs) var(--saturation) var(--contrast) #002C34;
+  --primary-color-500: var(--brigthness-xxs) var(--saturation) var(--contrast) #002C34;
+
+}

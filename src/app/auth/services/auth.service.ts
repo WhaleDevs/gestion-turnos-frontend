@@ -6,6 +6,7 @@ import { LoginRequest } from '../models/login.request';
 import { RegisterRequest } from '../models/register.request';
 import { SessionService } from './session.service';
 import { AuthResponse } from '../models/session';
+import { ApiResponse } from '@app/shared/models/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -18,19 +19,19 @@ export class AuthService {
     private sessionService: SessionService,
   ) { }
 
-  login(loginCredentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.url}/login`, loginCredentials)
+  login(loginCredentials: LoginRequest): Observable<ApiResponse<AuthResponse>> {
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.url}/login`, loginCredentials)
       .pipe(
-        tap((data: AuthResponse) => this.sessionService.setSession = data),
+        tap((data: ApiResponse<AuthResponse>) => this.sessionService.updateSession(data.data!)),
         catchError((error) => {
           this.sessionService.clearSession();
-          return throwError(() => error); 
+          return throwError(() => error);
         })
       );
   }
   
-  register(registerCredentials: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.url}/register`, registerCredentials);
+  register(registerCredentials: RegisterRequest): Observable<ApiResponse<AuthResponse>> {
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.url}/register`, registerCredentials);
   }
 
   logout(): void {

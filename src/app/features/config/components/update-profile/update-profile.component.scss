@@ -1,0 +1,29 @@
+.accordion {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: var(--shadow-elevation-medium);
+  background-color: var(--background-light);
+
+  .accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding-l);
+    cursor: pointer;
+    background-color: var(--background-light);
+
+    h2 {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-medium);
+      color: var(--primary)
+    }
+  }
+
+  .accordion-body {
+    padding: var(--padding-l);
+    background-color: var(--background-light);
+  }
+
+}
