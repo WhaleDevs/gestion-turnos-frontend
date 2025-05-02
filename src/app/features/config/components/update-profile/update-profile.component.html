@@ -7,6 +7,9 @@
   <div class="accordion-body" *ngIf="isAccordionOpen">
     <form [formGroup]="form" (ngSubmit)="updateProfile()">
       <div class="form-group2">
+        <p class="form-group2__info">Los cambios que realices aquí, requieren que inicies sesión de nuevo.</p>
+      </div>
+      <div class="form-group2">
         <div class="input container">
           <ng-icon class="icon icon-medium" name="heroUserCircle" />
           <input class="input" type="text" formControlName="firstName" placeholder="Nuevo nombre" />

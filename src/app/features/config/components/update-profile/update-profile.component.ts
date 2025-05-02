@@ -12,6 +12,8 @@ import { ConfigService } from '../../services/config.service';
 import { UpdateProfileDto } from '../../models/updateProfileDto.dto';
 import { FormErrorComponent } from '../../../../shared/components/form-error/form-error.component';
 import { AlertService } from '@app/shared/services/alert.service';
+import { SessionService } from '@app/auth/services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-profile',
@@ -24,6 +26,8 @@ export class UpdateProfileComponent {
   private _config = inject(ConfigService);
   private _alertService = inject(AlertService);
   private fb = inject(FormBuilder);
+  private sessionService = inject(SessionService);
+  private router = inject(Router);
   isAccordionOpen = false;
   isFormEnabled = true;
 
@@ -58,7 +62,10 @@ export class UpdateProfileComponent {
 
       this._config.updateProfile(request).subscribe({
         next: () => {
-          this._alertService.showSuccess('Datos actualizados!');
+          this._alertService.showSuccess('Datos actualizados, por seguridad, por favor inicie sesión de nuevo');
+          this.sessionService.clearSession();
+          this.router.navigate(['/auth/login']);
+          this.form.reset();
         },
       });
     }
