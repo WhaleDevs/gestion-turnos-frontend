@@ -74,7 +74,11 @@ export class ScheduleService {
 
   updateScheduleConfigForUpdate(): Observable<ApiResponse<ScheduleConfigResponse>> {
     const newUrl = `${this.url}/schedules/update-config`;
-    return this.http.patch<ApiResponse<ScheduleConfigResponse>>(newUrl, this.signalScheduleConfigForUpdate());
+    return this.http.patch<ApiResponse<ScheduleConfigResponse>>(newUrl, this.signalScheduleConfigForUpdate()).pipe(
+      tap((response: ApiResponse<ScheduleConfigResponse>) => {
+        this.setSignalScheduleConfigResponse(response.data!)
+      })
+    );
   }
 
   getMostDemandedAppointments(months:string,email: string): Observable<ApiResponse<any[]>> {
