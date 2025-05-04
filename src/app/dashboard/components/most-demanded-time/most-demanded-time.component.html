@@ -12,12 +12,12 @@
       <div class="form-group">
         <div class="input container">
           <ng-icon class="icon icon-small" name="heroCalendar" />
-          <select class="select small light" id="select-month">
-            <option value="1">1 Mes</option>
-            <option value="3">3 Meses</option>
-            <option value="6">6 Meses</option>
-            <option value="12">12 Meses</option>
-            <option value="99">Historico</option>
+          <select class="select small light" id="select-month" [(ngModel)]="selectedMonths" (change)="callStats()">
+            @for (option of monthsOptions; track $index) {
+            <option [value]="option.value">
+              {{ option.label }}
+            </option> 
+            }
           </select>
         </div>
       </div>
