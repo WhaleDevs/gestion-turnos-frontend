@@ -16,7 +16,6 @@ export class ManagerService {
   constructor(){
     effect(() => {
       this.getManagers().subscribe();
-      /* console.log(this.managers()) */
     })
   }
 
@@ -26,6 +25,16 @@ export class ManagerService {
         if(response.success && response.data){
           this.managers.set(response.data)
           /* console.table(this.managers()); */
+        }
+      })
+    );
+  }
+
+  delete(id:number):Observable<ApiResponse<void>>{
+    return this.http.delete<ApiResponse<void>>(`${this.url}/users/${id}`).pipe(
+      tap((response: ApiResponse<void>) => {
+        if(response.success){
+          this.managers.set(this.managers().filter(manager => manager.id !== id)) 
         }
       })
     );
