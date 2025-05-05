@@ -23,6 +23,13 @@
             <a class="nav-link">Clientes</a>
         </a>
 
+        @if (role === 'ADMIN') {
+        <a class="nav-item" routerLink="/dashboard/servicios" routerLinkActive="active">
+            <ng-icon class="icon icon-medium" name="heroRectangleGroup"></ng-icon>
+            <a class="nav-link">Servicios</a>
+        </a>
+        }
+
         <a class="nav-item" routerLink="/dashboard/configuracion" routerLinkActive="active">
             <ng-icon class="icon icon-medium" name="heroCog6Tooth"></ng-icon>
             <a class="nav-link">Configuracion</a>
