@@ -51,22 +51,28 @@
       <div class="break-item" *ngFor="let rest of rests.controls; let i = index" [formGroupName]="i">
         <div class="form-group">
           <label class="label" for="startRest-{{ i }}">Inicio Desc. {{ i + 1 }}</label>
-          <select class="input" name="startRest-{{ i }}" id="startRest-{{ i }}" formControlName="startRest" (change)="updateDay()">
-            <option value="">Seleccione hora</option>
-            <option *ngFor="let hora of hours(); let i = index" [value]="hora">
-              {{ hora }}
-            </option>
-          </select>
+          <div class="input container">
+            <ng-icon name="heroClock" />
+            <select class="input" name="startRest-{{ i }}" id="startRest-{{ i }}" formControlName="startRest" (change)="updateDay()">
+              <option value="">Seleccione hora</option>
+              <option *ngFor="let hora of hours(); let i = index" [value]="hora">
+                {{ hora }}
+              </option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
           <label class="label" for="endRest-{{ i }}">Fin Desc. {{ i + 1 }}</label>
-          <select class="input" name="endRest-{{ i }}" id="endRest-{{ i }}" formControlName="endRest" (change)="updateDay()">
-            <option value="">Seleccione hora</option>
-            <option *ngFor="let hora of hours(); let i = index" [value]="hora">
-              {{ hora }}
+          <div class="input container">
+            <ng-icon name="heroClock" />
+            <select class="input" name="endRest-{{ i }}" id="endRest-{{ i }}" formControlName="endRest" (change)="updateDay()">
+              <option value="">Seleccione hora</option>
+              <option *ngFor="let hora of hours(); let i = index" [value]="hora">
+                {{ hora }}
             </option>
           </select>
+          </div>
         </div>
 
         <div class="form-group">
