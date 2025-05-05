@@ -12,13 +12,12 @@ interface ModalConfig {
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
-  private overlayRef?: OverlayRef;
+  private overlayStack: OverlayRef[] = [];
   private overlay = inject(Overlay);
 
   open<T>(component: Type<T>, config: ModalConfig = {}) {
     console.log("Intentando abrir modal con contenido:", component.name);
-
-    this.overlayRef = this.overlay.create({
+    const overlayRef = this.overlay.create({
       width: config.width || '500px',
       hasBackdrop: config.hasBackdrop !== false,
       backdropClass: 'modal-backdrop',
@@ -26,55 +25,61 @@ export class ModalService {
     });
 
     const portal = new ComponentPortal(ModalContainerComponent);
-    const modalComponentRef: ComponentRef<ModalContainerComponent> = this.overlayRef.attach(portal);
+    const modalComponentRef: ComponentRef<ModalContainerComponent> = overlayRef.attach(portal);
 
     modalComponentRef.instance.loadComponent(component);
 
     if (!config.disableClose) {
-      this.overlayRef.backdropClick().subscribe(() => this.close());
+      overlayRef.backdropClick().subscribe(() => this.close());
     }
+    this.overlayStack.push(overlayRef);
   }
 
   openWithResult<T>(component: Type<T>, config: ModalConfig = {}, data?: Partial<T>): Observable<any> {
     const result$ = new Subject<any>();
-
-    this.overlayRef = this.overlay.create({
+  
+    const overlayRef = this.overlay.create({
       width: config.width || '500px',
       hasBackdrop: config.hasBackdrop !== false,
       backdropClass: 'modal-backdrop',
       panelClass: 'modal-panel',
     });
-
+  
+    this.overlayStack.push(overlayRef); // 👉 Guardamos el overlay
+  
     const portal = new ComponentPortal(ModalContainerComponent);
-    const modalComponentRef = this.overlayRef.attach(portal);
-
+    const modalComponentRef = overlayRef.attach(portal);
+  
     modalComponentRef.instance.loadComponent(component, data);
-
+  
     if (!config.disableClose) {
-      this.overlayRef.backdropClick().subscribe(() => {
+      overlayRef.backdropClick().subscribe(() => {
         result$.next(false);
         result$.complete();
         this.close();
       });
     }
-
+  
     setTimeout(() => {
       const innerComponent = modalComponentRef.instance.innerComponentRef?.instance as any;
       if (innerComponent) {
         innerComponent.modalClose = (value: any) => {
           result$.next(value);
           result$.complete();
-          this.close();
+          this.close(); // ¡Cierra solo este!
         };
-      } else {
-        console.warn('No se pudo acceder al componente interno del modal');
       }
     });
-    
+  
     return result$.asObservable();
   }
+  
 
   close() {
-    this.overlayRef?.dispose();
+    const overlayRef = this.overlayStack.pop(); 
+    if (overlayRef) {
+      overlayRef.dispose();
+    }
   }
+  
 }

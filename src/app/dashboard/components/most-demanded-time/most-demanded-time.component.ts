@@ -6,8 +6,6 @@ import { AppointmentResponse } from '@app/features/appointments/models/responses
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroArrowPath, heroCalendar } from '@ng-icons/heroicons/outline';
-import { T } from 'node_modules/@angular/cdk/portal-directives.d-d581f5ee';
-import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-most-demanded-time',
@@ -25,6 +23,13 @@ export class MostDemandedTimeComponent {
   turns: any[] = [];
   turnsAgroupedForHour: { hour: string, count: number }[] = [];
   loading = signal(false);
+  monthsOptions = [
+    { value: '1', label: '1 Mes' },
+    { value: '3', label: '3 Meses' },
+    { value: '6', label: '6 Meses' },
+    { value: '12', label: '12 Meses' },
+    { value: '99', label: 'Histórico' },
+  ];
   constructor() {
     window.addEventListener('resize', () => {
       this.screenWidth.set(window.innerWidth);
@@ -41,31 +46,24 @@ export class MostDemandedTimeComponent {
   }
 
   callStats() {
-    console.log("Llamando a la api con el mes: ", this.selectedMonths);
-    setTimeout(() => {
-      this.sessionService.getSession$.subscribe({
-        next: (session) => {
-          if (session) {
-            const email = session.email;
-            this.scheduleService.getMostDemandedAppointments(this.selectedMonths, email).subscribe({
-              next: (response) => {
-                console.log('Turnos mas demandados', response);
-                if (response.data) {
-                  this.turns = response.data;
-                  this.turns = this.turns.filter(turn => turn.count > 0);
-                } else {
-                  console.log('No hay turnos mas demandados');
-                }
-              },
-              error: (error) => {
-                console.error('Error al obtener los turnos mas demandados', error);
-              }
-            })
-          }
+    console.log("Llamando a la API con el mes:", this.selectedMonths);
+    this.loading.set(true);
+    this.sessionService.getSession$.subscribe({
+      next: (session) => {
+        if (session) {
+          const email = session.email;
+          this.scheduleService.getMostDemandedAppointments(this.selectedMonths, email).subscribe({
+            next: (response) => {
+              this.turns = response.data?.filter(turn => turn.count > 0) || [];
+            },
+            error: (error) => console.error('Error al obtener los turnos más demandados', error),
+            complete: () => this.loading.set(false)
+          });
+        } else {
           this.loading.set(false);
         }
-      })
-    },250)
+      }
+    });
   }
 
   ngOnDestroy(): void {

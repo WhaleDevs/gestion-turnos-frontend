@@ -1,7 +1,7 @@
 import { Component, inject, Input, Signal, computed, effect, signal } from '@angular/core';
 import { ScheduleService } from '../../services/schedule.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
+import { heroClock, heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
@@ -15,7 +15,7 @@ import { ScheduleDayConfigResponse, ScheduleDayRestConfigResponse } from '../../
   imports: [ReactiveFormsModule, NgFor, NgIcon, NgSelectModule],
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss',
-  providers: [provideIcons({ heroPlus, heroTrash })]
+  providers: [provideIcons({ heroPlus, heroTrash, heroClock})]
 })
 export class DayComponent {
   private scheduleService = inject(ScheduleService);
@@ -33,6 +33,10 @@ export class DayComponent {
     slotInterval: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
     status: [false],
     rests: this.fb.array([])
+  });
+
+  hours = computed(() => {
+    return this.scheduleService.hoursForDay();
   });
 
   get rests(): FormArray {

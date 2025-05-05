@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { SessionService } from '@app/auth/services/session.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {heroUserCircle } from '@ng-icons/heroicons/outline';
 
@@ -10,5 +11,15 @@ import {heroUserCircle } from '@ng-icons/heroicons/outline';
   providers: [provideIcons({heroUserCircle})]
 })
 export class UserProfileComponent {
-
+  private sessionService = inject(SessionService);
+  name = signal('Cargando...');
+  email = signal('');
+  ngOnInit(): void {
+    this.sessionService.getSession$.subscribe({
+      next: (user) => {
+        this.name.set(user?.role || '');
+        this.email.set(user?.email || '');
+      }
+    })
+  }
 }

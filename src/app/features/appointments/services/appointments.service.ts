@@ -133,55 +133,48 @@ export class AppointmentsService {
   // 🧠 LÓGICA DE HORARIOS Y DESCANSOS
   // ─────────────────────────────────────────────
 
-  generateHours(startTime: string, endTime: string, noFilterHours: boolean = false) {
+  generateHours(startTime: string, endTime: string, noFilterHours: boolean = false): string[] {
     const hoursEnabled = this.signalHoursEnabled();
-    const interval = this.scheduleService.signalScheduleConfigResponse()
-      ?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.slotInterval ?? 60;
-
+    const scheduleConfig = this.scheduleService.signalScheduleConfigResponse();
+    const selectedDayName = this.signalDateSelected()?.dayName;
+    const dayConfig = scheduleConfig?.daysConfig.find(day => day.day === selectedDayName);
+    const interval = dayConfig?.slotInterval ?? 30;
+    const rests = dayConfig?.rests ?? [];
+  
     const hours: string[] = [];
-
+  
     const [startHours, startMinutes] = startTime.split(':').map(Number);
     const [endHours, endMinutes] = endTime.split(':').map(Number);
-
+  
     let currentTime = new Date();
     currentTime.setHours(startHours, startMinutes, 0, 0);
-
+  
     const endTimeObj = new Date();
     endTimeObj.setHours(endHours, endMinutes, 0, 0);
-
-    const rests = this.scheduleService.signalScheduleConfigResponse()
-      ?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.rests ?? [];
-
+  
     while (currentTime < endTimeObj) {
       const currentHourStr = currentTime.toTimeString().slice(0, 5);
-
       const isRestTime = rests.some(rest =>
         rest.startTime === currentHourStr ||
         this.isInRestPeriod(currentHourStr, rest)
       );
-
+  
       if (!isRestTime) {
         hours.push(currentHourStr);
       }
-
+  
       currentTime.setMinutes(currentTime.getMinutes() + interval);
     }
-
+  
     const filteredHours = hours.filter(hour => {
-      const hourOnly = hour.split(":")[0];
-      let isDisabled = hoursEnabled.includes(hour);
-      if (noFilterHours) {
-        isDisabled = false;
-      }
-      const isRestHour = rests.some(rest =>
-        rest.startTime === hour ||
-        rest.startTime.split(":")[0] === hourOnly
-      );
-
-      return !isDisabled && !isRestHour;
+      const isDisabled = !noFilterHours && hoursEnabled.includes(hour);
+      const keep = !isDisabled;
+      return keep;
     });
+  
     return filteredHours;
   }
+  
 
   // ─────────────────────────────────────────────
   // 🕐 UTILIDAD PRIVADA

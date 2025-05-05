@@ -45,13 +45,17 @@ export class SaveScheduleComponent {
   constructor(private scheduleService: ScheduleService, private alertService: AlertService) { }
 
   onSave() {
-    this.scheduleService.updateScheduleConfigForUpdate().subscribe({
-      next: () => {
-        this.alertService.showSuccess('Agenda guardada correctamente');
-      },
-      error: (error: Error) => {
-        this.alertService.showError('Error al guardar la agenda: ' + error.message);
-      }
-    });
+    if (this.scheduleService.signalScheduleConfigForUpdate().scheduleDays.some(day => day.rests.some(rest => rest.startRest > day.endTime! || rest.startRest < day.startTime!))) {
+      this.alertService.showError('Los horarios de descanso no pueden superar la hora final o ser inferiores a la hora inicial');
+    } else {
+      this.scheduleService.updateScheduleConfigForUpdate()?.subscribe({
+        next: () => {
+          this.alertService.showSuccess('Agenda guardada correctamente');
+        },
+        error: (error: Error) => {
+          this.alertService.showError('Error al guardar la agenda: ' + error.message);
+        }
+      });
+    }
   }
 }

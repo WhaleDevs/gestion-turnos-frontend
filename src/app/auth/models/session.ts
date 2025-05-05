@@ -1,5 +1,5 @@
 export interface UserSessionState {
-  name: string;
+  role: string;
   email: string;
 }
 
@@ -7,7 +7,7 @@ export interface AuthResponse {
   status: number,
   message: string,
   user:{
-    name: string,
+    role: string,
     email: string
   }
 }

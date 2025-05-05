@@ -28,6 +28,7 @@ export class ListDaysComponent {
       }
       if (updatedDays.length > 0) {
         this.selectedDaySignal.set(updatedDays[0]);
+        this.scheduleService.generateHours(updatedDays[0]);
         this.wasSelected.set(true);
       }
     });
@@ -35,6 +36,7 @@ export class ListDaysComponent {
 
   dayActive(dayResp: ScheduleDayConfigForUpdateDto) {
     this.selectedDaySignal.set(dayResp);
+    this.scheduleService.generateHours(dayResp);
   }
 
   onSelectChange(event: Event) {
