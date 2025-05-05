@@ -35,6 +35,10 @@ export class DayComponent {
     rests: this.fb.array([])
   });
 
+  hours = computed(() => {
+    return this.scheduleService.hoursForDay();
+  });
+
   get rests(): FormArray {
     return this.scheduleDayConfigForm.get('rests') as FormArray;
   }

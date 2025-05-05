@@ -22,6 +22,19 @@ export class ScheduleService {
   signalScheduleConfigForUpdate: WritableSignal<ScheduleConfigForUpdateDto> = signal<ScheduleConfigForUpdateDto>(INITAL_SCHEDULE_CONFIG_FOR_UPDATE);
   signalDayStatusFalse = linkedSignal(() => this.signalScheduleConfigForUpdate().scheduleDays.filter(day => day.status === false).map(day => day.day));
   isLoading = signal(false);
+  hoursForDay = signal<string[]>([]);
+  
+  generateHours(day: ScheduleDayConfigForUpdateDto) {
+    const hours: string[] = [];
+    const startTime = DateTime.fromFormat(day.startTime!, 'HH:mm');
+    const endTime = DateTime.fromFormat(day.endTime!, 'HH:mm');
+    let currentTime = startTime;
+    while (currentTime < endTime) {
+      hours.push(currentTime.toFormat('HH:mm'));
+      currentTime = currentTime.plus({ minutes: day.slotInterval });
+    }
+    this.hoursForDay.set(hours);
+  }
 
   getScheduleConfigForUpdateResponse(email: string): Observable<ApiResponse<ScheduleConfigResponse>> {
     this.isLoading.set(true); 

@@ -133,54 +133,66 @@ export class AppointmentsService {
   // 🧠 LÓGICA DE HORARIOS Y DESCANSOS
   // ─────────────────────────────────────────────
 
-  generateHours(startTime: string, endTime: string, noFilterHours: boolean = false) {
+  generateHours(startTime: string, endTime: string, noFilterHours: boolean = false): string[] {
+    console.log('🔧 Generando horas disponibles...');
+  
     const hoursEnabled = this.signalHoursEnabled();
-    const interval = this.scheduleService.signalScheduleConfigResponse()
-      ?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.slotInterval ?? 60;
-
+    console.log('⏱️ Horas ya reservadas:', hoursEnabled);
+  
+    const scheduleConfig = this.scheduleService.signalScheduleConfigResponse();
+    const selectedDayName = this.signalDateSelected()?.dayName;
+    console.log('📅 Día seleccionado:', selectedDayName);
+  
+    const dayConfig = scheduleConfig?.daysConfig.find(day => day.day === selectedDayName);
+    const interval = dayConfig?.slotInterval ?? 30;
+    console.log('⏲️ Intervalo entre turnos:', interval);
+  
+    const rests = dayConfig?.rests ?? [];
+    console.log('😴 Horarios de descanso:', rests);
+  
     const hours: string[] = [];
-
+  
     const [startHours, startMinutes] = startTime.split(':').map(Number);
     const [endHours, endMinutes] = endTime.split(':').map(Number);
-
+  
     let currentTime = new Date();
     currentTime.setHours(startHours, startMinutes, 0, 0);
-
+  
     const endTimeObj = new Date();
     endTimeObj.setHours(endHours, endMinutes, 0, 0);
-
-    const rests = this.scheduleService.signalScheduleConfigResponse()
-      ?.daysConfig.find(day => day.day === this.signalDateSelected()?.dayName)?.rests ?? [];
-
+  
     while (currentTime < endTimeObj) {
       const currentHourStr = currentTime.toTimeString().slice(0, 5);
-
+      console.log('🕓 Evaluando hora:', currentHourStr);
+  
       const isRestTime = rests.some(rest =>
         rest.startTime === currentHourStr ||
         this.isInRestPeriod(currentHourStr, rest)
       );
-
+  
+      console.log(`🔍 ¿Está en descanso (${currentHourStr})?:`, isRestTime);
+  
       if (!isRestTime) {
         hours.push(currentHourStr);
+        console.log('✅ Hora añadida:', currentHourStr);
       }
-
+  
       currentTime.setMinutes(currentTime.getMinutes() + interval);
     }
-    
+  
+    console.log('📋 Horas generadas antes de filtrar:', hours);
+  
     const filteredHours = hours.filter(hour => {
-      const hourOnly = hour.split(":")[0];
-      let isDisabled = hoursEnabled.includes(hour);
-      if (noFilterHours) {
-        isDisabled = false;
-      }
-      const isRestHour = rests.some(rest =>
-        rest.startTime === hour ||
-        rest.startTime.split(":")[0] === hourOnly
-      );
-      return !isDisabled && !isRestHour;
+      const isDisabled = !noFilterHours && hoursEnabled.includes(hour);
+      const keep = !isDisabled;
+      console.log(`🧹 Filtrando hora: ${hour} | Reservada: ${isDisabled} | ¿Mantener?: ${keep}`);
+      return keep;
     });
+  
+    console.log('✅ Horas finales disponibles:', filteredHours);
     return filteredHours;
   }
+  
 
   // ─────────────────────────────────────────────
   // 🕐 UTILIDAD PRIVADA
