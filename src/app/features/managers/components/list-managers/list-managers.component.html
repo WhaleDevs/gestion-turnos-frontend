@@ -2,7 +2,6 @@
   <div class="cards">
     @for (manager of managers(); track manager.id) {
       <div class="card">
-        <div><span>Id:</span>{{manager.id}}</div>
         <div><span>Nombre:</span> {{ manager.firstName }} {{ manager.lastname }}</div>
         <div><span>Email:</span> {{ manager.email }}</div>
         <div><span>Rol:</span> {{ manager.role }}</div>
