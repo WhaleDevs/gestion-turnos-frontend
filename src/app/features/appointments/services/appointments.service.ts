@@ -134,21 +134,12 @@ export class AppointmentsService {
   // ─────────────────────────────────────────────
 
   generateHours(startTime: string, endTime: string, noFilterHours: boolean = false): string[] {
-    console.log('🔧 Generando horas disponibles...');
-  
     const hoursEnabled = this.signalHoursEnabled();
-    console.log('⏱️ Horas ya reservadas:', hoursEnabled);
-  
     const scheduleConfig = this.scheduleService.signalScheduleConfigResponse();
     const selectedDayName = this.signalDateSelected()?.dayName;
-    console.log('📅 Día seleccionado:', selectedDayName);
-  
     const dayConfig = scheduleConfig?.daysConfig.find(day => day.day === selectedDayName);
     const interval = dayConfig?.slotInterval ?? 30;
-    console.log('⏲️ Intervalo entre turnos:', interval);
-  
     const rests = dayConfig?.rests ?? [];
-    console.log('😴 Horarios de descanso:', rests);
   
     const hours: string[] = [];
   
@@ -163,33 +154,24 @@ export class AppointmentsService {
   
     while (currentTime < endTimeObj) {
       const currentHourStr = currentTime.toTimeString().slice(0, 5);
-      console.log('🕓 Evaluando hora:', currentHourStr);
-  
       const isRestTime = rests.some(rest =>
         rest.startTime === currentHourStr ||
         this.isInRestPeriod(currentHourStr, rest)
       );
   
-      console.log(`🔍 ¿Está en descanso (${currentHourStr})?:`, isRestTime);
-  
       if (!isRestTime) {
         hours.push(currentHourStr);
-        console.log('✅ Hora añadida:', currentHourStr);
       }
   
       currentTime.setMinutes(currentTime.getMinutes() + interval);
     }
   
-    console.log('📋 Horas generadas antes de filtrar:', hours);
-  
     const filteredHours = hours.filter(hour => {
       const isDisabled = !noFilterHours && hoursEnabled.includes(hour);
       const keep = !isDisabled;
-      console.log(`🧹 Filtrando hora: ${hour} | Reservada: ${isDisabled} | ¿Mantener?: ${keep}`);
       return keep;
     });
   
-    console.log('✅ Horas finales disponibles:', filteredHours);
     return filteredHours;
   }
   
