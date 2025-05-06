@@ -6,6 +6,8 @@ import { ConfigComponent } from "../features/config/config.component";
 import { AppointmentsComponent } from "../features/appointments/appointments.component";
 import { ResumeComponent } from "./components/resume/resume.component";
 import { OfferedServicesComponent } from "../features/offered-services/offered-services.component";
+import { ManagersComponent } from "@app/features/managers/managers.component";
+
 
 export const DASHBOARD_ROUTES: Routes = [
     {
@@ -18,6 +20,7 @@ export const DASHBOARD_ROUTES: Routes = [
             { path: 'turnos', component: AppointmentsComponent },
             { path: 'configuracion', component: ConfigComponent },
             { path: 'servicios', component: OfferedServicesComponent }
+            { path: 'empleados', component: ManagersComponent}
         ]
     },
 ];

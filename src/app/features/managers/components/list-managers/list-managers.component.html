@@ -1,0 +1,18 @@
+<section>
+  <div class="cards">
+    @for (manager of managers(); track manager.id) {
+      <div class="card">
+        <div><span>Nombre:</span> {{ manager.firstName }} {{ manager.lastname }}</div>
+        <div><span>Email:</span> {{ manager.email }}</div>
+        <div><span>Rol:</span> {{ manager.role }}</div>
+        <div class="card-actions">
+          @if(manager.role !== 'ADMIN'){
+            <button class="btn medium error" (click)="deleteManager(manager.id)">
+              <ng-icon class="icon icon-small" name="heroTrash" />
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

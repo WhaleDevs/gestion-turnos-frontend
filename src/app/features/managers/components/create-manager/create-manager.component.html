@@ -1,0 +1,55 @@
+<section>
+  <h2>Agregar encargado</h2>
+  <form [formGroup]="managerForm" (ngSubmit)="create()">
+
+    <div class="form-group2">
+      <div class="input container">
+        <ng-icon class="icon icon-medium" name="heroUserCircle" />
+        <input id="firstName" class="input medium" type="text" formControlName="firstName" placeholder="Nombre" />
+      </div>
+      @if(managerForm.get('firstName')?.touched){
+        <app-form-error [control]="managerForm.get('firstName')!"></app-form-error>
+      }@else{
+        <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+      }
+    </div>
+
+    <div class="form-group2">
+      <div class="input container">
+        <ng-icon class="icon icon-medium" name="heroUserCircle" />
+        <input id="lastName" class="input medium" type="text" formControlName="lastName" placeholder="Apellido" />
+      </div>
+      @if(managerForm.get('lastName')?.touched){
+        <app-form-error [control]="managerForm.get('lastName')!"></app-form-error>
+      }@else{
+        <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+      }
+    </div>
+
+    <div class="form-group2">
+      <div class="input container">
+        <ng-icon class="icon icon-medium" name="heroEnvelope" />
+        <input id="email" class="input medium" type="email" formControlName="email" placeholder="Correo electrónico" />
+      </div>
+      @if(managerForm.get('email')?.touched){
+        <app-form-error [control]="managerForm.get('email')!"></app-form-error>
+      }@else{
+        <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+      }
+    </div>
+
+    <div class="form-group2">
+      <div class="input container">
+        <ng-icon class="icon icon-medium" name="heroKey" />
+        <input id="password" class="input medium" type="password" formControlName="password" placeholder="Contraseña" />
+      </div>
+      @if(managerForm.get('password')?.touched){
+        <app-form-error [control]="managerForm.get('password')!"></app-form-error>
+      }@else{
+        <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+      }
+    </div>
+
+    <button type="submit" class="btn success full" [disabled]="managerForm.invalid">Confirmar</button>
+  </form>
+</section>
