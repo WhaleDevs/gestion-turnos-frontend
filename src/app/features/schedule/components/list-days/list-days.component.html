@@ -1,21 +1,28 @@
 <div class="schedule-container">
+  <div class="info">
+    <ng-icon name="heroUser" class="icon icon-medium"></ng-icon>
+    <p>{{ employeeSelectedSignalValue() !== 'Mi agenda' ? 'Agenda de: ' + employeeSelectedSignalValue() : 'Mi agenda' }}
+    </p>
+  </div>
   <div class="schedule-section">
     <div class="schedule">
       <section class="days-container">
         <div class="days-grid">
           @for (day of days(); track $index) {
-          <article class="day" (click)="dayActive(day)" [ngClass]="{ 'active': whatDay() === day }">
+          <article class="day" (click)="dayActive(day)" [ngClass]="{ 'active': whatDay() === day,
+            'disabled': day.status === false
+          }">
             <p class="day__title">{{ day.day }}</p>
           </article>
           }
         </div>
-        
+
         <!-- Mobile Select -->
         <div class="days-select">
           <select (change)="onSelectChange($event)" class="mobile-select">
             <option value="" disabled selected>Seleccionar día</option>
             @for (day of days(); track $index) {
-            <option [value]="$index">{{ day.day }}</option>
+            <option [value]="$index">{{ day.day}} {{ day.status ? '' : '(descanso)'}}</option>
             }
           </select>
         </div>
@@ -23,5 +30,4 @@
       <app-day [day]="selectedDaySignal"></app-day>
     </div>
   </div>
-  <app-save-schedule></app-save-schedule>
 </div>

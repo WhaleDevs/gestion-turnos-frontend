@@ -1,15 +1,18 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ScheduleService } from '../../services/schedule.service';
 import { DayComponent } from "../day/day.component";
 import { SaveScheduleComponent } from '../save-schedule/save-schedule.component';
 import { NgClass } from '@angular/common';
 import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroUser } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-list-days',
-  imports: [DayComponent, SaveScheduleComponent, NgClass],
+  imports: [DayComponent, NgClass, NgIcon],
   templateUrl: './list-days.component.html',
   styleUrls: ['./list-days.component.scss'],
+  providers: [provideIcons({ heroUser })],
   standalone: true
 })
 export class ListDaysComponent {
@@ -17,9 +20,15 @@ export class ListDaysComponent {
   private scheduleService = inject(ScheduleService);
   days = signal<ScheduleDayConfigForUpdateDto[]>([]);
   selectedDaySignal = signal<ScheduleDayConfigForUpdateDto | undefined>(undefined);
+  employeeSelectedSignalValue = computed(() => this.scheduleService.signalEmployeeSelected());
   wasSelected = signal(false);
 
   constructor() {
+    effect(() => {
+      console.log('employeeSelectedSignalValue');
+      console.log(this.employeeSelectedSignalValue());
+    });
+
     effect(() => {
       const updatedDays = this.scheduleService.signalScheduleConfigForUpdate().scheduleDays;
       this.days.set(updatedDays);

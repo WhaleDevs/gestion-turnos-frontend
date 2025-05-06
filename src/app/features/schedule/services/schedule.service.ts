@@ -7,6 +7,8 @@ import { INITAL_SCHEDULE_CONFIG_RESPONSE, ScheduleConfigResponse, ScheduleRespon
 import { INITAL_SCHEDULE_CONFIG_FOR_UPDATE, ScheduleConfigForUpdateDto, ScheduleDayConfigForUpdateDto } from '../models/requests-dto/scheduleConfigForUpdate.dto';
 import { DateTime } from 'luxon';
 import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
+import { SessionService } from '@app/auth/services/session.service';
+import { AlertService } from '@app/shared/services/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +17,38 @@ export class ScheduleService {
 
   protected url = environment.API_URL;
   private http = inject(HttpClient);
+  private sessionService = inject(SessionService);
+  private alertService = inject(AlertService);
 
   scheduleComponentActive: BehaviorSubject<string> = new BehaviorSubject<string>('form-schedule');
   $scheduleComponentActive = this.scheduleComponentActive.asObservable();
   signalScheduleConfigResponse: WritableSignal<ScheduleConfigResponse> = signal<ScheduleConfigResponse>(INITAL_SCHEDULE_CONFIG_RESPONSE);
   signalScheduleConfigForUpdate: WritableSignal<ScheduleConfigForUpdateDto> = signal<ScheduleConfigForUpdateDto>(INITAL_SCHEDULE_CONFIG_FOR_UPDATE);
   signalDayStatusFalse = linkedSignal(() => this.signalScheduleConfigForUpdate().scheduleDays.filter(day => day.status === false).map(day => day.day));
+  signalEmployeeSelected = signal('');
+  signalEmployees = signal<string[]>([]);
   isLoading = signal(false);
   hoursForDay = signal<string[]>([]);
-  
+
+  constructor() {
+    effect(() => {
+      console.log("Obteniendo schedule para el empleado: " + this.signalEmployeeSelected());
+      if (this.signalEmployeeSelected() === 'Mi agenda') {
+        this.alertService.showInfo('Obteniendo tu agenda...');
+        this.sessionService.getSession$.subscribe({
+          next: (response) => {
+            this.getScheduleConfigForUpdateResponse(response?.email!).subscribe();
+          }
+        });
+      }else{
+        if(this.signalEmployeeSelected() !== ''){
+          // this.getScheduleConfigForUpdateResponse(this.signalEmployeeSelected().email!).subscribe();
+          this.alertService.showInfo('Funcionalidad no disponible, falta la lista de empleados');
+        }
+      }
+    });
+  }
+
   generateHours(day: ScheduleDayConfigForUpdateDto) {
     const hours: string[] = [];
     const startTime = DateTime.fromFormat(day.startTime!, 'HH:mm');
@@ -87,6 +112,7 @@ export class ScheduleService {
 
   updateScheduleConfigForUpdate(): Observable<ApiResponse<ScheduleConfigResponse>> {
     const newUrl = `${this.url}/schedules/update-config`;
+    console.log("Agenda actualizada y enviada al backend: ",this.signalScheduleConfigForUpdate());
     return this.http.patch<ApiResponse<ScheduleConfigResponse>>(newUrl, this.signalScheduleConfigForUpdate()).pipe(
       tap((response: ApiResponse<ScheduleConfigResponse>) => {
         this.setSignalScheduleConfigResponse(response.data!)
@@ -99,4 +125,7 @@ export class ScheduleService {
     return this.http.get<ApiResponse<any[]>>(newUrl);
   }
 
+  setSignalEmployeeSelected(employee: string) {
+    this.signalEmployeeSelected.set(employee);
+  }
 }

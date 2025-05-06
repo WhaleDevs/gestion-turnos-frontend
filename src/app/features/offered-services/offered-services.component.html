@@ -1,0 +1,31 @@
+<section class="container">
+    <div class="header">
+        <div class="row-header">
+            <h2>Servicios</h2>
+            <p>Lista de servicios ofrecidos</p>
+        </div>
+        <div class="add-btn" >
+            <button class="btn primary light medium" (click)="addOfferedService()">
+                <ng-icon name="heroPlus" class="icon icon-small"></ng-icon>
+                <span class="button-text">Agregar</span>
+            </button>
+        </div>
+    </div>
+    <div class="offered-services-container">
+        @for (item of offeredServices(); track $index) {
+        <article class="offered-service">
+            <div class="info">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+                <p>${{ item.price }}</p>
+            </div>
+            <div class="actions">
+                <ng-icon class="icon icon-small" name="heroPencil" (click)="editOfferedService(item)"></ng-icon>
+                <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteOfferedService(item.id)"></ng-icon>
+            </div>
+        </article>
+        }@empty {
+            <p class="empty">No hay servicios</p>
+        }
+    </div>
+</section>
