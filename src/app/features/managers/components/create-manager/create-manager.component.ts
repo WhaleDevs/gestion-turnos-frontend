@@ -7,6 +7,7 @@ import { heroEnvelope, heroKey, heroUserCircle } from '@ng-icons/heroicons/outli
 import { ManagerService } from '../../services/manager.service';
 import { AlertService } from '@app/shared/services/alert.service';
 import { ErrorResponse } from '@app/shared/Interceptors/error.interceptor';
+import { ModalService } from '@app/shared/services/modal.service';
 
 @Component({
   selector: 'app-create-manager',
@@ -19,6 +20,7 @@ export class CreateManagerComponent {
   private fb = inject(FormBuilder);
   private _service: ManagerService = inject(ManagerService);
   private _alerts: AlertService = inject(AlertService);
+  private _modal: ModalService = inject(ModalService);
 
   managerForm: FormGroup = this.fb.group({
     firstName: [
@@ -50,6 +52,9 @@ export class CreateManagerComponent {
       console.log('Manager DTO:', managerDto);
 
       this._service.create(managerDto).subscribe({
+        next: () => {
+          this._modal.close();
+        },
         error: (error:ErrorResponse) => {
           this._alerts.showError(error.message)
         }

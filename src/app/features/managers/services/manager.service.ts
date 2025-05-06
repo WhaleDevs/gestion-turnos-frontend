@@ -25,7 +25,6 @@ export class ManagerService {
       tap((response: ApiResponse<ManagerResponse[]>) => {
         if(response.success && response.data){
           this.managers.set(response.data)
-          /* console.table(this.managers()); */
         }
       })
     );
@@ -52,31 +51,4 @@ export class ManagerService {
     )
   }
 
-  /* searchCustomers(): Observable<
-      ApiResponse<PaginatedResponse<CustomerResponse>>
-    > {
-      const params = new HttpParams()
-        .set('query', this.paginationParams().query)
-        .set('page', this.paginationParams().currentPage.toString())
-        .set('limit', this.paginationParams().pageSize.toString());
-  
-      return this.http
-        .get<ApiResponse<PaginatedResponse<CustomerResponse>>>(
-          `${this.url}/customers/search`,
-          { params }
-        )
-        .pipe(
-          tap((response: ApiResponse<PaginatedResponse<CustomerResponse>>) => {
-            if (response.success && response.data) {
-              if (this.isMobile()) {
-                this.updateMobile(response);
-              } else {
-                this.customers.set(response.data.data);
-                this.total.set(response.data.total);
-              }
-            } else {
-            }
-          })
-        );
-    } */
 }
