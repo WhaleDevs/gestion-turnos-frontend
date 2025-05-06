@@ -24,6 +24,8 @@
                 <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteOfferedService(item.id)"></ng-icon>
             </div>
         </article>
+        }@empty {
+            <p class="empty">No hay servicios</p>
         }
     </div>
 </section>
