@@ -12,13 +12,18 @@ import { ScheduleService } from '@app/features/schedule/services/schedule.servic
 export class CountDayComponent implements OnInit, OnDestroy {
   hourMinutes: string = '';
   private appointomentsService = inject(AppointmentsService);
-  
+  private scheduleService = inject(ScheduleService);  
   appointmentForDate = computed(() => this.appointomentsService.signalAppointmentsForDate());
-
+  employeeSelected = computed(() => this.scheduleService.signalEmployeeSelected());
   private filterByStatus = (status: string) => computed(() =>
     this.appointmentForDate().filter((a: AppointmentResponse) => a.status === status)
   );
-
+  salary = computed(() => this.appointmentForDate().reduce((acc: number, a: AppointmentResponse) => {
+    if (a.status === AppointmentStatus.TERMINADO) {
+      acc += a.servicePrice;
+    }
+    return acc;
+  }, 0));
   appointmentsFinish = this.filterByStatus(AppointmentStatus.TERMINADO);
   appointmentsCancel = this.filterByStatus(AppointmentStatus.AUSENTE);
   appointmentsReserved = this.filterByStatus(AppointmentStatus.RESERVADO);

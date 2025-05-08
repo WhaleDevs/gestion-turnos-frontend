@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SessionService } from '@app/auth/services/session.service';
+import { ManagerService } from '@app/features/managers/services/manager.service';
 import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 import { AlertService } from '@app/shared/services/alert.service';
 
@@ -25,6 +26,7 @@ export class DashboardComponent {
   private alertService = inject(AlertService);
   private scheduleService = inject(ScheduleService);
   private sessionService = inject(SessionService);
+  private managerService = inject(ManagerService);
   ngOnInit(): void {
     this.sessionService.getSession$.subscribe((user) => {
       if (user) {
@@ -37,5 +39,6 @@ export class DashboardComponent {
         });
       }
     });
+    this.managerService.getManagers().subscribe();
   }
 }

@@ -4,7 +4,9 @@ export interface AppointmentResponse {
     endTime: string;
     date: string;
     status: AppointmentStatus;
-    description?: string;
+    servicePrice: number;
+    serviceTitle: string;
+    serviceDescription: string;
     customer?: CustomerResponse;
 }
 
@@ -29,7 +31,9 @@ export const INIT_APPOINTMENT_RESPONSE: AppointmentResponse = {
     endTime: '',
     date: '',
     status: AppointmentStatus.DISPONIBLE,
-    description: '',
+    servicePrice: 0,
+    serviceTitle: '',
+    serviceDescription: '',
     customer: { 
         firstName: '',
         lastName: '',
