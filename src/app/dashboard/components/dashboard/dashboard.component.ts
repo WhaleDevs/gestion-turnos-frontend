@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SessionService } from '@app/auth/services/session.service';
 import { ManagerService } from '@app/features/managers/services/manager.service';
@@ -27,9 +27,11 @@ export class DashboardComponent {
   private scheduleService = inject(ScheduleService);
   private sessionService = inject(SessionService);
   private managerService = inject(ManagerService);
+  private role = signal<string>('');
   ngOnInit(): void {
     this.sessionService.getSession$.subscribe((user) => {
       if (user) {
+        this.role.set(user.role);
         this.scheduleService.getScheduleConfigForUpdateResponse(user.email).subscribe((response) => {
           if(response.data){
             this.scheduleService.setSignalScheduleConfigResponse(response.data);
@@ -39,6 +41,8 @@ export class DashboardComponent {
         });
       }
     });
+    if(this.role() === 'ADMIN'){
     this.managerService.getManagers().subscribe();
+    }
   }
 }
