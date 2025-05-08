@@ -1,0 +1,25 @@
+<section>
+  @if(view === 'list'){
+  <h1>Vacaciones de {{ manager().firstName }} {{ manager().lastname }}</h1>
+
+  <div class="holidays-container">
+    @for (holiday of holidays(); track $index) {
+      <article class="holiday">
+        <div class="info">
+          <p >Motivo: <span class="reason">{{ holiday.reason }}</span></p>
+          <p class="dates">Fecha: {{ holiday.startDate }} - {{ holiday.endDate }}</p>
+        </div>
+        <button class="delete-btn" (click)="deleteHoliday(holiday.id)">
+          <ng-icon name="heroTrash" class="icon-small"></ng-icon>
+        </button>
+      </article>
+    }@empty {
+      <p class="empty">No hay vacaciones registradas</p>
+    }
+  </div> }@else {
+  <app-create-holiday></app-create-holiday>
+  }
+  <button class="btn full primary" (click)="toggleView()">
+    @if(view === 'list'){ Agregar vacaciones }@else { Ver vacaciones }
+  </button>
+</section>

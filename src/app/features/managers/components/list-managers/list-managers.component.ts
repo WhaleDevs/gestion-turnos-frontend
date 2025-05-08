@@ -8,7 +8,7 @@ import { ErrorResponse } from '@app/shared/Interceptors/error.interceptor';
 import { AlertService } from '@app/shared/services/alert.service';
 import { ModalService } from '@app/shared/services/modal.service';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
-import { CreateHolidayComponent } from '../create-holiday/create-holiday.component';
+import { ListManagerHolidaysComponent } from '../list-manager-holidays/list-manager-holidays.component';
 
 
 @Component({
@@ -32,10 +32,10 @@ export class ListManagersComponent {
     console.log('Editar manager:', manager);
   }
 
-  addHolidays(manager: ManagerResponse){
+  holidays(manager: ManagerResponse){
     this._service.selectedManager.set(manager);
 
-    this._modalService.open(CreateHolidayComponent);
+    this._modalService.open(ListManagerHolidaysComponent);
   }
 
   deleteManager(id: number) {

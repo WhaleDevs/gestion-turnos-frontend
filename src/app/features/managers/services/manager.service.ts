@@ -7,6 +7,7 @@ import { ApiResponse } from '@app/shared/models/api-response';
 import { ManagerForCreationDto } from '../models/managerForCreationDto.dto';
 import { HolidayResponse } from '../models/holiday.response';
 import { HolidayForCreationDto } from '../models/holidayForCreationDto.dto';
+import { DateTime } from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class ManagerService {
   private http = inject(HttpClient);
   protected url = environment.API_URL;
   selectedManager: WritableSignal<ManagerResponse> = signal(INITIAL_MANAGER);
-
   managers: WritableSignal<ManagerResponse[]> = signal([]);
+  holidays: WritableSignal<HolidayResponse[]> = signal([]);
 
 
   getManagers(): Observable<ApiResponse<ManagerResponse[]>>{
@@ -59,5 +60,30 @@ export class ManagerService {
       })
     )
   }
-    
+
+  getHolidays(userId: number): Observable<ApiResponse<HolidayResponse[]>> {
+    return this.http.get<ApiResponse<HolidayResponse[]>>(`${this.url}/schedule-holidays/${userId}`).pipe(
+      tap((response: ApiResponse<HolidayResponse[]>) => {
+        if (response.success && response.data) {
+          const parsedData = response.data.map(holiday => ({
+            ...holiday,
+            startDate: DateTime.fromISO(holiday.startDate).toFormat('dd/MM/yyyy'),
+            endDate: DateTime.fromISO(holiday.endDate).toFormat('dd/MM/yyyy')
+          }));
+          this.holidays.set(parsedData);
+        }
+      })
+    );
+  }
+
+  deleteHoliday(holidayId: number): Observable<ApiResponse<void>> {
+    return this.http.delete<ApiResponse<void>>(`${this.url}/schedule-holidays/${holidayId}`).pipe(
+      tap((response: ApiResponse<void>) => {
+        if (response.success) {
+          this.holidays.set(this.holidays().filter(holiday => holiday.id !== holidayId));
+        }   
+      })
+    );
+  }
+  
 }
