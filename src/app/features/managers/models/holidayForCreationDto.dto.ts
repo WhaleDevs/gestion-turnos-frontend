@@ -1,5 +1,5 @@
 export interface HolidayForCreationDto{
-  scheduleId: number;
+  userId: number;
   startDate: string;
   endDate: string;
   reason: string;

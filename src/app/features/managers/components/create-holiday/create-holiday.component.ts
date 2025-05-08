@@ -24,6 +24,7 @@ import { DateTime } from 'luxon';
 import { AlertService } from '@app/shared/services/alert.service';
 import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { ManagerService } from '../../services/manager.service';
 
 @Component({
   selector: 'app-create-holiday',
@@ -46,6 +47,7 @@ import { MatCardModule } from '@angular/material/card';
 export class CreateHolidayComponent {
   private _alerts = inject(AlertService);
   private dateAdapter = inject(DateAdapter<Date>);
+  private managerService = inject(ManagerService);
   holidaysForm: FormGroup;
   selected = model<Date | null>(null);
   pageHolidays: number = 0;
@@ -103,11 +105,13 @@ export class CreateHolidayComponent {
     const formattedEnd = DateTime.fromJSDate(end).toFormat('yyyy-MM-dd');
 
     const requestDto: HolidayForCreationDto = {
-      scheduleId: 1,
+      userId: this.managerService.selectedManager().id,
       startDate: formattedStart,
       endDate: formattedEnd,
       reason: reason,
     };
+
+    this.managerService.createHoliday(requestDto).subscribe();
 
     console.log(requestDto);
   }

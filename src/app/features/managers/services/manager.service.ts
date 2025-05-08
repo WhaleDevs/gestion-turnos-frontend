@@ -5,6 +5,8 @@ import { INITIAL_MANAGER, INITIAL_MANAGERS, ManagerResponse } from '../models/ma
 import { Observable, take, tap } from 'rxjs';
 import { ApiResponse } from '@app/shared/models/api-response';
 import { ManagerForCreationDto } from '../models/managerForCreationDto.dto';
+import { HolidayResponse } from '../models/holiday.response';
+import { HolidayForCreationDto } from '../models/holidayForCreationDto.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -52,4 +54,14 @@ export class ManagerService {
     )
   }
 
+  createHoliday(request:HolidayForCreationDto): Observable<ApiResponse<HolidayResponse>>{
+    return this.http.post<ApiResponse<HolidayResponse>>(`${this.url}/schedule-holidays`, request).pipe(
+      tap((response: ApiResponse<HolidayResponse>) => {
+        if(response.success && response.data){
+          console.log(response.data)
+        }
+      })
+    )
+  }
+    
 }
