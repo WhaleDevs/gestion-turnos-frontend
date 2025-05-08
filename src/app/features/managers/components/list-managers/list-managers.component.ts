@@ -3,22 +3,24 @@ import { ManagerService } from '../../services/manager.service';
 import { ManagerResponse } from '../../models/manager.response';
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroPencilSquare, heroSparkles, heroTrash } from '@ng-icons/heroicons/outline';
+import { heroArrowPathRoundedSquare, heroPencilSquare, heroSparkles, heroTrash } from '@ng-icons/heroicons/outline';
 import { ErrorResponse } from '@app/shared/Interceptors/error.interceptor';
 import { AlertService } from '@app/shared/services/alert.service';
 import { ModalService } from '@app/shared/services/modal.service';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ListManagerHolidaysComponent } from '../list-manager-holidays/list-manager-holidays.component';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 
 
 @Component({
   selector: 'app-list-managers',
   imports: [CommonModule, NgIcon],
-  providers: [provideIcons({ heroPencilSquare, heroTrash, heroSparkles })],
+  providers: [provideIcons({ heroPencilSquare, heroTrash, heroSparkles, heroArrowPathRoundedSquare })],
   templateUrl: './list-managers.component.html',
   styleUrl: './list-managers.component.scss',
 })
 export class ListManagersComponent {
+
   private _service: ManagerService = inject(ManagerService);
   private _alerts: AlertService = inject(AlertService);
   private _modalService = inject(ModalService);
@@ -36,6 +38,12 @@ export class ListManagersComponent {
     this._service.selectedManager.set(manager);
 
     this._modalService.open(ListManagerHolidaysComponent);
+  }
+
+  resetPassword(manager: ManagerResponse) {
+    this._service.selectedManager.set(manager);
+
+    this._modalService.open(ResetPasswordComponent);
   }
 
   deleteManager(id: number) {

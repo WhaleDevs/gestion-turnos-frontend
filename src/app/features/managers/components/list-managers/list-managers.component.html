@@ -6,6 +6,9 @@
         <div><span>Email:</span> {{ manager.email }}</div>
         <div><span>Rol:</span> {{ manager.role }}</div>
         <div class="card-actions">
+          <button class="btn medium success" (click)="resetPassword(manager)">
+            <ng-icon class="icon icon-small" name="heroArrowPathRoundedSquare"></ng-icon>
+          </button>
           <button class="btn medium success" (click)="holidays(manager)">
             <ng-icon class="icon icon-small" name="heroSparkles"></ng-icon>
           </button>
