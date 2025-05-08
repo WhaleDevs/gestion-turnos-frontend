@@ -23,10 +23,6 @@
     }
 }
 
-.title {
-    grid-area: title;
-}
-
 .hour {
     display: flex;
     flex-direction: column;
@@ -42,8 +38,10 @@
 
 .stats-container {
     grid-area: stats;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "salary salary"
+        "stats stats";
     gap: var(--gap-s);
     h2 {
         width: 100%;
@@ -55,6 +53,16 @@
     }
 }
 
+.salary {
+    grid-area: salary;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.538);
+    border-radius: var(--border-radius-m);
+    padding: var(--padding-l);
+    display: flex;
+    gap: var(--gap-l);
+    align-items: center;
+}
 
 .stats {
     display: flex;
@@ -71,3 +79,21 @@
         width: 100%;
     }
 }
+
+.employee {
+    color: var(--primary);
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-normal);
+  }
+  
+  .header {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-m);
+    padding-bottom: var(--padding-m);
+    width: 100%;
+    border-bottom: 1px solid var(--border-light);
+  }
+  

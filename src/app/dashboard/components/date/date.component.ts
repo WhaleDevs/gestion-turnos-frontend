@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { SelectManagerComponent } from "../../../features/managers/components/select-manager/select-manager.component";
 
 @Component({
   selector: 'app-date',
-  imports: [],
+  imports: [SelectManagerComponent],
   templateUrl: './date.component.html',
   styleUrl: './date.component.scss'
 })

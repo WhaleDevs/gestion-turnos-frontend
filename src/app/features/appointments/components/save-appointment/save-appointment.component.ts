@@ -15,6 +15,7 @@ import { AlertService } from '@app/shared/services/alert.service';
 
 import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
 import { AppointmentResponse } from '../../models/responses/appointments.response';
+import { OfferedServicesService } from '@app/features/offered-services/services/offered-services.service';
 
 @Component({
   selector: 'app-save-appointment',
@@ -34,7 +35,7 @@ export class SaveAppointmentComponent {
   private readonly customerService = inject(CustomersService);
   private readonly modalService = inject(ModalService);
   private readonly alertService = inject(AlertService);
-
+  private readonly offeredServices = inject(OfferedServicesService);
   // Señales y propiedades
   date = computed(() => this.appointmentsService.signalDateSelected());
   dayConfig = computed(() =>
@@ -47,17 +48,23 @@ export class SaveAppointmentComponent {
   formSaveAppointment!: FormGroup;
   searching = signal(false);
   showPhoneError = true;
+  services = computed(() => this.offeredServices.signalOfferedServices());
 
   constructor(private fb: FormBuilder) {
     this.formSaveAppointment = this.buildForm();
   }
+
+  ngOnInit(): void {
+    this.offeredServices.getOfferedServices().subscribe({});
+  }
+
 
   private buildForm(): FormGroup {
     return this.fb.group({
       startTime: ['', Validators.required],
       endTime: [''],
       date: ['', Validators.required],
-      description: ['', Validators.required],
+      offeredServiceId: ['', Validators.required],
       scheduleId: ['', Validators.required],
       customer: this.fb.group({
         firstName: ['', Validators.required],
@@ -86,7 +93,8 @@ export class SaveAppointmentComponent {
       startTime: startHour,
       endTime: endHour,
       date: this.date()?.date.replaceAll('/', '-'),
-      scheduleId: this.scheduleService.signalScheduleConfigResponse().id
+      scheduleId: this.scheduleService.signalScheduleConfigResponse().id,
+      serviceId: Number(this.formSaveAppointment.get('offeredServiceId')?.value)
     };
 
     if (this.hasValidationErrors(payload)) return;

@@ -1,7 +1,8 @@
 .date-container{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: var(--gap-l);
     padding: var(--padding-l);
     border-radius: var(--border-radius-m);

@@ -1,0 +1,27 @@
+.navigation-container{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-l);
+    border-radius: var(--border-radius-m);
+    box-shadow: var(--shadow-elevation-medium);
+    background-color: var(--background-light);
+    padding: var(--padding-m);
+    width: 100%;
+    height: auto;
+}
+
+
+.nostyles{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
+    width: auto;
+    height: auto;
+    padding: 0;
+    gap: 0;
+    margin: 0;
+}
