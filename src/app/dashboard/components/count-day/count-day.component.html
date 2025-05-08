@@ -1,8 +1,17 @@
 
 <section class="countDay-container">
-  <h2 class="title">Estadisticas de hoy</h2>
+  <div class="header">
+    <h2 class="title">Estadísticas de hoy</h2>
+    <span class="employee">{{ employeeSelected().email }}</span>
+  </div>
   <p class="hour">{{ hourMinutes }}</p>
   <div class="stats-container">
+
+    <article class="salary">
+      <p>Saldo recibido</p>
+      <p class="count">$ {{ salary() }}</p>
+    </article>
+
     <article class="stats">
       <p>Turnos realizados</p>
       <p class="count">{{ appointmentsFinish().length }}</p>
@@ -12,7 +21,7 @@
       <p>Turnos cancelados</p>
       <p class="count">{{ appointmentsCancel().length }}</p>
     </article>
-
+    
     <article class="stats">
       <p>Turnos libres</p>
       <p class="count">{{ appointmentsFree().length }}</p>

@@ -33,6 +33,8 @@
           <div [style.height.px]="(i.count*20)" [style.max-height.px]="250">{{i.count}}</div>
           }
         </div>
+        }@empty {
+        <p>No hay turnos completados en esta agenda.</p>
         }
       </div>
     </div>

@@ -14,20 +14,16 @@ import { HolidayForCreationDto } from '../models/holidayForCreationDto.dto';
 export class ManagerService {
   private http = inject(HttpClient);
   protected url = environment.API_URL;
-  managers: WritableSignal<ManagerResponse[]> = signal(INITIAL_MANAGERS);
   selectedManager: WritableSignal<ManagerResponse> = signal(INITIAL_MANAGER);
 
-  constructor(){
-    effect(() => {
-      this.getManagers().subscribe();
-    })
-  }
+  managers: WritableSignal<ManagerResponse[]> = signal([]);
+
 
   getManagers(): Observable<ApiResponse<ManagerResponse[]>>{
     return this.http.get<ApiResponse<ManagerResponse[]>>(`${this.url}/users`).pipe(
       tap((response: ApiResponse<ManagerResponse[]>) => {
         if(response.success && response.data){
-          this.managers.set(response.data)
+          this.managers.set(response.data);
         }
       })
     );

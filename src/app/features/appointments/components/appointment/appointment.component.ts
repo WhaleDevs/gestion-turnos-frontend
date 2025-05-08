@@ -16,7 +16,7 @@ import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/co
     <div class="info-appointment">
         <p>{{appointment()?.startTime}}</p>
         <p>{{appointment()?.customer?.firstName}}, {{appointment()?.customer?.lastName}}</p>
-        <p>{{appointment()?.description}}</p>
+        <p>{{ appointment()?.serviceTitle }}: {{ priceWith$()}}</p>
         <p>{{appointment()?.customer?.phoneNumber}}</p>
         <select 
           class="select small" 
@@ -78,6 +78,8 @@ export class AppointmentComponent {
   private modalService = inject(ModalService);
   private alertService = inject(AlertService);
   appointment = linkedSignal(() => this.appointmentsService.signalAppointmentSelected());
+  priceWith$ = computed(() => '$'+this.appointment()?.servicePrice);
+
   status: AppointmentStatus[] = [
     AppointmentStatus.RESERVADO,
     AppointmentStatus.TERMINADO,

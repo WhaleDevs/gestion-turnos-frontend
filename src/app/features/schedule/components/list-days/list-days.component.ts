@@ -6,10 +6,11 @@ import { NgClass } from '@angular/common';
 import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/scheduleConfigForUpdate.dto';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroUser } from '@ng-icons/heroicons/outline';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list-days',
-  imports: [DayComponent, NgClass, NgIcon],
+  imports: [DayComponent, NgClass, NgIcon, FormsModule],
   templateUrl: './list-days.component.html',
   styleUrls: ['./list-days.component.scss'],
   providers: [provideIcons({ heroUser })],
@@ -21,24 +22,23 @@ export class ListDaysComponent {
   days = signal<ScheduleDayConfigForUpdateDto[]>([]);
   selectedDaySignal = signal<ScheduleDayConfigForUpdateDto | undefined>(undefined);
   employeeSelectedSignalValue = computed(() => this.scheduleService.signalEmployeeSelected());
-  wasSelected = signal(false);
 
   constructor() {
     effect(() => {
-      console.log('employeeSelectedSignalValue');
-      console.log(this.employeeSelectedSignalValue());
-    });
-
-    effect(() => {
       const updatedDays = this.scheduleService.signalScheduleConfigForUpdate().scheduleDays;
       this.days.set(updatedDays);
-      if (this.wasSelected()) {
-        return;
-      }
+  
       if (updatedDays.length > 0) {
-        this.selectedDaySignal.set(updatedDays[0]);
-        this.scheduleService.generateHours(updatedDays[0]);
-        this.wasSelected.set(true);
+        const currentSelected = this.selectedDaySignal();
+        const stillExists = updatedDays.find(day => day.day === currentSelected?.day);
+  
+        if (stillExists) {
+          this.selectedDaySignal.set(stillExists);
+        } else {
+          this.selectedDaySignal.set(updatedDays[0]);
+        }
+  
+        this.scheduleService.generateHours(this.selectedDaySignal()!);
       }
     });
   }

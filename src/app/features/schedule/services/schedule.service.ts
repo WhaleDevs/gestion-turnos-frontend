@@ -9,6 +9,7 @@ import { DateTime } from 'luxon';
 import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
 import { SessionService } from '@app/auth/services/session.service';
 import { AlertService } from '@app/shared/services/alert.service';
+import { ManagerResponse } from '@app/features/managers/models/manager.response';
 
 @Injectable({
   providedIn: 'root'
@@ -25,29 +26,9 @@ export class ScheduleService {
   signalScheduleConfigResponse: WritableSignal<ScheduleConfigResponse> = signal<ScheduleConfigResponse>(INITAL_SCHEDULE_CONFIG_RESPONSE);
   signalScheduleConfigForUpdate: WritableSignal<ScheduleConfigForUpdateDto> = signal<ScheduleConfigForUpdateDto>(INITAL_SCHEDULE_CONFIG_FOR_UPDATE);
   signalDayStatusFalse = linkedSignal(() => this.signalScheduleConfigForUpdate().scheduleDays.filter(day => day.status === false).map(day => day.day));
-  signalEmployeeSelected = signal('');
-  signalEmployees = signal<string[]>([]);
+  signalEmployeeSelected = signal<ManagerResponse>({} as ManagerResponse);
   isLoading = signal(false);
   hoursForDay = signal<string[]>([]);
-
-  constructor() {
-    effect(() => {
-      console.log("Obteniendo schedule para el empleado: " + this.signalEmployeeSelected());
-      if (this.signalEmployeeSelected() === 'Mi agenda') {
-        this.alertService.showInfo('Obteniendo tu agenda...');
-        this.sessionService.getSession$.subscribe({
-          next: (response) => {
-            this.getScheduleConfigForUpdateResponse(response?.email!).subscribe();
-          }
-        });
-      }else{
-        if(this.signalEmployeeSelected() !== ''){
-          // this.getScheduleConfigForUpdateResponse(this.signalEmployeeSelected().email!).subscribe();
-          this.alertService.showInfo('Funcionalidad no disponible, falta la lista de empleados');
-        }
-      }
-    });
-  }
 
   generateHours(day: ScheduleDayConfigForUpdateDto) {
     const hours: string[] = [];
@@ -77,7 +58,6 @@ export class ScheduleService {
   }
 
   setSignalScheduleConfigResponse(schedule: ScheduleConfigResponse) {
-    console.log(schedule);
     const scheduleForUpdate: ScheduleConfigForUpdateDto = {
       id: schedule.id,
       scheduleDays: schedule.daysConfig.map(day => ({
@@ -125,7 +105,9 @@ export class ScheduleService {
     return this.http.get<ApiResponse<any[]>>(newUrl);
   }
 
-  setSignalEmployeeSelected(employee: string) {
+  setSignalEmployeeSelected(employee: ManagerResponse) {
+    console.log("Employee selected:", employee);
     this.signalEmployeeSelected.set(employee);
+    this.getScheduleConfigForUpdateResponse(employee.email).subscribe();
   }
 }

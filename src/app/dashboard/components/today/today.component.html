@@ -1,6 +1,9 @@
 <section class="today-container">
     <div class="title-container">
-        <h2 class="title">Turnos de hoy</h2>
+        <div class="header">
+            <h2 class="title">Turnos de hoy</h2>
+            <span class="employee">{{ employeeSelected().email }}</span>
+        </div>
         @if (totalPages() > 1 && isDayActive()) {
         <div class="pagination-controls">
             <button class="pagination-controls-btn" (click)="prevPage()">

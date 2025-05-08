@@ -17,11 +17,15 @@
     </div>
 
     <div class="form-group">
-        <label for="description">Descripcion</label>
+        <label for="offeredServiceId">Servicio</label>
         <div class="input container">
             <ng-icon class="icon icon-small" name="heroChatBubbleBottomCenterText" />
-            <input class="input" type="text" formControlName="description" id="description" name="description"
-                required />
+            <select class="select large light" formControlName="offeredServiceId" id="offeredService">
+                <option value="" selected>Selecciona un servicio</option>
+                @for (service of services(); track $index) {
+                <option [value]="service.id">{{ service.title }} - ${{ service.price }}</option>
+                }
+            </select>
         </div>
     </div>
 
