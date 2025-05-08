@@ -25,6 +25,7 @@ import { AlertService } from '@app/shared/services/alert.service';
 import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { ManagerService } from '../../services/manager.service';
+import { ModalService } from '@app/shared/services/modal.service';
 
 @Component({
   selector: 'app-create-holiday',
@@ -46,6 +47,7 @@ import { ManagerService } from '../../services/manager.service';
 })
 export class CreateHolidayComponent {
   private _alerts = inject(AlertService);
+  private _modal = inject(ModalService);
   private dateAdapter = inject(DateAdapter<Date>);
   private managerService = inject(ManagerService);
   holidaysForm: FormGroup;
@@ -74,7 +76,29 @@ export class CreateHolidayComponent {
   }
   
   nextPage() {
-    this.pageHolidays++;
+    switch(this.pageHolidays){
+      case 0:
+        if(this.holidaysForm.get('reason')?.value){
+          this.pageHolidays++;
+        }else{
+          this._alerts.showError('Debes introducir un motivo');
+        }
+        break;
+      case 1:
+        if(this.holidaysForm.get('startDate')?.value){
+          this.pageHolidays++;
+        }else{
+          this._alerts.showError('Debes introducir una fecha de inicio');
+        }
+        break;
+      case 2:
+        if(this.holidaysForm.get('endDate')?.value){
+          this.pageHolidays++;
+        }else{
+          this._alerts.showError('Debes introducir una fecha de fin');
+        }
+        break;
+    }
   }
 
   previousPage() {
@@ -111,7 +135,17 @@ export class CreateHolidayComponent {
       reason: reason,
     };
 
-    this.managerService.createHoliday(requestDto).subscribe();
+    this.managerService.createHoliday(requestDto).subscribe({
+      next: () => {
+        this._alerts.showSuccess('Vacación creada correctamente');
+        this.holidaysForm.reset();
+        this._modal.close();
+        this.pageHolidays = 0;
+      },
+      error: () => {
+        this._alerts.showError('Error al crear la vacación');
+      },
+    });
 
     console.log(requestDto);
   }

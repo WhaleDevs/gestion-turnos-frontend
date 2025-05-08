@@ -45,7 +45,7 @@ export class ModalService {
       panelClass: 'modal-panel',
     });
   
-    this.overlayStack.push(overlayRef); // 👉 Guardamos el overlay
+    this.overlayStack.push(overlayRef); 
   
     const portal = new ComponentPortal(ModalContainerComponent);
     const modalComponentRef = overlayRef.attach(portal);

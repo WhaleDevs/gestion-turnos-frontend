@@ -1,45 +1,71 @@
 <form [formGroup]="holidaysForm" (ngSubmit)="submit()">
-  @if(pageHolidays === 0){
-    <div>
-      <label for="reason">Motivo: </label>
-      <input
-        type="text"
-        name="reason"
-        id="reason"
-        class="input medium"
-        placeholder="Ej: Vacaciones anuales"
-        formControlName="reason"
-      />
-    </div>
-  }
-  @if(pageHolidays === 1){
-    <mat-calendar
+  @switch(pageHolidays){ @case(0){
+  <h2>Ingrese el motivo de la vacación</h2>
+  } @case(1){
+  <h2>Ingrese la fecha de inicio</h2>
+  } @case(2){
+  <h2>Ingrese la fecha de fin</h2>
+  } @case(3){
+  <h2>Resumen</h2>
+  } } @if(pageHolidays === 0){
+  <!-- INPUT CONTAINER -->
+  <div>
+    <input
+      type="text"
+      name="reason"
+      id="reason"
+      class="input medium"
+      placeholder="Ej: Vacaciones anuales"
+      formControlName="reason"
+    />
+  </div>
+  } @if(pageHolidays === 1){
+  <mat-calendar
     [selected]="selectedStart"
     (selectedChange)="onDateSelected($event, 'start')"
-    >
+  >
   </mat-calendar>
-  }
-
-  @if(pageHolidays === 2){
-    <mat-calendar
+  } @if(pageHolidays === 2){
+  <mat-calendar
     [selected]="selectedEnd"
     (selectedChange)="onDateSelected($event, 'end')"
   >
   </mat-calendar>
+  } @if(pageHolidays === 3){
+  <div>
+    <p>Motivo: {{ this.holidaysForm.get("reason")?.value }}</p>
+    <p>
+      Fecha:
+      {{ this.holidaysForm.get("startDate")?.value | date : "dd/MM/yyyy" }} -
+      {{ this.holidaysForm.get("endDate")?.value | date : "dd/MM/yyyy" }}
+    </p>
+  </div>
   }
 
-  @if(pageHolidays === 3){
-    <div>
-      <p>{{this.holidaysForm.get('reason')?.value}}</p>
-      <p>{{this.holidaysForm.get('startDate')?.value | date:'dd/MM/yyyy'}} - {{this.holidaysForm.get('endDate')?.value | date:'dd/MM/yyyy'}}</p>
-    </div>
-    <button class="btn primary full" type="submit">Cargar</button>
-  }
+  <!-- BTN CONTAINER -->
+  <div class="container-button">
+    @if(pageHolidays===0){
+    <button
+      type="button"
+      class="btn primary medium"
+      (click)="previousPage()"
+      disabled
+    >
+      Anterior
+    </button>
+    }@else{
+    <button type="button" class="btn primary medium" (click)="previousPage()">
+      Anterior
+    </button>
+    }
+    <p>{{ pageHolidays }}</p>
 
-  @if(pageHolidays>0){
-    <button type="button" class="btn primary full" (click)="previousPage()">Anterior</button>
-  }
-  @if(pageHolidays<3){
-    <button type="button" class="btn primary full" (click)="nextPage()">Siguiente</button>
-  }
+    @if(pageHolidays === 3){
+    <button class="btn primary medium" type="submit">Cargar</button>
+    } @if(pageHolidays<3){
+    <button type="button" class="btn primary medium" (click)="nextPage()">
+      Siguiente
+    </button>
+    }
+  </div>
 </form>

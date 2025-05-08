@@ -54,8 +54,8 @@ export class ManagerService {
   createHoliday(request:HolidayForCreationDto): Observable<ApiResponse<HolidayResponse>>{
     return this.http.post<ApiResponse<HolidayResponse>>(`${this.url}/schedule-holidays`, request).pipe(
       tap((response: ApiResponse<HolidayResponse>) => {
-        if(response.success && response.data){
-          console.log(response.data)
+        if(response.success && response.data){  
+          this.holidays.set([...this.holidays(), response.data])
         }
       })
     )

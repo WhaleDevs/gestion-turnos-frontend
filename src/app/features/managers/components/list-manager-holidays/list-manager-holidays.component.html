@@ -16,10 +16,12 @@
     }@empty {
       <p class="empty">No hay vacaciones registradas</p>
     }
-  </div> }@else {
-  <app-create-holiday></app-create-holiday>
-  }
+  </div> 
   <button class="btn full primary" (click)="toggleView()">
     @if(view === 'list'){ Agregar vacaciones }@else { Ver vacaciones }
   </button>
+}@else {
+  <app-create-holiday></app-create-holiday>
+  }
+  
 </section>
