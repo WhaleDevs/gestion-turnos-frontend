@@ -17,12 +17,12 @@
             <ng-icon class="icon icon-medium" name="heroPaperClip"></ng-icon>
             <a class="nav-link">Turnos</a>
         </a>
-
+        @if (role === 'ADMIN') {
         <a class="nav-item" routerLink="/dashboard/empleados" routerLinkActive="active">
             <ng-icon class="icon icon-medium" name="heroBriefcase"></ng-icon>
             <a class="nav-link">Empleados</a>
         </a>
-
+        }
         <a class="nav-item" routerLink="/dashboard/clientes" routerLinkActive="active">
             <ng-icon class="icon icon-medium" name="heroUserGroup"></ng-icon>
             <a class="nav-link">Clientes</a>
