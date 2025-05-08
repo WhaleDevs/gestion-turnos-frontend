@@ -16,7 +16,7 @@ export const INITIAL_MANAGERS: ManagerResponse[] = [
   }
 ];
 
-export const INITIAL_MANAGER_FOR_UPDATE: ManagerResponse = {
+export const INITIAL_MANAGER: ManagerResponse = {
     id: 0,
     firstName: '',
     lastname: '',

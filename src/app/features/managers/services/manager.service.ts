@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '@envs/environment.development';
-import { INITIAL_MANAGERS, ManagerResponse } from '../models/manager.response';
+import { INITIAL_MANAGER, INITIAL_MANAGERS, ManagerResponse } from '../models/manager.response';
 import { Observable, take, tap } from 'rxjs';
 import { ApiResponse } from '@app/shared/models/api-response';
 import { ManagerForCreationDto } from '../models/managerForCreationDto.dto';
+import { HolidayResponse } from '../models/holiday.response';
+import { HolidayForCreationDto } from '../models/holidayForCreationDto.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,10 @@ import { ManagerForCreationDto } from '../models/managerForCreationDto.dto';
 export class ManagerService {
   private http = inject(HttpClient);
   protected url = environment.API_URL;
+  selectedManager: WritableSignal<ManagerResponse> = signal(INITIAL_MANAGER);
+
   managers: WritableSignal<ManagerResponse[]> = signal([]);
+
 
   getManagers(): Observable<ApiResponse<ManagerResponse[]>>{
     return this.http.get<ApiResponse<ManagerResponse[]>>(`${this.url}/users`).pipe(
@@ -45,4 +50,14 @@ export class ManagerService {
     )
   }
 
+  createHoliday(request:HolidayForCreationDto): Observable<ApiResponse<HolidayResponse>>{
+    return this.http.post<ApiResponse<HolidayResponse>>(`${this.url}/schedule-holidays`, request).pipe(
+      tap((response: ApiResponse<HolidayResponse>) => {
+        if(response.success && response.data){
+          console.log(response.data)
+        }
+      })
+    )
+  }
+    
 }

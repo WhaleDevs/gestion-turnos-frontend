@@ -6,6 +6,9 @@
         <div><span>Email:</span> {{ manager.email }}</div>
         <div><span>Rol:</span> {{ manager.role }}</div>
         <div class="card-actions">
+          <button class="btn medium success" (click)="addHolidays(manager)">
+            <ng-icon class="icon icon-small" name="heroSparkles"></ng-icon>
+          </button>
           @if(manager.role !== 'ADMIN'){
             <button class="btn medium error" (click)="deleteManager(manager.id)">
               <ng-icon class="icon icon-small" name="heroTrash" />

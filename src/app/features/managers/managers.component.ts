@@ -19,4 +19,5 @@ export class ManagersComponent {
   createManager() {
     this._modalService.open(CreateManagerComponent);
   }
+
 }
