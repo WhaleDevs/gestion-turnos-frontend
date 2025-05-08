@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '@envs/environment.development';
-import { INITIAL_MANAGERS, ManagerResponse } from '../models/manager.response';
+import { INITIAL_MANAGER, INITIAL_MANAGERS, ManagerResponse } from '../models/manager.response';
 import { Observable, take, tap } from 'rxjs';
 import { ApiResponse } from '@app/shared/models/api-response';
 import { ManagerForCreationDto } from '../models/managerForCreationDto.dto';
@@ -13,6 +13,7 @@ export class ManagerService {
   private http = inject(HttpClient);
   protected url = environment.API_URL;
   managers: WritableSignal<ManagerResponse[]> = signal(INITIAL_MANAGERS);
+  selectedManager: WritableSignal<ManagerResponse> = signal(INITIAL_MANAGER);
 
   constructor(){
     effect(() => {

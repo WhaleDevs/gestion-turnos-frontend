@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SessionService } from '@app/auth/services/session.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroBriefcase, heroCalendarDays, heroCog6Tooth, heroHome, heroPaperClip, heroUserGroup, heroRectangleGroup } } from '@ng-icons/heroicons/outline';
+import { heroBriefcase, heroCalendarDays, heroCog6Tooth, heroHome, heroPaperClip, heroUserGroup, heroRectangleGroup } from '@ng-icons/heroicons/outline';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { heroBriefcase, heroCalendarDays, heroCog6Tooth, heroHome, heroPaperClip
   imports: [NgIcon, RouterLink],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
-  providers: [provideIcons({ heroCalendarDays, heroUserGroup, heroCog6Tooth, heroPaperClip, heroHome, heroBriefcase, heroRectangleGroup }})]
+  providers: [provideIcons({ heroCalendarDays, heroUserGroup, heroCog6Tooth, heroPaperClip, heroHome, heroBriefcase, heroRectangleGroup })]
 })
 export class NavBarComponent {
   private sessionService = inject(SessionService);
