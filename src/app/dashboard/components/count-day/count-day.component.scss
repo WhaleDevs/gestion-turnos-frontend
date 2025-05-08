@@ -40,6 +40,8 @@
     grid-area: stats;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "salary salary"
+        "stats stats";
     gap: var(--gap-s);
     h2 {
         width: 100%;
@@ -51,6 +53,16 @@
     }
 }
 
+.salary {
+    grid-area: salary;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.538);
+    border-radius: var(--border-radius-m);
+    padding: var(--padding-l);
+    display: flex;
+    gap: var(--gap-l);
+    align-items: center;
+}
 
 .stats {
     display: flex;

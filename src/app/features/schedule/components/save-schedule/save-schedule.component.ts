@@ -16,7 +16,7 @@ import { ScheduleConfigResponse } from '../../models/responses/schedule.response
     .save-schedule {
       @media screen and (max-width: 768px) {
         position: fixed;
-        bottom: 20px;
+        bottom: 0px;
         left: 50%;
         transform: translateX(-50%);
         width: 100%;

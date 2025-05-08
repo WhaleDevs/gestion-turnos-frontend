@@ -2,11 +2,16 @@
 <section class="countDay-container">
   <div class="header">
     <h2 class="title">Estadísticas de hoy</h2>
-    <p>Saldo recibido: ${{ salary() }}</p>
     <span class="employee">{{ employeeSelected().email }}</span>
   </div>
   <p class="hour">{{ hourMinutes }}</p>
   <div class="stats-container">
+
+    <article class="salary">
+      <p>Saldo recibido</p>
+      <p class="count">$ {{ salary() }}</p>
+    </article>
+
     <article class="stats">
       <p>Turnos realizados</p>
       <p class="count">{{ appointmentsFinish().length }}</p>
