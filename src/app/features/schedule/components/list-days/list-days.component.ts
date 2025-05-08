@@ -7,6 +7,8 @@ import { ScheduleDayConfigForUpdateDto } from '../../models/requests-dto/schedul
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroUser } from '@ng-icons/heroicons/outline';
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '@app/auth/services/session.service';
+import { ManagerResponse } from '@app/features/managers/models/manager.response';
 
 @Component({
   selector: 'app-list-days',
@@ -19,9 +21,29 @@ import { FormsModule } from '@angular/forms';
 export class ListDaysComponent {
 
   private scheduleService = inject(ScheduleService);
+  private sessionService = inject(SessionService);
   days = signal<ScheduleDayConfigForUpdateDto[]>([]);
   selectedDaySignal = signal<ScheduleDayConfigForUpdateDto | undefined>(undefined);
   employeeSelectedSignalValue = computed(() => this.scheduleService.signalEmployeeSelected());
+
+
+  ngOnInit(): void {
+    if(this.employeeSelectedSignalValue().email === undefined){
+      this.sessionService.getSession$.subscribe(session => {
+        if(session?.email && session?.role === 'MANAGER'){
+          const userResponse: ManagerResponse = {
+            id: 0,
+            email: session?.email,
+            role: session?.role,
+            firstName: "",
+            lastname: "",
+          }
+          this.scheduleService.signalEmployeeSelected.set(userResponse);
+        }
+      });
+    }
+  }
+
 
   constructor() {
     effect(() => {
