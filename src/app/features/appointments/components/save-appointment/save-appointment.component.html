@@ -1,9 +1,10 @@
-<form [formGroup]="formSaveAppointment" class="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="formSaveAppointment" class="form" (ngSubmit)="onSubmit()"
+[ngClass]="{'small': isSmallScreen()}">
     <h3>Crear Reserva</h3>
     <p>Fecha: {{date()?.date}}</p>
     <p> {{dayConfig()?.startTime}} - {{dayConfig()?.endTime}}</p>
 
-    <div class="form-group">
+    <div class="form-group" >
         <label for="hour">Hora</label>
         <div class="input container">
             <ng-icon class="icon icon-small" name="heroClock" />
