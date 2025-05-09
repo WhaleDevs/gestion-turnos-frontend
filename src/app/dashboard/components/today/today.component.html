@@ -22,7 +22,7 @@
         disponibles</a>
     }@else {
     @for (appointment of paginatedAppointments(); track $index) {
-    <article class="item-container">
+    <article class="item-container" [ngClass]="appointment.status">
         <div class="item-info" (click)="showMoreDetails(appointment)">
             <p>{{ appointment.startTime }}</p>
             <span>|</span>
@@ -31,7 +31,7 @@
               }@else {
                 <p>Cliente eliminado</p>
               }
-            <div class="circle" [ngClass]="appointment.status"></div>
+            <!-- <div class="circle" [ngClass]="appointment.status"></div> -->
         </div>
         <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteAppointment(appointment)"></ng-icon>
     </article>
@@ -41,7 +41,10 @@
     }@if (!returnIfPlaceForNewAppointments()) {
     <p class="info">No hay lugar para un nuevo turno</p>
     }@else {
-    <button class="btn small secondary full" (click)="showFormToCreateAppointment()">AGREGAR TURNO</button>
+    <button class="btn large primary" (click)="showFormToCreateAppointment()">
+        <ng-icon class="icon icon-small" name="heroPlusCircle"></ng-icon>
+        Agregar turno
+    </button>
     }
     }
 </section>

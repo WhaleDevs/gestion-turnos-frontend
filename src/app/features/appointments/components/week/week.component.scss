@@ -6,11 +6,12 @@
     flex-direction: column;
     width: 100%;
     border-radius: var(--border-radius-m);
-    border: 1px solid var(--border-light);
+    border: 2px solid var(--border-light);
     box-shadow: var(--shadow-elevation-low);
     padding: var(--padding-m);
     gap: var(--gap-m);
     height: 100%;
+    transition: all 0.3s ease;
 
     @media screen and (max-width: 805px) {
       flex-direction: row;
@@ -18,14 +19,12 @@
       padding: var(--padding-m);
       border-radius: var(--border-radius-m);
     }
-  }
-  
-  .day-container:hover {
-    background-color: var(--primary);
-    color: var(--text-light);
-    transition: background-color 0.5s ease;
+  &:hover {
+    transform: translateY(-2px);
     cursor: pointer;
+    box-shadow: var(--shadow-light);
   }
+}
   
   .week-container {
     display: flex;
@@ -49,7 +48,11 @@
 }
 
   
-  .selected {
-    background-color: var(--primary);
-    color: var(--text-light);
-  }
+
+.selected {
+  transform: translateY(-2px);
+
+  color: var(--text-light);
+  background-color: var(--primary-light);
+}
+

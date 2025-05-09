@@ -4,13 +4,13 @@
     grid-template-rows: 1fr;
     grid-template-areas: "user-info user-data";
     align-items: center;
-    gap: 16px;
+    gap: var(--gap-m);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
+    border-radius: var(--border-radius-m);
+    padding: var(--padding-m);
     background-color: var(--background-light);
     color: var(--foreground);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-elevation-medium);
     transition: all 0.2s ease;
     
     &:hover {

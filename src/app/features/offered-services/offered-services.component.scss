@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid #ccc;
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--padding-m);
+    gap: var(--gap-m);
     align-items: center;
     justify-content: space-between;
 }
@@ -33,6 +33,7 @@
     padding: 1rem;
     border-radius: var(--border-radius-m);
     box-shadow: var(--shadow-elevation-medium);
+    background-color: var(--background-light);
 }
 
 .header {
