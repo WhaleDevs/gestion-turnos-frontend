@@ -32,7 +32,7 @@ export class CustomersService {
   customerForUpdate: BehaviorSubject<CustomerResponse> =
     new BehaviorSubject<CustomerResponse>(INITIAL_CUSTOMER_FOR_UPDATE);
   currentPage = signal(1);
-  pageSize = signal(4);
+  pageSize = signal(10);
   query = signal('');
   total = signal(0);
   totalPages = computed(() => Math.ceil(this.total() / this.pageSize()));
@@ -41,7 +41,6 @@ export class CustomersService {
     pageSize: this.pageSize(),
     query: this.query(),
   }));
-  isMobile = signal(false);
 
   isLoading = signal(false);
   hasMore = signal(true);
@@ -77,30 +76,12 @@ export class CustomersService {
       .pipe(
         tap((response: ApiResponse<PaginatedResponse<CustomerResponse>>) => {
           if (response.success && response.data) {
-            if (this.isMobile()) {
-              this.updateMobile(response);
-            } else {
-              this.customers.set(response.data.data);
-              this.total.set(response.data.total);
-            }
+            this.customers.set(response.data.data);
+            this.total.set(response.data.total);
           } else {
           }
         })
       );
-  }
-
-  updateMobile(response: ApiResponse<PaginatedResponse<CustomerResponse>>) {
-    if (!response.success || !response.data) return;
-
-    const data = response.data as PaginatedResponse<CustomerResponse>;
-
-    this.customers.update((prev) => {
-      const ids = new Set(prev.map((c) => c.id));
-      const nuevos = data.data.filter((c) => !ids.has(c.id));
-      return [...prev, ...nuevos];
-    });
-
-    this.total.set(data.total);
   }
 
   updateCustomer(

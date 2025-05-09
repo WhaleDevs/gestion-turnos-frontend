@@ -1,18 +1,29 @@
 <section>
-  <div class="cards">
-    @for (manager of managers(); track manager.id) {
-      <div class="card">
-        <div><span>Nombre:</span> {{ manager.firstName }} {{ manager.lastname }}</div>
-        <div><span>Email:</span> {{ manager.email }}</div>
-        <div><span>Rol:</span> {{ manager.role }}</div>
-        <div class="card-actions">
-          <button class="btn medium success" (click)="addHolidays(manager)">
-            <ng-icon class="icon icon-small" name="heroSparkles"></ng-icon>
-          </button>
+  <div class="list-item-container">
+    @for(manager of managers(); track manager.id){
+      <div class="list-item">
+        <div class="info-item">
+          <div class="principal-info">{{ manager.firstName }} {{ manager.lastname }}</div>
+          <div class="secondary-info">{{ manager.email }}</div>
+          <div class="secondary-info">{{ manager.role }}</div>
+        </div>
+        <div class="btn-item-container">
+          <ng-icon
+            class="icon icon-medium"
+            name="heroArrowPathRoundedSquare"
+            (click)="resetPassword(manager)"
+          />
+          <ng-icon
+            class="icon icon-medium"
+            name="heroSparkles"
+            (click)="holidays(manager)"
+          />
           @if(manager.role !== 'ADMIN'){
-            <button class="btn medium error" (click)="deleteManager(manager.id)">
-              <ng-icon class="icon icon-small" name="heroTrash" />
-            </button>
+            <ng-icon
+              class="icon icon-medium"
+              name="heroTrash"
+              (click)="deleteManager(manager.id)"
+            />
           }
         </div>
       </div>

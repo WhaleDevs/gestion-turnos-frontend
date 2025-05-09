@@ -1,18 +1,18 @@
 <section>
   <form [formGroup]="searchCustomerForm">
-    <button type="button" class="btn large success add-btn" (click)="createCustomer()"><ng-icon class="icon icon-medium" name="heroPlusCircle" /><p>Agregar</p></button>
     
     <div class="input container">
       <ng-icon class="icon icon-medium" name="heroMagnifyingGlass" />
       <input 
-        id="query" 
-        type="text" 
-        formControlName="query" 
-        placeholder="Introduce nombre, apellido, email o teléfono"
-        class="input large"
-        (input) = "updateQuery($event)"
+      id="query" 
+      type="text" 
+      formControlName="query" 
+      placeholder="Introduce nombre, apellido, email o teléfono"
+      class="input large"
+      (input) = "updateQuery($event)"
       />
     </div>
+    <button type="button" class="btn large primary add-btn" (click)="createCustomer()"><ng-icon class="icon icon-medium" name="heroPlusCircle" /><p>Agregar</p></button>
     
     <!-- <button type="submit" [disabled]="searchCustomerForm.invalid" class="btn large primary"><ng-icon class="icon icon-medium" name="heroMagnifyingGlass" /><p>Buscar</p></button> -->
   </form>

@@ -20,7 +20,7 @@ export const DASHBOARD_ROUTES: Routes = [
             { path: 'turnos', component: AppointmentsComponent },
             { path: 'configuracion', component: ConfigComponent },
             { path: 'servicios', component: OfferedServicesComponent },
-            { path: 'empleados', component: ManagersComponent}
+            { path: 'personal', component: ManagersComponent}
         ]
     },
 ];
