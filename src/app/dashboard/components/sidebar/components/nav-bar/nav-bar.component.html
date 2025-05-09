@@ -23,14 +23,16 @@
           <span>Turnos</span>
         </a>
       </li>
-  
+      
+      @if (role === 'ADMIN') {
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/dashboard/personal">
           <ng-icon class="icon icon-medium" name="heroBriefcase"></ng-icon>
           <span>Personal</span>
         </a>
       </li>
-  
+      }
+        
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/dashboard/clientes">
           <ng-icon class="icon icon-medium" name="heroUserGroup"></ng-icon>

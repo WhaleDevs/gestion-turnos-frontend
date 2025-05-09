@@ -23,8 +23,20 @@ form{
   .mat-calendar-body-label,
   .mat-calendar-period-button {
       font-size: var(--font-size-m) !important;
+      color: var(--primary) !important;
   }
+
+      .mat-calendar-body-selected {
+        background-color: var(--primary) !important;
+        color: white !important; // Asegura que el número se vea bien sobre tu color primario
+      }
+
+      .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+          border: 1px solid var(--primary) !important;
+          color: var(--primary) !important;
+        }
 }
+
 
 .calendar-container{
   height: 100%;

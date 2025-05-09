@@ -1,7 +1,7 @@
 .appointments-container{
     display: flex;
     flex-direction: column;
-    gap: var(--gap-m);
+    gap: var(--gap-l);
     padding: var(--padding-m);
     color: var(--foreground);
     transition: background-color 0.5s ease;
@@ -46,22 +46,18 @@
 
 .appointment{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     gap: var(--gap-m);
-    padding: var(--padding-m);
+    padding: var(--padding-m) var(--padding-m) var(--padding-l) var(--padding-m);
     background-color: var(--background-light);
-    box-shadow: var(--shadow-elevation-low);
-    border-radius: var(--border-radius-m);
-    border: 1px solid var(--border-light);
     transition: background-color 0.5s ease;
+    border-bottom: 1px solid var(--border-light);
     &:hover{
-        transition: background-color 0.5s ease;
-        background-color: var(--primary);
-        color: var(--text-light);
+        
         cursor: pointer;
-        .icon{
-            color: var(--text-light);
-        }
+   
     }
 }
 
@@ -127,15 +123,5 @@
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.5s ease;
-    border: 1px solid var(--border-light);
     border-radius: var(--border-radius-m);
-    &:hover{
-        transition: background-color 0.5s ease;
-        background-color: var(--primary);
-        color: var(--text-light);
-        cursor: pointer;
-        .icon{
-            color: var(--text-light);
-        }
-    }
 }

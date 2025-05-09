@@ -7,7 +7,7 @@ import { SaveAppointmentComponent } from '@app/features/appointments/components/
 import { AppointmentComponent } from '@app/features/appointments/components/appointment/appointment.component';
 import { DateTime } from 'luxon';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroChevronLeft, heroChevronRight, heroTrash, heroUser, heroUserGroup } from '@ng-icons/heroicons/outline';
+import { heroCheck, heroChevronLeft, heroChevronRight, heroPlus, heroPlusCircle, heroTrash, heroUser, heroUserGroup } from '@ng-icons/heroicons/outline';
 import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { AppointmentResponse } from '@app/features/appointments/models/responses/appointments.response';
@@ -19,7 +19,7 @@ import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/co
   imports: [NgIcon, RouterLink, NgClass],
   templateUrl: './today.component.html',
   styleUrls: ['./today.component.scss'],
-  providers: [provideIcons({ heroTrash, heroChevronLeft, heroChevronRight, heroUserGroup})]
+  providers: [provideIcons({ heroTrash, heroChevronLeft, heroChevronRight, heroUserGroup, heroCheck, heroPlusCircle})]
 })
 
 export class TodayComponent {

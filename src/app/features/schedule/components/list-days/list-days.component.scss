@@ -31,7 +31,7 @@
   box-shadow:var(--shadow-dark);
   text-align: center;
   padding: var(--padding-l);
-  border: 1px solid var(--primary-dark);
+  border: 2px solid var(--border-light);
   cursor: pointer;
   transition: all 0.3s ease;
   &:hover {
@@ -79,5 +79,5 @@
   opacity: 0.5;
   text-decoration: line-through;
   background-color: white;
-  color: var(--error);
+  color: var(--text-muted);
 }

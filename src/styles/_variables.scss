@@ -30,16 +30,16 @@ $info-color: #17a2b8;
 
   /* 🎨 5. Colores de estado (feedback) */
   --success: #{color.adjust($success-color, $lightness: 0%)};
-  --success-hover: #{color.adjust($success-color, $lightness: -10%)};
+  --success-hover: #{color.adjust($success-color, $lightness: 10%)};
 
   --error: #{color.adjust($error-color, $lightness: 0%)};
-  --error-hover: #{color.adjust($error-color, $lightness: -10%)};
+  --error-hover: #{color.adjust($error-color, $lightness: 10%)};
 
   --warning: #{color.adjust($warning-color, $lightness: 0%)};
-  --warning-hover: #{color.adjust($warning-color, $lightness: -10%)};
+  --warning-hover: #{color.adjust($warning-color, $lightness: 10%)};
 
   --info: #{color.adjust($info-color, $lightness: 0%)};
-  --info-hover: #{color.adjust($info-color, $lightness: -10%)};
+  --info-hover: #{color.adjust($info-color, $lightness: 10%)};
   /* 🎨 6. Colores de borde y líneas */
   --border-light: #dee2e6;
   --border-dark: #495057;
