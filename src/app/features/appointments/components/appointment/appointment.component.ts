@@ -15,7 +15,11 @@ import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/co
     <h2 class="title">INFORMACION DEL TURNO</h2>
     <div class="info-appointment">
         <p>{{appointment()?.startTime}}</p>
-        <p>{{appointment()?.customer?.firstName}}, {{appointment()?.customer?.lastName}}</p>
+        @if(appointment()?.customer) {
+          <p>{{appointment()?.customer?.firstName}}, {{appointment()?.customer?.lastName}}</p>
+        }@else {
+          <p>Cliente eliminado</p>
+        }
         <p>{{ appointment()?.serviceTitle }}: {{ priceWith$()}}</p>
         <p>{{appointment()?.customer?.phoneNumber}}</p>
         <select 
