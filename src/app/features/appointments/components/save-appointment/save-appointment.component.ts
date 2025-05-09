@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -16,11 +16,12 @@ import { AlertService } from '@app/shared/services/alert.service';
 import { ScheduleDayConfigResponse } from '@app/features/schedule/models/responses/schedule.response';
 import { AppointmentResponse } from '../../models/responses/appointments.response';
 import { OfferedServicesService } from '@app/features/offered-services/services/offered-services.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-save-appointment',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIcon],
+  imports: [ReactiveFormsModule, NgIcon, NgClass],
   providers: [provideIcons({
     heroClock, heroPlus, heroUserCircle, heroChatBubbleBottomCenterText,
     heroPhone, heroAtSymbol, heroMapPin, heroIdentification
@@ -37,6 +38,8 @@ export class SaveAppointmentComponent {
   private readonly alertService = inject(AlertService);
   private readonly offeredServices = inject(OfferedServicesService);
   // Señales y propiedades
+  private screenHeight = signal(window.innerHeight);
+  isSmallScreen = computed(() => this.screenHeight() < 800);
   date = computed(() => this.appointmentsService.signalDateSelected());
   dayConfig = computed(() =>
     this.scheduleService.signalScheduleConfigResponse().daysConfig
@@ -51,6 +54,9 @@ export class SaveAppointmentComponent {
   services = computed(() => this.offeredServices.signalOfferedServices());
 
   constructor(private fb: FormBuilder) {
+    window.addEventListener('resize', () => {
+      this.screenHeight.set(window.innerHeight);
+    });
     this.formSaveAppointment = this.buildForm();
   }
 
@@ -198,4 +204,13 @@ export class SaveAppointmentComponent {
       email: ''
     });
   }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', () => {
+      console.log('resize');
+      console.log(window.innerHeight);
+      this.screenHeight.set(window.innerHeight);
+    });
+  }
+
 }
