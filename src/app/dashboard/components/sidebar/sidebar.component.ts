@@ -19,7 +19,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 
     .sidebar-container {
         width: 100%;
-        min-height: 100vh;
+        min-height: 100vh; 
         padding: var(--padding-s);
         display: grid;
         grid-template-rows: auto 7fr auto;
@@ -29,6 +29,9 @@ import { FooterComponent } from "./components/footer/footer.component";
           "nav-bar"
           "footer";
         gap: var(--gap-l);
+        @media screen and (max-width: 768px) {
+            min-height: 100%;
+        }
     }
     
     .user-profile {
