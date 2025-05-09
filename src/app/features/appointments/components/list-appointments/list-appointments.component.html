@@ -63,11 +63,11 @@
   >
   }@else { @for(appointment of appointmentsForDate(); track $index) {
   <div class="appointment-container-row">
-    <div class="appointment" (click)="showMoreDetails(appointment)"  [ngClass]="appointment.status">
-      <div class="logo-hours">
+    <div class="appointment"  [ngClass]="appointment.status">
+      <div class="logo-hours" (click)="showMoreDetails(appointment)">
         <ng-icon name="heroClock" class="icon icon-medium"></ng-icon>
       </div>
-      <div class="info-appointment">
+      <div class="info-appointment" (click)="showMoreDetails(appointment)">
         <p>{{ appointment.startTime }}</p>
         @if(appointment.customer) {
         <p>

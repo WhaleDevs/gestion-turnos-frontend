@@ -1,15 +1,18 @@
 <form [formGroup]="holidaysForm" (ngSubmit)="submit()">
-  @switch(pageHolidays){ @case(0){
-  <h2>Ingrese el motivo de la vacación</h2>
+  <!-- TITLE CONTAINER -->
+  @if(!holidaysForm.invalid && passForTheEnd && pageHolidays != 3){
+    <button class="btn primary medium" type="button" (click)="navigate(3)">Ir a Resumen Rapidamente</button>
+  } @switch(pageHolidays){ @case(0){
+  <h2 class="title-container">Ingrese el motivo de la vacación</h2>
   } @case(1){
-  <h2>Ingrese la fecha de inicio</h2>
+  <h2 class="title-container">Ingrese la fecha de inicio</h2>
   } @case(2){
-  <h2>Ingrese la fecha de fin</h2>
+  <h2 class="title-container">Ingrese la fecha de fin</h2>
   } @case(3){
-  <h2>Resumen</h2>
+  <h2 class="title-container">Resumen</h2>
   } } @if(pageHolidays === 0){
   <!-- INPUT CONTAINER -->
-  <div>
+  <div class="input-container">
     <input
       type="text"
       name="reason"
@@ -20,50 +23,75 @@
     />
   </div>
   } @if(pageHolidays === 1){
-  <mat-calendar
-    [selected]="selectedStart"
-    (selectedChange)="onDateSelected($event, 'start')"
-  >
-  </mat-calendar>
+  <div class="calendar-container">
+    <mat-calendar
+      [selected]="selectedStart"
+      (selectedChange)="onDateSelected($event, 'start')"
+      class="calendar"
+    >
+    </mat-calendar>
+  </div>
   } @if(pageHolidays === 2){
-  <mat-calendar
-    [selected]="selectedEnd"
-    (selectedChange)="onDateSelected($event, 'end')"
-  >
-  </mat-calendar>
+  <div class="calendar-container">
+    <mat-calendar
+      [selected]="selectedEnd"
+      (selectedChange)="onDateSelected($event, 'end')"
+      class="calendar"
+    >
+    </mat-calendar>
+  </div>
   } @if(pageHolidays === 3){
-  <div>
-    <p>Motivo: {{ this.holidaysForm.get("reason")?.value }}</p>
-    <p>
-      Fecha:
-      {{ this.holidaysForm.get("startDate")?.value | date : "dd/MM/yyyy" }} -
-      {{ this.holidaysForm.get("endDate")?.value | date : "dd/MM/yyyy" }}
+  <div class="summary-container">
+    <p class="summary-text">
+      <span> Motivo: {{ this.holidaysForm.get("reason")?.value }} </span>
+      <ng-icon
+        (click)="navigate(0)"
+        name="heroPencilSquare"
+        class="icon icon-small"
+      ></ng-icon>
+    </p>
+    <p class="summary-text">
+      <span>
+        Fecha de inicio:
+        {{ this.holidaysForm.get("startDate")?.value | date : "dd/MM/yyyy" }}
+      </span>
+      <ng-icon
+        (click)="navigate(1)"
+        name="heroPencilSquare"
+        class="icon icon-small"
+      ></ng-icon>
+    </p>
+    <p class="summary-text">
+      <span>
+        Fecha de fin:
+        {{ this.holidaysForm.get("endDate")?.value | date : "dd/MM/yyyy" }}
+      </span>
+      <ng-icon
+        (click)="navigate(2)"
+        name="heroPencilSquare"
+        class="icon icon-small"
+      ></ng-icon>
     </p>
   </div>
   }
 
   <!-- BTN CONTAINER -->
   <div class="container-button">
-    @if(pageHolidays===0){
+    @if(pageHolidays>0){
+    <button type="button" class="btn medium" (click)="previousPage()">
+      Anterior
+    </button>
+    } @if(pageHolidays<3){
+    <p>Paso {{ pageHolidays + 1 }} de 4</p>
+    } @if(pageHolidays === 3){
+    <button class="btn primary medium" type="submit">Guardar Vacaciones</button>
+    } @if(pageHolidays<3){
     <button
       type="button"
       class="btn primary medium"
-      (click)="previousPage()"
-      disabled
+      [ngClass]="{ full: pageHolidays === 3 }"
+      (click)="nextPage()"
     >
-      Anterior
-    </button>
-    }@else{
-    <button type="button" class="btn primary medium" (click)="previousPage()">
-      Anterior
-    </button>
-    }
-    <p>{{ pageHolidays }}</p>
-
-    @if(pageHolidays === 3){
-    <button class="btn primary medium" type="submit">Cargar</button>
-    } @if(pageHolidays<3){
-    <button type="button" class="btn primary medium" (click)="nextPage()">
       Siguiente
     </button>
     }

@@ -1,18 +1,17 @@
-form{
+form {
   display: flex;
   flex-direction: column;
   text-align: center;
-  gap: var(--gap-xl) !important;
+  justify-content: space-evenly;
+  gap: var(--gap-m);
+  animation: slideInLeft 0.5s ease-out;
+  width: 100%;
 }
-
 
 ::ng-deep {
   /* ⬆️ Ajustar el tamaño del calendario */
   .demo-inline-calendar-card {
-      min-width: 300px !important;
-      min-height: 300px !important;
-      font-size: var(--font-size-m) !important;
-  
+    font-size: var(--font-size-m) !important;
   }
   .mat-calendar-body-cell-content,
   .mat-calendar-header,
@@ -22,42 +21,90 @@ form{
   .mat-calendar-body-cell,
   .mat-calendar-body-label,
   .mat-calendar-period-button {
-      font-size: var(--font-size-m) !important;
-      color: var(--primary) !important;
+    font-size: var(--font-size-m) !important;
+    color: var(--primary) !important;
   }
 
-      .mat-calendar-body-selected {
-        background-color: var(--primary) !important;
-        color: white !important; // Asegura que el número se vea bien sobre tu color primario
-      }
+  .mat-calendar-body-selected {
+    background-color: var(--primary) !important;
+    color: white !important; // Asegura que el número se vea bien sobre tu color primario
+  }
 
-      .mat-calendar-body-today:not(.mat-calendar-body-selected) {
-          border: 1px solid var(--primary) !important;
-          color: var(--primary) !important;
-        }
-}
-
-
-.calendar-container{
-  height: 100%;
-  border-radius: var(--border-radius-m) !important;
-  box-shadow: var(--shadow-elevation-medium) !important;
-  background-color: var(--background-light) !important;
-  border: 1px solid var(--border-light) !important;
-  padding: var(--padding-m) !important;
-  @media screen and (max-width: 1200px) {
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap-m) !important;
-      align-items: center;
-      justify-content: center;
+  .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border: 1px solid var(--primary) !important;
+    color: var(--primary) !important;
   }
 }
 
-.container-button{
+.calendar-container {
   display: flex;
-  flex-direction: flex;
-  gap: var(--gap-m) !important;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: var(--padding-xl);
+  padding-top: var(--padding-m);
 }
+
+.calendar {
+  width: 300px;
+  height: 300px;
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.container-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-xl);
+}
+
+.title-container {
+  color: var(--primary);
+  font-size: var(--font-size-xl);
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
+}
+
+.warning-container {
+  text-align: justify;
+  font-size: var(--font-size-m);
+}
+
+.input-container {
+  padding: var(--padding-xl);
+  animation: slideInLeft 0.5s ease-out;
+  
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-xl);
+  gap: var(--gap-l);
+}
+
+.full {
+  width: 100%;
+}
+
+.summary-text {
+  width: 100%;
+  border-bottom: 1px solid var(--primary);
+  display: flex;
+  justify-content: space-between;
+  padding: var(--padding-m);
+}
+
+
+

@@ -10,17 +10,24 @@ import {
 import { ResetPasswordDto } from '../../models/resetPasswordDto.dto';
 import { AlertService } from '@app/shared/services/alert.service';
 import { ManagerService } from '../../services/manager.service';
+import { heroEye, heroEyeSlash, heroLockClosed } from '@ng-icons/heroicons/outline';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIcon, NgClass],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
+  providers: [provideIcons({heroLockClosed, heroEyeSlash, heroEye})]
 })
 export class ResetPasswordComponent {
   private fb = inject(FormBuilder);
   private _alerts = inject(AlertService);
   private _managerService = inject(ManagerService);
+
+  statusButton = 'hidePassword';
+  statusButton2 = 'hidePassword';
 
   resetPasswordForm = this.fb.group(
     {
@@ -33,6 +40,13 @@ export class ResetPasswordComponent {
   );
 
   constructor() {}
+  showPassword() {
+    this.statusButton = this.statusButton === 'hidePassword' ? 'showPassword' : 'hidePassword';
+  }
+
+  showPassword2() {
+    this.statusButton2 = this.statusButton2 === 'hidePassword' ? 'showPassword' : 'hidePassword';
+  }
 
   passwordsMatchValidator(): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
@@ -71,4 +85,14 @@ export class ResetPasswordComponent {
       },
     });
   }
+
+  get passwordsAreEqual(): boolean {
+    const pass = this.resetPasswordForm.get('newPassword')?.value;
+    const confirm = this.resetPasswordForm.get('confirmPassword')?.value;
+    return !!pass && !!confirm && pass === confirm;
+  }
+  
+  
+  
+
 }
