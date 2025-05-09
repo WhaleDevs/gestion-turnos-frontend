@@ -19,7 +19,7 @@ import { SelectManagerComponent } from "../managers/components/select-manager/se
     @if (employees().length > 0 && employees() !== null && role() === 'ADMIN') {
       <app-select-manager 
         title="Configuración de agenda"
-        description="Selecciona el empleado para ver su agenda, tambien puedes ver tu agenda seleccionando 'Mi agenda'."
+        description="Selecciona un miembro del personal para ver su agenda, tambien puedes ver tu agenda seleccionando 'Mi agenda'."
         section="agenda">
       </app-select-manager>
     }

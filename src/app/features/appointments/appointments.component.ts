@@ -13,7 +13,7 @@ import { SelectManagerComponent } from '../managers/components/select-manager/se
     class="manager"
     section="turnos"
     title="Agenda de turnos"
-    description="Selecciona el empleado para ver sus turnos, también puedes ver tus turnos seleccionando 'Mis turnos'.">
+    description="Selecciona a un miembro del personal para ver sus turnos, también puedes ver tus turnos seleccionando 'Mis turnos'.">
   </app-select-manager>
   <app-calendar class="calendar"></app-calendar>
   <app-week class="week"></app-week>

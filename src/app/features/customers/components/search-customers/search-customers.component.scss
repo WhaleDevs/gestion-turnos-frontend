@@ -6,10 +6,6 @@ section{
   width: 100%;
   margin: 0 auto;
   padding: var(--padding-m);
-  border-radius: var(--border-radius-m);
-  background-color: var(--background-light);
-  border: 1px solid #CCC;
-  box-shadow: var(--shadow-elevation-medium);
 }
 
 form{
@@ -33,8 +29,13 @@ form input{
   width: 80%;
 }
 
+.input{
+  box-shadow: none;
+}
+
 .add-btn {
   position: static;
+  box-shadow: none;
 
   @media screen and (max-width: 768px) {
     position: fixed;

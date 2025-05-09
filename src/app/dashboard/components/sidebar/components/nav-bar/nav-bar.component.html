@@ -1,45 +1,58 @@
 <nav class="navbar-container">
     <p class="navbar-brand">
-        <a routerLink="/dashboard" class="navbar-brand-link">Gesturn</a>
+      <a routerLink="/dashboard" class="navbar-brand-link">Gesturn</a>
     </p>
     <ul class="nav">
-        <a class="nav-item" routerLink="/dashboard" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroHome"></ng-icon>
-            <a class="nav-link">Inicio</a>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/dashboard">
+          <ng-icon class="icon icon-medium" name="heroHome"></ng-icon>
+          <span>Inicio</span>
         </a>
-
-        <a class="nav-item" routerLink="/dashboard/agenda" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroCalendarDays"></ng-icon>
-            <a class="nav-link">Agenda</a>
+      </li>
+  
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard/agenda">
+          <ng-icon class="icon icon-medium" name="heroCalendarDays"></ng-icon>
+          <span>Agenda</span>
         </a>
-
-        <a class="nav-item" routerLink="/dashboard/turnos" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroPaperClip"></ng-icon>
-            <a class="nav-link">Turnos</a>
+      </li>
+  
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard/turnos">
+          <ng-icon class="icon icon-medium" name="heroPaperClip"></ng-icon>
+          <span>Turnos</span>
         </a>
-
-        <a class="nav-item" routerLink="/dashboard/empleados" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroBriefcase"></ng-icon>
-            <a class="nav-link">Empleados</a>
+      </li>
+  
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard/personal">
+          <ng-icon class="icon icon-medium" name="heroBriefcase"></ng-icon>
+          <span>Personal</span>
         </a>
-
-        <a class="nav-item" routerLink="/dashboard/clientes" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroUserGroup"></ng-icon>
-            <a class="nav-link">Clientes</a>
+      </li>
+  
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard/clientes">
+          <ng-icon class="icon icon-medium" name="heroUserGroup"></ng-icon>
+          <span>Clientes</span>
         </a>
-
-        @if (role === 'ADMIN') {
-        <a class="nav-item" routerLink="/dashboard/servicios" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroRectangleGroup"></ng-icon>
-            <a class="nav-link">Servicios</a>
+      </li>
+  
+      @if (role === 'ADMIN') {
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard/servicios">
+          <ng-icon class="icon icon-medium" name="heroRectangleGroup"></ng-icon>
+          <span>Servicios</span>
         </a>
-        }
-
-        <a class="nav-item" routerLink="/dashboard/configuracion" routerLinkActive="active">
-            <ng-icon class="icon icon-medium" name="heroCog6Tooth"></ng-icon>
-            <a class="nav-link">Configuracion</a>
+      </li>
+      }
+  
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard/configuracion">
+          <ng-icon class="icon icon-medium" name="heroCog6Tooth"></ng-icon>
+          <span>Configuración</span>
         </a>
-
-        
+      </li>
     </ul>
-</nav>
+  </nav>
+  

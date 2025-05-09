@@ -1,5 +1,8 @@
 section{
   display: flex;
   flex-direction: column;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--shadow-elevation-medium);
   gap: var(--gap-l)
 }

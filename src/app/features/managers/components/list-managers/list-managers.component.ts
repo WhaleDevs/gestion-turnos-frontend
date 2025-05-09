@@ -52,13 +52,13 @@ export class ListManagersComponent {
       ConfirmDialogComponent,
       {},
       {
-        message: '¿Estás seguro de que querés eliminar este empleado?',
+        message: '¿Estás seguro de que querés eliminar este miembro del personal?',
       }
     ).subscribe((confirm: boolean) => {
       if(confirm){
         this._service.delete(id).subscribe({
           next: () => {
-            this._alerts.showSuccess('Empleado eliminado');
+            this._alerts.showSuccess('Miembro del personal eliminado');
           },
           error: (error: ErrorResponse) => {
             this._alerts.showError(error.message);
