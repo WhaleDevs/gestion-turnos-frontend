@@ -96,7 +96,7 @@ export class AppointmentComponent {
   }
 
   deleteAppointment() {
-    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este cliente?' }).subscribe((confirmed: boolean) => {
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este turno?' }).subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.appointmentsService.deleteAppointment().subscribe({
           next: (response) => {

@@ -42,3 +42,16 @@
   width: 40px;
   height: 40px;
 }
+
+.manager-name{
+  color: var(--primary);
+  font-size: var(--font-size-xl);
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
+}
+
+section{
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-l);
+}

@@ -50,6 +50,7 @@ section {
   align-items: center;
   justify-content: end;
   width: 100%;
+  gap: var(--gap-m);
 }
 
 .principal-info{
@@ -63,3 +64,8 @@ section {
   font-size: var(--font-size-m);
   font-weight: var(--font-weight-normal);
 }
+
+.disabled{
+  color: var(--text-muted);
+}
+

@@ -26,6 +26,8 @@ import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { ManagerService } from '../../services/manager.service';
 import { ModalService } from '@app/shared/services/modal.service';
+import { heroPencilSquare } from '@ng-icons/heroicons/outline';
+import { NgIcon, provideIcons } from '@ng-icons/core';
 
 @Component({
   selector: 'app-create-holiday',
@@ -39,8 +41,9 @@ import { ModalService } from '@app/shared/services/modal.service';
     MatNativeDateModule, // 👈 este es el que falta
     MatButtonModule,
     MatCardModule,
+    NgIcon
   ],
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), provideIcons({heroPencilSquare})],
   templateUrl: './create-holiday.component.html',
   styleUrl: './create-holiday.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +56,7 @@ export class CreateHolidayComponent {
   holidaysForm: FormGroup;
   selected = model<Date | null>(null);
   pageHolidays: number = 0;
-  
+  passForTheEnd: boolean = false;
   constructor(private fb: FormBuilder) {
     this.holidaysForm = this.fb.group({
       startDate: [null, Validators.required], // Fecha de inicio
@@ -99,12 +102,18 @@ export class CreateHolidayComponent {
         }
         break;
     }
+    if(this.pageHolidays === 3){
+      this.passForTheEnd = true;
+    }
   }
 
   previousPage() {
     this.pageHolidays--;
   }
 
+  navigate(page: number) {
+    this.pageHolidays = page;
+  }
 
   submit() {
     const start = this.holidaysForm.get('startDate')?.value;

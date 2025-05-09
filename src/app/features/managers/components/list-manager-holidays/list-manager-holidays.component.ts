@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ManagerService } from '../../services/manager.service';
 import { CreateHolidayComponent } from '../create-holiday/create-holiday.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroTrash } from '@ng-icons/heroicons/outline';
+import { heroEye, heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ModalService } from '@app/shared/services/modal.service';
 
@@ -11,7 +11,7 @@ import { ModalService } from '@app/shared/services/modal.service';
   imports: [CreateHolidayComponent, NgIcon],
   templateUrl: './list-manager-holidays.component.html',
   styleUrl: './list-manager-holidays.component.scss',
-  providers: [provideIcons({ heroTrash })],
+  providers: [provideIcons({ heroTrash, heroPlus, heroEye })],
 })
 export class ListManagerHolidaysComponent {
   private managerService = inject(ManagerService);
