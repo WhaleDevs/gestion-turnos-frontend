@@ -48,9 +48,7 @@ export class MostDemandedTimeComponent {
   ngOnInit(): void {
     this.sessionService.getSession$.subscribe({
       next: (response) => {
-        if(response?.role === 'ADMIN'){
           this.scheduleService.setSignalEmployeeSelected(response as ManagerResponse);
-        }
       }
     })
   }

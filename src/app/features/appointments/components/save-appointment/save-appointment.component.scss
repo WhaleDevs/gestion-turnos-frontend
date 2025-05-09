@@ -1,24 +1,35 @@
 .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas:
-        "titlePos titlePos"
-        "required no-required";
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "titlePos titlePos"
+    "required no-required";
 }
 
 .required {
-    grid-area: required;
+  grid-area: required;
 }
 
 .no-required {
-    grid-area: no-required;
+  grid-area: no-required;
 }
 
 .titlePos {
-    grid-area: titlePos;
+  grid-area: titlePos;
 }
 
-.form{
-    gap: 0px;
+.form {
+  gap: 0px;
 }
+
+.small {
+
+  .form-group,
+  .input,
+  .select,
+  .container {
+    padding: 4px;
+  }
+}
+

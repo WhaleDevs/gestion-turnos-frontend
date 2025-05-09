@@ -40,7 +40,11 @@
             </div>
             <div class="info-appointment">
                 <p>{{appointment.startTime}}</p>
-                <p>{{appointment.customer?.firstName}}, {{appointment.customer?.lastName}}</p>
+                @if(appointment.customer) {
+                <p>{{appointment.customer.firstName}}, {{appointment.customer.lastName}}</p>
+                }@else {
+                <p>Cliente eliminado</p>
+                }
             </div>
             <div>
                 <div class="circle" [ngClass]="appointment.status"></div>
