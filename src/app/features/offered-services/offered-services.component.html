@@ -1,31 +1,41 @@
-<section class="container">
-    <div class="header">
-        <div class="row-header">
-            <h2>Servicios</h2>
-            <p>Lista de servicios ofrecidos</p>
-        </div>
-        <div class="add-btn" >
-            <button class="btn primary light medium" (click)="addOfferedService()">
-                <ng-icon name="heroPlus" class="icon icon-small"></ng-icon>
-                <span class="button-text">Agregar</span>
-            </button>
-        </div>
+<section>
+  <div class="header">
+    <div class="column-header">
+      <h2 class="title">Servicios</h2>
+      <p class="description">Lista de servicios ofrecidos</p>
     </div>
-    <div class="offered-services-container">
-        @for (item of offeredServices(); track $index) {
-        <article class="offered-service">
-            <div class="info">
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.description }}</p>
-                <p>${{ item.price }}</p>
-            </div>
-            <div class="actions">
-                <ng-icon class="icon icon-small" name="heroPencilSquare" (click)="editOfferedService(item)"></ng-icon>
-                <ng-icon class="icon icon-small" name="heroTrash" (click)="deleteOfferedService(item.id)"></ng-icon>
-            </div>
-        </article>
-        }@empty {
-            <p class="empty">No hay servicios</p>
-        }
+    <div class="add-btn">
+      <button class="btn primary large add-btn" (click)="addOfferedService()">
+        <ng-icon name="heroPlusCircle" class="icon icon-medium"></ng-icon>
+        <p class="button-text">Agregar</p>
+      </button>
     </div>
+  </div>
+  <div class="list-item-container">
+    @for (item of offeredServices(); track item.id) {
+    <div class="list-item">
+      <div class="info-item">
+        <div class="principal-info">{{ item.title }}</div>
+        <div class="secondary-info">
+          {{ item.description || "Sin descripción" }}
+        </div>
+        <div class="secondary-info">${{ item.price }}</div>
+      </div>
+      <div class="btn-item-container">
+        <ng-icon
+          class="icon icon-medium"
+          name="heroPencilSquare"
+          (click)="editOfferedService(item)"
+        />
+        <ng-icon
+          class="icon icon-medium"
+          name="heroTrash"
+          (click)="deleteOfferedService(item.id)"
+        />
+      </div>
+    </div>
+    } @empty {
+    <p class="empty">No hay servicios</p>
+    }
+  </div>
 </section>

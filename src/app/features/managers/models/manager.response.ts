@@ -1,9 +1,12 @@
+import { OfferedResponse } from "@app/features/offered-services/models/offeredResponse";
+
 export interface ManagerResponse{
   id: number;
   firstName: string;
   lastname: string;
   email: string;
   role: string;
+  offeredServices: OfferedResponse[];
 }
 
 export const INITIAL_MANAGERS: ManagerResponse[] = [
@@ -12,7 +15,8 @@ export const INITIAL_MANAGERS: ManagerResponse[] = [
     firstName: '',
     lastname: '',
     role: '',
-    email: ''
+    email: '',
+    offeredServices: []
   }
 ];
 
@@ -21,5 +25,6 @@ export const INITIAL_MANAGER: ManagerResponse = {
     firstName: '',
     lastname: '',
     role: '',
-    email: ''
+    email: '',
+    offeredServices: []
 }

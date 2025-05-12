@@ -27,10 +27,15 @@ export class OfferedServicesService {
     price: 0
   });
 
+  constructor() {
+  }
+
   getOfferedServices(): Observable<ApiResponse<OfferedResponse[]>> {
     return this.http.get<ApiResponse<OfferedResponse[]>>(this.url).pipe(
       tap((response) => {
+        console.log('OfferedServices response:', response);
         this.signalOfferedServices.set(response.data!);
+        console.log('Signal after update:', this.signalOfferedServices());
       })
     );
   }

@@ -37,6 +37,7 @@ export class ListDaysComponent {
             role: session?.role,
             firstName: "",
             lastname: "",
+            offeredServices: []
           }
           this.scheduleService.signalEmployeeSelected.set(userResponse);
         }

@@ -1,7 +1,7 @@
 @if(role() === 'ADMIN' && employees().length > 1) {
 <div class="navigation-container" [ngClass]="nostyles ? 'nostyles' : ''">
-  <h3>{{ title }}</h3>
-  <p>{{ description }}</p>
+  <h2 class="title">{{ title }}</h2>
+  <p class="description">{{ description }}</p>
   <select
     class="input"
     name="employees"

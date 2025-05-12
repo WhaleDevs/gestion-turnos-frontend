@@ -1,4 +1,5 @@
 @use "sass:color";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@400;500&display=swap');
 
 $primary-color: #002C34;
 $secondary-color: #EEEBD3;
@@ -76,8 +77,8 @@ $info-color: #17a2b8;
   --border-radius-xl: 3.2rem;
 
   /* 🎨 11. Font */
-  --font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-
+  --font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  --font-family-secondary: 'Roboto', 'Helvetica Neue', sans-serif;
   /* 🎨 12. Font size */
   --font-size-s: 1.2rem;  /* 12px / 10 = 1.2rem */
   --font-size-m: 1.4rem;  /* 14px / 10 = 1.4rem */

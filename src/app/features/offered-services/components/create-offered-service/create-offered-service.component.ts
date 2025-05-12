@@ -11,10 +11,11 @@ import { OfferedDtoForCreation } from '../../models/offeredDtoForCreation';
 import { ModalService } from '@app/shared/services/modal.service';
 import { AlertService } from '@app/shared/services/alert.service';
 import { OfferedDtoForUpdate } from '../../models/offeredDtoForUpdate';
+import { FormErrorComponent } from "../../../../shared/components/form-error/form-error.component";
 @Component({
   selector: 'app-create-offered-service',
   standalone: true,
-  imports: [NgIcon, ReactiveFormsModule],
+  imports: [NgIcon, ReactiveFormsModule, FormErrorComponent],
   templateUrl: './create-offered-service.component.html',
   styleUrl: './create-offered-service.component.scss',
   providers: [

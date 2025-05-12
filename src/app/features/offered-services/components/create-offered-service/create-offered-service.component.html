@@ -1,39 +1,70 @@
-<h2 class="title">{{ editOfferedServiceFlag() ? 'Editar Servicio' : 'Crear Servicio' }}</h2>
-<form class="form" [formGroup]="form" (ngSubmit)="submit()">
-
-    <div class="form-group">
-        <label class="label">Título</label>
+<section>
+    <h2 class="title">
+      @if(editOfferedServiceFlag()){
+        Editar servicio
+      }@else{
+        Crear servicio
+      }
+    </h2>
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+      
+      <div class="form-group2">
         <div class="input container">
-            <ng-icon class="icon icon-small" name="heroPencilSquare" />
-            <input class="input" type="text" formControlName="title" placeholder="Título del servicio" />
+          <ng-icon class="icon icon-medium" name="heroPencilSquare" />
+          <input
+            class="input medium"
+            type="text"
+            formControlName="title"
+            placeholder="Nombre del servicio"
+          />
         </div>
-    </div>
-
-    <div class="form-group">
-        <label class="label">Descripción</label>
+        @if(form.get('title')?.touched){
+          <app-form-error [control]="form.get('title')!"></app-form-error>
+        }@else{
+          <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+        }
+      </div>
+  
+      <div class="form-group2">
         <div class="input container">
-            <ng-icon class="icon icon-small" name="heroDocumentText" />
-            <input class="input" type="text" formControlName="description" placeholder="Descripción del servicio" />
+          <ng-icon class="icon icon-medium" name="heroDocumentText" />
+          <input
+            class="input medium"
+            type="text"
+            formControlName="description"
+            placeholder="Descripción del servicio"
+          />
         </div>
-    </div>
-
-    <div class="form-group">
-        <label class="label">Precio</label>
+        @if(form.get('description')?.touched){
+          <app-form-error [control]="form.get('description')!"></app-form-error>
+        }@else{
+          <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+        }
+      </div>
+  
+      <div class="form-group2">
         <div class="input container">
-            <ng-icon class="icon icon-small" name="heroCurrencyDollar" />
-            <input class="input" type="number" formControlName="price" placeholder="Precio" />
+          <ng-icon class="icon icon-medium" name="heroCurrencyDollar" />
+          <input
+            class="input medium"
+            type="number"
+            formControlName="price"
+            placeholder="Precio"
+          />
         </div>
-    </div>
-    
-    @if(editOfferedServiceFlag()){
-    <button class="btn primary full" type="submit">
-        Editar
-    </button>
-    }
-    @else{
-    <button class="btn primary full" type="submit">
-        Crear
-    </button>
-    }   
-
-</form>
+        @if(form.get('price')?.touched){
+          <app-form-error [control]="form.get('price')!"></app-form-error>
+        }@else{
+          <div style="min-height: var(--font-size-xl); margin-top: var(--margin-m);"></div>
+        }
+      </div>
+  
+      @if(editOfferedServiceFlag()){
+        <button class="btn primary full" type="submit" [disabled]="form.invalid">Editar</button>
+      }@else{
+        <button class="btn primary full" type="submit" [disabled]="form.invalid">Crear</button>
+      }
+  
+    </form>
+  </section>
+  

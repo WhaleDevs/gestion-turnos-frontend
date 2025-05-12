@@ -19,6 +19,8 @@ import { HolidayResponse } from '../models/holiday.response';
 import { HolidayForCreationDto } from '../models/holidayForCreationDto.dto';
 import { DateTime } from 'luxon';
 import { ResetPasswordDto } from '../models/resetPasswordDto.dto';
+import { OfferedResponse } from '@app/features/offered-services/models/offeredResponse';
+import { UserOfferedServicesDto } from '../models/userOfferedServiceDto.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -129,5 +131,34 @@ export class ManagerService {
       `${this.url}/auth/reset-password`,
       payload
     );
+  }
+
+  updateManagerOfferedServices(
+    request: UserOfferedServicesDto
+  ): Observable<ApiResponse<ManagerResponse>> {
+    return this.http
+      .patch<ApiResponse<ManagerResponse>>(
+        `${this.url}/users/update-offered-services`,
+        request
+      )
+      .pipe(
+        tap((response: ApiResponse<ManagerResponse>) => {
+          if (response.success && response.data) {
+            if (response.data) {
+              const index = this.managers().findIndex(
+                (manager) => manager.id === response.data?.id
+              );
+
+              if (index !== -1) {
+                // If we find the manager with the same ID, we replace it
+                this.managers()[index] = response.data;
+              } else {
+                // Si no lo encontramos, podrías añadirlo a la lista si es necesario
+                this.managers().push(response.data);
+              }
+            }
+          }
+        })
+      );
   }
 }

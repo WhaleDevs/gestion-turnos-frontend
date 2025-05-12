@@ -7,15 +7,7 @@ section {
   margin: 0 auto;
   border-radius: var(--border-radius-m);
   height: 100%;
-
   gap: var(--gap-m);
-  @media (max-width: 769px) {
-    background-color: rgba(255, 255, 255, 0);
-    background-color: none;
-    border-radius: none;
-    box-shadow: none;
-    border: none;
-  }
 }
 
 .list-item-container{
@@ -55,13 +47,14 @@ section {
 
 .principal-info{
   color: var(--primary);
-  font-size: var(--font-size-l);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-medium);
+  text-transform: capitalize !important;
 }
 
 .secondary-info{
   color: var(--text-muted);
-  font-size: var(--font-size-m);
+  font-size: var(--font-size-l);
   font-weight: var(--font-weight-normal);
 }
 
