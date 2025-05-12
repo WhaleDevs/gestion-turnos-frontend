@@ -35,7 +35,7 @@ import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/co
             </option>
           } 
         </select>
-        <button  class="btn full" (click)="deleteAppointment()">ELIMINAR TURNO</button>
+        <button  class="btn full" (click)="deleteAppointment()" [disabled]="isDeleting || isConfirmingDelete">ELIMINAR TURNO</button>
       </div>
   </section>  
     `,
@@ -83,7 +83,8 @@ export class AppointmentComponent {
   private alertService = inject(AlertService);
   appointment = linkedSignal(() => this.appointmentsService.signalAppointmentSelected());
   priceWith$ = computed(() => '$'+this.appointment()?.servicePrice);
-
+  isConfirmingDelete = false;
+  isDeleting = false;
   status: AppointmentStatus[] = [
     AppointmentStatus.RESERVADO,
     AppointmentStatus.TERMINADO,
@@ -96,25 +97,36 @@ export class AppointmentComponent {
   }
 
   deleteAppointment() {
-    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este turno?' }).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.appointmentsService.deleteAppointment().subscribe({
-          next: (response) => {
-            if (response.success) {
-              this.alertService.showSuccess('Turno eliminado correctamente');
-              this.appointmentsService.signalAppointments.set(
-                this.appointmentsService.signalAppointments().filter(
-                  appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id
-                )
-              );
-              this.closeAppointmentEvent(); 
+    if (this.isConfirmingDelete || this.isDeleting) return;
+    this.isConfirmingDelete = true;
+  
+    this.modalService.openWithResult(ConfirmDialogComponent, {}, { message: '¿Estás seguro de que querés eliminar este turno?' })
+      .subscribe((confirmed: boolean) => {
+        this.isConfirmingDelete = false;
+        if (confirmed) {
+          this.isDeleting = true;
+          this.appointmentsService.deleteAppointment().subscribe({
+            next: (response) => {
+              if (response.success) {
+                this.alertService.showSuccess('Turno eliminado correctamente');
+                this.appointmentsService.signalAppointments.set(
+                  this.appointmentsService.signalAppointments().filter(
+                    appointment => appointment.id !== this.appointmentsService.signalAppointmentSelected()?.id
+                  )
+                );
+                this.closeAppointmentEvent();
+              }
+              this.isDeleting = false;
+            },
+            error: () => {
+              this.alertService.showError('Error al eliminar turno');
+              this.isDeleting = false;
             }
-          }
-        });
-      }
-    });
+          });
+        }
+      });
   }
-
+  
 
 
 
