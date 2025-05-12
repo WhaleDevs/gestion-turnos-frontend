@@ -11,23 +11,27 @@
           <ng-icon
             class="icon icon-medium"
             name="heroArrowPathRoundedSquare"
+            title="Reiniciar contraseña"
             (click)="resetPassword(manager)"
           />
           <ng-icon
             class="icon icon-medium"
-            name="heroSparkles"
+            name="heroGlobeAmericas"
+            title="Ver vacaciones"
             (click)="holidays(manager)"
           />
           @if(manager.role !== 'ADMIN'){
             <ng-icon
               class="icon icon-medium"
               name="heroTrash"
+              title="Eliminar"
               (click)="deleteManager(manager.id)"
             />
           }@else {
             <ng-icon
               class="icon icon-medium"
               name="heroTrash"
+              title="No se puede eliminar un administrador"
               [ngClass]="{'disabled': manager.role === 'ADMIN'}"
             />
           }

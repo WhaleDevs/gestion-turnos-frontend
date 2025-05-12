@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { OfferedResponse } from './models/offeredResponse';
 import { provideIcons } from '@ng-icons/core';
-import { heroPencilSquare, heroTrash, heroPlus } from '@ng-icons/heroicons/outline';
+import { heroPencilSquare, heroTrash, heroPlus, heroPlusCircle } from '@ng-icons/heroicons/outline';
 import { NgIcon } from '@ng-icons/core';
 import { ModalService } from '@app/shared/services/modal.service';
 import { CreateOfferedServiceComponent } from './components/create-offered-service/create-offered-service.component';
@@ -13,7 +13,7 @@ import { OfferedDtoForUpdate } from './models/offeredDtoForUpdate';
   imports: [NgIcon],
   templateUrl: './offered-services.component.html',
   styleUrl: './offered-services.component.scss',
-  providers: [provideIcons({ heroPencilSquare, heroTrash, heroPlus })]
+  providers: [provideIcons({ heroPencilSquare, heroTrash, heroPlusCircle })]
 })
 export class OfferedServicesComponent {
   private modalService = inject(ModalService);

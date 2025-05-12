@@ -1,15 +1,15 @@
 .title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-dark);
-    line-height: 1.2;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    text-decoration: none;
+    font-size: var(--font-size-h2) !important;
+    font-weight: var(--font-weight-medium) !important;
+    color: var(--primary) !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.01em !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
 }
 
 .sub-title {
-    font-size: var(--font-size-m);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-normal);
     color: var(--text-dark);
     .secondary {
@@ -20,7 +20,15 @@
     }
 }
 
+.description{
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-l);
+    color: var(--text-muted);
+}
+
 .info{
+    font-weight: var(--font-weight-normal);
     font-size: var(--font-size-m);
     color: var(--text-muted);
+    font-style: italic;
 }

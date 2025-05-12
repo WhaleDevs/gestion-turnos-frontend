@@ -1,7 +1,22 @@
 <section>
-  <div class="title-container">
-    <h1>Configuración</h1>
+  <div class="header">
+    <h2 class="title">Configuración</h2>
+    <p class="description">Configuración de la cuenta</p>
   </div>
-  <app-update-profile></app-update-profile>
-  <app-change-password></app-change-password>
+  <div class="nav-container">
+    <button class="btn full" (click)="navigateTo('general')" [ngClass]="{ primary: currentSection === 'general' }"> <ng-icon class="icon icon-medium" name="heroArrowRightOnRectangle" /> General</button>
+    <button class="btn full" [ngClass]="{ primary: currentSection === 'security' }" (click)="navigateTo('security')"> <ng-icon class="icon icon-medium" name="heroLockClosed" /> Seguridad</button>
+    <button class="btn full" [ngClass]="{ primary: currentSection === 'profile' }" (click)="navigateTo('profile')"> <ng-icon class="icon icon-medium" name="heroUserCircle" /> Perfil</button>
+  </div>
+  @switch(currentSection){
+    @case('security'){
+      <app-change-password></app-change-password>
+    }
+    @case('profile'){
+      <app-update-profile></app-update-profile>
+    }
+    @case('general'){
+      <h1>ESTAMOS LABURANDO SORRY</h1>
+    }
+  }
 </section>
