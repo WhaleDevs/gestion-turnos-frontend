@@ -1,15 +1,18 @@
 <section>
   <h2 class="title">Actualizar servicios ofrecidos</h2>
-  @for (service of offeredServices(); track service.id) {
-    <label>
-      <input 
-        type="checkbox" 
-        [checked]="isServiceSelected(service)" 
-        (change)="toggleServiceSelection(service)" />
-      {{ service.title }}
-    </label>
-  }
-
-  <button (click)="updateManagerOfferedServices()">Actualizar</button>
+  <div class="container">
+    <div class="services-container">
+      @for (service of offeredServices(); track service.id) {
+        <label>
+          <input 
+          type="checkbox" 
+          [checked]="isServiceSelected(service)" 
+          (change)="toggleServiceSelection(service)" />
+        {{ service.title }}
+      </label>
+    }
+    </div>
+    <button class="btn primary full" (click)="updateManagerOfferedServices()">Actualizar</button>
+  </div>
 
 </section>
