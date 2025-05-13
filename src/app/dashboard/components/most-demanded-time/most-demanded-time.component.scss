@@ -83,10 +83,31 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: var(--gap-s);
+    align-items: center;
+  }
+}
+
+.form-group{
+  width: 200px;
 }
 
 .title{
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap-l);
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-m);
+    p{
+      text-align: center;
+    }
+  }
 }
