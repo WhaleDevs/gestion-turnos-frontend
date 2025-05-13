@@ -56,7 +56,7 @@ export class UpdateManagerOfferedServicesComponent {
   updateManagerOfferedServices() {
     // Abrir el modal y esperar el resultado de confirmación
     this._modalService.openWithResult(ConfirmDialogComponent, {}, {
-      message: '¿Estás seguro de que querés eliminar este miembro del personal?'
+      message: '¿Estás seguro de que querés actualizar los servicios ofrecidos?'
     }).subscribe((confirm: boolean) => {
       // Si el usuario confirma la acción
       if (confirm) {
