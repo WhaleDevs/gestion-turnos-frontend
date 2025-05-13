@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { AlertService } from '@app/shared/services/alert.service';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
-
+import { ScheduleService } from '@app/features/schedule/services/schedule.service';
 @Component({
   selector: 'app-list-appointments',
   standalone: true,
@@ -23,10 +23,12 @@ export class ListAppointmentsComponent {
   private modalService = inject(ModalService);
   private appointmentsService = inject(AppointmentsService);
   private alertService = inject(AlertService);
+  private scheduleService = inject(ScheduleService);
   appointmentStatus = AppointmentStatus;
 
   appointmentsLength = computed(() => this.appointmentsService.signalAppointmentsForDate().length);
   date = computed(() => this.appointmentsService.signalDateSelected());
+
   selectedStatus = signal<AppointmentStatus | null>(null);
   appointmentsForDate = computed(() => {
     const allAppointments = this.appointmentsService.signalAppointmentsForDate();
@@ -71,6 +73,17 @@ export class ListAppointmentsComponent {
         });
       }
     })
+  }
+
+  isDayHoliday() {
+    if(this.date()?.date) {
+      const dateSelected = this.date()?.date || '';
+      const holiday = this.scheduleService.signalHolidays().find(holiday => {
+        return this.scheduleService.isBetweenDates(dateSelected, holiday.startDate, holiday.endDate);
+      }); 
+      return !!holiday;
+    }
+    return false;
   }
 
 }
