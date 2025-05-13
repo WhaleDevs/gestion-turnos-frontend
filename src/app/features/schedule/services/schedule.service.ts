@@ -29,6 +29,11 @@ export class ScheduleService {
   signalEmployeeSelected = signal<ManagerResponse>({} as ManagerResponse);
   isLoading = signal(false);
   hoursForDay = signal<string[]>([]);
+  signalHolidays = computed(() => this.signalScheduleConfigResponse().holidays.map(holiday => ({
+    ...holiday,
+    startDate: holiday.startDate.slice(0, 10),
+    endDate: holiday.endDate.slice(0, 10)
+  })));
 
   generateHours(day: ScheduleDayConfigForUpdateDto) {
     const hours: string[] = [];
@@ -49,6 +54,7 @@ export class ScheduleService {
       tap((response) => {
         this.setSignalScheduleConfigResponse(response.data!);
         this.isLoading.set(false); 
+        console.log("Schedule config for update response:", response.data);
       }),
       catchError((error) => {
         this.isLoading.set(false);
@@ -110,4 +116,11 @@ export class ScheduleService {
     this.signalEmployeeSelected.set(employee);
     this.getScheduleConfigForUpdateResponse(employee.email).subscribe();
   }
+
+
+  isBetweenDates(date: string, startDate: string, endDate: string) {
+    return date >= startDate && date <= endDate;
+  }
+  
+  
 }

@@ -1,4 +1,5 @@
 import { AppointmentResponse } from "@app/features/appointments/models/responses/appointments.response";
+import { HolidayResponse } from "@app/features/managers/models/holiday.response";
 import { EDayOfWeek } from "@app/utils/dayEnum";
 
 export interface ScheduleResponse {
@@ -26,14 +27,17 @@ export interface ScheduleDayRestConfigResponse {
 export interface ScheduleConfigResponse {
     id: number;
     daysConfig: ScheduleDayConfigResponse[];
+    holidays: HolidayResponse[];
 }
 
 export interface ScheduleConfigResponse {
     id: number;
     daysConfig: ScheduleDayConfigResponse[];
+    holidays: HolidayResponse[];
 }
 
 export const INITAL_SCHEDULE_CONFIG_RESPONSE: ScheduleConfigResponse = {
     id: 0,
-    daysConfig: []
+    daysConfig: [],
+    holidays: []
 }

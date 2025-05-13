@@ -4,11 +4,16 @@
 
     <section  class="day-container" 
     [title]="!day.status ? 'Día no disponible' : 'Seleccionar día'"
-    [ngClass]="{ 'selected': whatDay() == day.dayName}"
+    [ngClass]="{ 'selected': whatDay() == day.dayName, 'holiday': isDayHoliday(day)}"
     (click)="dayActive(day)"
     >
         <p>{{ day.dayName.slice(0, 3) }}</p>
-        <p>{{ day.dayNumber }}</p>
+        <p>{{ day.dayNumber }} 
+            
+        @if(isDayHoliday(day)) {
+        🌴
+        }
+    </p>
     </section>
 
     }

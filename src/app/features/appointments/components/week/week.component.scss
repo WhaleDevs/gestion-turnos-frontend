@@ -51,8 +51,12 @@
 
 .selected {
   transform: translateY(-2px);
-
   color: var(--text-light);
   background-color: var(--primary-light);
 }
 
+.holiday {
+  background-color: var(--background-light) !important; 
+  opacity: 0.5 !important;
+  color: var(--text-dark) !important;
+}

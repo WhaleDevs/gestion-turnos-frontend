@@ -20,6 +20,9 @@
     <a class="link primary" routerLink="/dashboard/agenda">Dia no habil, cambia la configuración de tu agenda para
         visualizar los turnos
         disponibles</a>
+    }@else if(isDayHoliday()) {
+    <p>Dia de vacaciones, no podes gestionar turnos.</p>
+    <p>Finalizan el Dia {{holidaySelected().endDate.slice(8, 10) }} del Mes {{holidaySelected().endDate.slice(5, 7)}}</p>
     }@else {
     @for (appointment of paginatedAppointments(); track $index) {
     <article class="item-container" [ngClass]="appointment.status">

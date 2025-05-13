@@ -47,7 +47,7 @@ export class TodayComponent {
   });
 
   employeeSelected = computed(() => this.scheduleService.signalEmployeeSelected());
-
+  holidaySelected = computed(() => this.scheduleService.signalHolidays()[0]);
   hoursEnabled = signal<string[]>([]);
   signalAppointmentsForDate = computed(() => this.appointmentsService.signalAppointmentsForDate().sort((a, b) => {
     const timeA = DateTime.fromISO(a.startTime);
@@ -130,5 +130,13 @@ export class TodayComponent {
     if (this.currentPage() > 0) {
       this.currentPage.update(p => p - 1);
     }
+  }
+
+  isDayHoliday() {
+    const dateToday = DateTime.now().toISODate();
+    const holidays = this.scheduleService.signalHolidays();
+    if(holidays.length === 0) return false;
+    const holiday = holidays[0];
+    return this.scheduleService.isBetweenDates(dateToday, holiday.startDate, holiday.endDate);
   }
 }
