@@ -1,0 +1,103 @@
+<section>
+  <div class="header-container">
+    <h2 class="sub-title">Configuración general</h2>
+    <p class="description">
+      Estos valores se mostrarán en el formulario de reserva.
+    </p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="updateGeneralSettings()">
+    <div class="form-group2">
+      <label for="address">Dirección</label>
+      <div class="input container">
+        <input
+          class="input"
+          type="text"
+          formControlName="address"
+          id="address"
+          placeholder="Dirección"
+        />
+      </div>
+      @if(form.get('address')?.touched){
+      <app-form-error [control]="form.get('address')!"></app-form-error>
+      }@else{
+      <div
+        style="min-height: var(--font-size-xl); margin-top: var(--margin-m)"
+      ></div>
+      }
+    </div>
+
+    <div class="form-group2">
+      <label for="email">Email</label>
+      <div class="input container">
+        <input
+          class="input"
+          type="email"
+          formControlName="email"
+          id="email"
+          placeholder="Correo electrónico"
+        />
+      </div>
+      @if(form.get('email')?.touched){
+      <app-form-error [control]="form.get('email')!"></app-form-error>
+      }@else{
+      <div
+        style="min-height: var(--font-size-xl); margin-top: var(--margin-m)"
+      ></div>
+      }
+    </div>
+
+    <div class="form-group2">
+      <label for="phone">Teléfono</label>
+      <div class="input container">
+        <input
+          class="input"
+          type="text"
+          formControlName="phone"
+          id="phone"
+          placeholder="Teléfono"
+        />
+      </div>
+      @if(form.get('phone')?.touched){
+      <app-form-error [control]="form.get('phone')!"></app-form-error>
+      }@else{
+      <div
+        style="min-height: var(--font-size-xl); margin-top: var(--margin-m)"
+      ></div>
+      }
+    </div>
+
+    <div class="form-group2">
+      <label for="limitDaysToReserve">Días para reservar</label>
+      <div class="input container">
+        <input
+          class="input"
+          type="number"
+          formControlName="limitDaysToReserve"
+          id="limitDaysToReserve"
+          placeholder="Cantidad de días"
+          min="1"
+        />
+      </div>
+      @if(form.get('limitDaysToReserve')?.touched){
+      <app-form-error
+        [control]="form.get('limitDaysToReserve')!"
+      ></app-form-error>
+      }@else{
+      <div
+        style="min-height: var(--font-size-xl); margin-top: var(--margin-m)"
+      ></div>
+      }
+    </div>
+
+    <div class="button-container">
+      <button
+        type="submit"
+        class="btn primary extra-large"
+
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</section>
