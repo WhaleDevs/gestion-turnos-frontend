@@ -25,6 +25,15 @@
   gap: 16px;
   padding: 16px;
   list-style: none;
+  @media screen and (max-height: 720px) {
+    gap: var(--gap-s);
+    padding: var(--padding-s);
+    font-size: var(--font-size-m);
+    .icon {
+      width: 25px !important;
+      height: 25px !important;
+    }
+  }
 }
 
 .nav-item {
@@ -41,7 +50,7 @@
   color: var(--text-muted);
 }
 
-.icon{
+.icon {
   color: var(--text-muted);
 }
 
@@ -53,7 +62,7 @@
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
 }
 
-.nav-item.active .icon{
+.nav-item.active .icon {
   color: var(--primary);
   transition: color 0.3s ease-in-out !important;
 }

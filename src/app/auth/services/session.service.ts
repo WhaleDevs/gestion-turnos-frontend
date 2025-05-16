@@ -37,7 +37,13 @@ export class SessionService {
   }
 
   updateSession(value: AuthResponse): void {
-    this._userSessionState.next(value?.user);
+    this._userSessionState.next({
+      id: value?.user?.id || 0,
+      role: value?.user?.role || '',
+      firstName: value?.user?.firstName || '',
+      lastName: value?.user?.lastName || '',
+      email: value?.user?.email || ''
+    });
   }
 
   clearSession(): void {
