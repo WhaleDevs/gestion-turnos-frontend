@@ -1,7 +1,8 @@
 .btn {
   color: var(--primary);
   background-color: none !important;
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-s);
+  border: none;
   &:hover {
     color: var(--text-light);
     background-color: var(--primary-light);
@@ -14,5 +15,7 @@
 
 .icon{
   color: var(--primary);
+  width: 20px !important;
+  height: 20px !important;
   transition: ease-in-out 0.3s !important;
 }

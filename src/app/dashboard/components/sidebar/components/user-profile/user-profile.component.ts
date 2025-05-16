@@ -13,7 +13,7 @@ import {heroUserCircle } from '@ng-icons/heroicons/outline';
 export class UserProfileComponent {
   private sessionService = inject(SessionService);
   name = signal('Cargando...');
-  lastName = signal('Cargando...');
+  lastName = signal('');
   email = signal('');
   ngOnInit(): void {
     this.sessionService.getSession$.subscribe({
