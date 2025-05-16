@@ -48,7 +48,16 @@ export class MostDemandedTimeComponent {
   ngOnInit(): void {
     this.sessionService.getSession$.subscribe({
       next: (response) => {
-          this.scheduleService.setSignalEmployeeSelected(response as ManagerResponse);
+          console.log("response", response);
+          const managerResponseMapper: ManagerResponse = {
+            id:0,
+            firstName: response?.firstName || '',
+            lastname: response?.lastName || '',
+            offeredServices: [],
+            email: response?.email || '',
+            role: response?.role || ''
+          }
+          this.scheduleService.setSignalEmployeeSelected(managerResponseMapper);
       }
     })
   }
