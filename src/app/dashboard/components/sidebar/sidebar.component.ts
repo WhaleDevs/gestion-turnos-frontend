@@ -33,7 +33,7 @@ import { FooterComponent } from "./components/footer/footer.component";
             min-height: 100%;
         }
         @media screen and (max-height: 720px) {
-            gap: var(--gap-s);
+            gap: var(--gap-m);
             padding: var(--padding-s);
             font-size: var(--font-size-s);
         }
