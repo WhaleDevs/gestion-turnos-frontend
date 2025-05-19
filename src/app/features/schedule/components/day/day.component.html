@@ -14,19 +14,19 @@
   <!-- Time configuration section -->
   <div class="time-settings">
     <div class="form-group">
-      <label class="label" for="startTime">Fecha de inicio</label>
+      <label class="label description" for="startTime">Hora de inicio</label>
       <input class="input" type="time" id="startTime" formControlName="startTime" placeholder="Ej. 09:00"
         (input)="updateDay()" />
     </div>
 
     <div class="form-group">
-      <label class="label" for="endTime">Hora de fin</label>
+      <label class="label description" for="endTime">Hora de fin</label>
       <input class="input" type="time" id="endTime" formControlName="endTime" placeholder="Ej. 18:00"
         (input)="updateDay()" />
     </div>
 
     <div class="form-group">
-      <label class="label" for="slotInterval">Duración de turnos</label>
+      <label class="label description" for="slotInterval">Duración de turnos</label>
       <input class="input" id="slotInterval" formControlName="slotInterval" type="number" placeholder="Ej. 30"
         (input)="updateDay()" />
     </div>
@@ -49,7 +49,7 @@
     <div class="breaks-list">
       <div class="break-item" *ngFor="let rest of rests.controls; let i = index" [formGroupName]="i">
         <div class="form-group">
-          <label class="label" for="startRest-{{ i }}">Inicio Desc. {{ i + 1 }}</label>
+          <label class="label description" for="startRest-{{ i }}">Inicio Desc. {{ i + 1 }}</label>
           <div class="input container">
             <ng-icon name="heroClock" />
             <select class="input" name="startRest-{{ i }}" id="startRest-{{ i }}" formControlName="startRest" (change)="updateDay()">
@@ -62,7 +62,7 @@
         </div>
 
         <div class="form-group">
-          <label class="label" for="endRest-{{ i }}">Fin Desc. {{ i + 1 }}</label>
+          <label class="label description" for="endRest-{{ i }}">Fin Desc. {{ i + 1 }}</label>
           <div class="input container">
             <ng-icon name="heroClock" />
             <select class="input" name="endRest-{{ i }}" id="endRest-{{ i }}" formControlName="endRest" (change)="updateDay()">
