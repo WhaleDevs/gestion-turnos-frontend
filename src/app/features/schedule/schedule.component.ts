@@ -12,7 +12,7 @@ import { ManagerResponse } from '../managers/models/manager.response';
 import { SelectManagerComponent } from "../managers/components/select-manager/select-manager.component";
 
 @Component({
-  imports: [ListDaysComponent, FormsModule, ReactiveFormsModule, SaveScheduleComponent, SelectManagerComponent],
+  imports: [ListDaysComponent, FormsModule, ReactiveFormsModule, SelectManagerComponent],
   selector: 'app-schedule',
   template: `
   <section class="container">
@@ -24,7 +24,6 @@ import { SelectManagerComponent } from "../managers/components/select-manager/se
       </app-select-manager>
     }
     <app-list-days></app-list-days>
-    <app-save-schedule></app-save-schedule>
   </section>
   `,
   styles: `

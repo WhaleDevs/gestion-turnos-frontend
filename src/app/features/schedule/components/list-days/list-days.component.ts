@@ -12,7 +12,7 @@ import { ManagerResponse } from '@app/features/managers/models/manager.response'
 
 @Component({
   selector: 'app-list-days',
-  imports: [DayComponent, NgClass, NgIcon, FormsModule],
+  imports: [DayComponent, NgClass, NgIcon, FormsModule, SaveScheduleComponent ],
   templateUrl: './list-days.component.html',
   styleUrls: ['./list-days.component.scss'],
   providers: [provideIcons({ heroUser })],

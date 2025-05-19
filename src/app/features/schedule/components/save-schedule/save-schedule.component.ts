@@ -8,12 +8,15 @@ import { ScheduleConfigResponse } from '../../models/responses/schedule.response
   selector: 'app-save-schedule',
   template: `
   <div class="save-schedule">
-    <button class="btn primary-dark full light" (click)="onSave()">Guardar Agenda</button>
+    <button class="btn primary-dark large light" (click)="onSave()">Guardar Agenda</button>
   </div>
   `,
   standalone: true,
   styles: [`
     .save-schedule {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
       @media screen and (max-width: 768px) {
         position: fixed;
         bottom: 0px;
@@ -28,10 +31,9 @@ import { ScheduleConfigResponse } from '../../models/responses/schedule.response
     .btn {
       color: var(--text-light);
       border-radius: var(--border-radius-m);
-      background-color: var(--primary-dark);
-
+      background-color: var(--primary);
       &:hover {
-        background-color: var(--primary);
+        background-color: var(--primary-light);
       }
 
       @media screen and (max-width: 768px) {
